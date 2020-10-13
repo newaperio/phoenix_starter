@@ -2,8 +2,6 @@ use Mix.Config
 
 # Configure your database
 config :phoenix_starter, PhoenixStarter.Repo,
-  username: "postgres",
-  password: "postgres",
   database: "phoenix_starter_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
