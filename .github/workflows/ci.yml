@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+
+    env:
+      MIX_ENV: test
+      DATABASE_URL: ecto://postgres:newaperio@localhost/phoenix_starter_test
+
+    strategy:
+      matrix:
+        elixir: ["1.11.0"]
+        otp: ["23.1.1"]
+
+    services:
+      db:
+        image: postgres:12
+        env:
+          POSTGRES_DB: phoenix_starter_test
+          POSTGRES_PASSWORD: newaperio
+          POSTGRES_USER: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-elixir@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.13.1"
+
+      - name: Restore dependencies cache
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{runner.os}}-mix-${{matrix.otp-version}}-${{matrix.elixir-version}}-${{hashFiles('**/mix.lock')}}
+          restore-keys: ${{runner.os}}-mix-
+
+      - name: Restore build cache
+        uses: actions/cache@v2
+        with:
+          path: _build
+          key: ${{runner.os}}-build-${{matrix.otp-version}}-${{matrix.elixir-version}}-${{hashFiles('**/mix.lock')}}
+
+      - name: Restore NPM cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{runner.os}}-npm-${{hashFiles(format('**/assets/package-lock.json'))}}
+          restore-keys: ${{runner.os}}-npm-
+
+      - name: Install Dependencies
+        run: mix deps.get
+
+      - name: Install Node Dependencies
+        run: npm --prefix assets ci
+
+      - name: Compile app
+        run: mix compile --force --warnings-as-errors
+
+      - run: mix test
+      - run: mix format --check-formatted
