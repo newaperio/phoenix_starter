@@ -14,3 +14,6 @@ config :phoenix_starter, PhoenixStarterWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+# Configures Sentry
+config :sentry, environment_name: "test"

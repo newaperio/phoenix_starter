@@ -36,6 +36,7 @@ defmodule PhoenixStarter.MixProject do
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:floki, ">= 0.27.0", only: :test},
       {:gettext, "~> 0.11"},
+      {:hackney, "~> 1.8"},
       {:jason, "~> 1.0"},
       {:phoenix, "~> 1.5.6"},
       {:phoenix_ecto, "~> 4.1"},
@@ -45,6 +46,7 @@ defmodule PhoenixStarter.MixProject do
       {:phoenix_live_view, "~> 0.14.6"},
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, ">= 0.0.0"},
+      {:sentry, "8.0.0"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"}
     ]

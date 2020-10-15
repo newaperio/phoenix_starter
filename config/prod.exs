@@ -10,4 +10,7 @@ config :phoenix_starter, PhoenixStarterWeb.Endpoint,
   server: true
 
 # Do not print debug messages in production
-config :logger, level: :info
+config :logger, level: :info, backends: [:console, Sentry.LoggerBackend]
+
+# Configures Sentry
+config :sentry, environment_name: "prod"

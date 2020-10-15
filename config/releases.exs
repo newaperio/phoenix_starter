@@ -26,3 +26,8 @@ config :phoenix_starter, PhoenixStarterWeb.Endpoint,
   live_view: [signing_salt: System.get_env("LIVE_VIEW_SALT")],
   secret_key_base: secret_key_base,
   url: [scheme: "https", host: System.get_env("APP_HOST"), port: 443]
+
+# Configures Sentry
+config :sentry,
+  dsn: System.fetch_env!("SENTRY_DSN"),
+  environment_name: System.fetch_env!("SENTRY_ENVIRONMENT")

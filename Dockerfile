@@ -53,7 +53,7 @@ COPY --from=assets-build /opt/app/priv/static priv/static
 RUN mix phx.digest
 
 COPY . .
-RUN mix do compile, release --quiet
+RUN mix do compile, deps.compile sentry --force, release --quiet
 
 # App final
 # ---------
