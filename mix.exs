@@ -10,7 +10,9 @@ defmodule PhoenixStarter.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      default_release: :phoenix_starter,
+      releases: releases()
     ]
   end
 
@@ -50,6 +52,16 @@ defmodule PhoenixStarter.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+    ]
+  end
+
+  defp releases do
+    [
+      phoenix_starter: [
+        applications: [phoenix_starter: :permanent],
+        include_executables_for: [:unix],
+        version: {:from_app, :phoenix_starter}
+      ]
     ]
   end
 end

@@ -1,5 +1,5 @@
 # General application configuration
-use Mix.Config
+import Config
 
 config :phoenix_starter,
   ecto_repos: [PhoenixStarter.Repo],
