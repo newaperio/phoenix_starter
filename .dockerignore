@@ -1,0 +1,11 @@
+_build/
+.git/
+.elixir_ls/
+assets/node_modules/
+deps/
+doc/
+priv/static
+test
+README.md
+Dockerfile
+.*
