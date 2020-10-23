@@ -13,19 +13,39 @@ import "../css/app.css"
 //     import socket from "./socket"
 //
 import "phoenix_html"
+import "alpinejs"
 import { Socket } from "phoenix"
 import NProgress from "nprogress"
 import { LiveSocket } from "phoenix_live_view"
 
 declare global {
   interface Window {
+    Alpine: Alpine
     liveSocket: LiveSocket
   }
+}
+
+interface Alpine {
+  clone: (from?: unknown, to?: HTMLElement) => unknown
+}
+
+interface AlpineHTMLElement {
+  __x?: unknown
 }
 
 const csrfTokenTag = document.querySelector("meta[name='csrf-token']")
 const csrfToken = csrfTokenTag ? csrfTokenTag.getAttribute("content") : ""
 const liveSocket = new LiveSocket("/live", Socket, {
+  dom: {
+    onBeforeElUpdated(from, to) {
+      if ((from as AlpineHTMLElement).__x) {
+        window.Alpine.clone((from as AlpineHTMLElement).__x, to)
+        return false
+      }
+
+      return false
+    },
+  },
   params: { _csrf_token: csrfToken },
 })
 
