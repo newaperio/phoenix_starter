@@ -77,5 +77,11 @@ jobs:
       - name: Compile app
         run: mix compile --force --warnings-as-errors
 
-      - run: mix test
       - run: mix format --check-formatted
+      - run: npx prettier --check .
+        working-directory: ./assets
+      - run: npx stylelint "css/*"
+        working-directory: ./assets
+      - run: npx eslint js --ext .js,.jsx,.ts,.tsx
+        working-directory: ./assets
+      - run: mix test
