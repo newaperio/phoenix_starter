@@ -84,4 +84,8 @@ jobs:
         working-directory: ./assets
       - run: npx eslint js --ext .js,.jsx,.ts,.tsx
         working-directory: ./assets
+      - run: npm run deploy
+        env:
+          NODE_ENV: production
+        working-directory: ./assets
       - run: mix test
