@@ -13,7 +13,7 @@ defmodule PhoenixStarter.MixProject do
       deps: deps(),
       default_release: :phoenix_starter,
       releases: releases(),
-      name: "Phoenix Starter",
+      name: "PhoenixStarter",
       source_url: "https://github.com/newaperio/phoenix_starter",
       docs: docs()
     ]
