@@ -26,6 +26,7 @@ The following technologies are included and configured with our defaults:
 - [Tailwind], a CSS framework
 - [TypeScript] for type-safe JS
 - [Alpine], a component JS framework that integrates with LiveView
+- [Sobelow] for Phoenix security static analysis
 - A suite of linters: [ESLint] for JS, [Stylelint] for CSS, and [Prettier] for JS formatting
 
 ## Usage
@@ -62,6 +63,7 @@ Elixir and Phoenix][services] development as part of our portfolio of services.
 [tailwind]: https://tailwindcss.com/
 [typescript]: https://www.typescriptlang.org/
 [alpine]: https://github.com/alpinejs/alpine/
+[sobelow]: https://github.com/nccgroup/sobelow/blob/26589a56dcc6b688d107704ecc6ab8ab437668b0/lib/sobelow/config/csp.ex
 [eslint]: https://eslint.org/
 [stylelint]: https://stylelint.io/
 [prettier]: https://prettier.io/

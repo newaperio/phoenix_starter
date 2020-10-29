@@ -7,7 +7,7 @@ defmodule PhoenixStarterWeb.Router do
     plug :fetch_live_flash
     plug :put_root_layout, {PhoenixStarterWeb.LayoutView, :root}
     plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug :put_secure_browser_headers, %{"content-security-policy" => "default-src 'self'"}
   end
 
   pipeline :api do

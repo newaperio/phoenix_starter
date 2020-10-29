@@ -78,6 +78,7 @@ jobs:
         run: mix compile --force --warnings-as-errors
 
       - run: mix format --check-formatted
+      - run: mix sobelow
       - run: npx prettier --check .
         working-directory: ./assets
       - run: npx stylelint "css/*"
