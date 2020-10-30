@@ -32,6 +32,7 @@ defmodule PhoenixStarter.MixProject do
   defp deps do
     [
       {:assert_identity, "~> 0.1.0", only: :test},
+      {:credo, "~> 1.5.0-rc.2", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.4"},
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:floki, ">= 0.27.0", only: :test},
