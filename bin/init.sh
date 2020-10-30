@@ -70,7 +70,7 @@ mv lib/"${snake_case_old}_web.ex" lib/"${snake_case_new}_web.ex"
 mv test/"${snake_case_old}_web" test/"${snake_case_new}_web"
 
 print_step "Copying blank README"
-mv README_template.md README.md
+mv README_starter.md README.md
 
 print_step "Removing this script"
 rm bin/init.sh
