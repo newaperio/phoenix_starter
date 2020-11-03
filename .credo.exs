@@ -50,7 +50,11 @@
         {Credo.Check.Readability.SeparateAliasRequire, []},
         {Credo.Check.Readability.SinglePipe, []},
         {Credo.Check.Readability.SpaceAfterCommas, []},
-        {Credo.Check.Readability.Specs, false},
+        {Credo.Check.Readability.Specs,
+         files: %{
+           excluded: ["lib/phoenix_starter_web.ex"],
+           included: ["lib/*.ex", "lib/phoenix_starter/**/*.ex"]
+         }},
         {Credo.Check.Readability.StrictModuleLayout,
          [order: [:shortdoc, :moduledoc, :behaviour, :use, :require, :import, :alias]]},
         {Credo.Check.Readability.StringSigils, []},
