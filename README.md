@@ -36,7 +36,7 @@ The repo is setup as a [GitHub template] to make it easy to get started.
 1. Click the ["Use this template" button]. This will setup a new repo with a clean history.
 2. Clone the new repo locally.
 3. Run the init script to rename the starter project and do some other housekeeping: `$ ./bin/init.sh MyApp my_app`.
-4. Commit the result: `$ git commit -a -m "Initalize starter project"`.
+4. Commit the result: `$ git add --all . && git commit -m "Initalize starter project"`.
 
 ## About NewAperio
 
