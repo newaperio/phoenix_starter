@@ -1,11 +1,9 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "../node_modules/nprogress/nprogress.css";
-
-/* BEGIN custom styles here */
-
 @import "phoenix.css";
-
-/* END custom styles */
-
 @import "tailwindcss/utilities";
+
+@layer components {
+  /* Add custom styles here */
+}
