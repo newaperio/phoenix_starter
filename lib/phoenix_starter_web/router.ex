@@ -37,7 +37,10 @@ defmodule PhoenixStarterWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: PhoenixStarterWeb.Telemetry
+
+      live_dashboard "/dashboard",
+        metrics: PhoenixStarterWeb.Telemetry,
+        ecto_repos: [PhoenixStarter.Repo]
     end
   end
 end
