@@ -22,7 +22,7 @@ defmodule PhoenixStarter.MixProject do
   def application do
     [
       mod: {PhoenixStarter.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :os_mon]
     ]
   end
 
