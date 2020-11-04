@@ -79,7 +79,7 @@ jobs:
 
       - run: mix format --check-formatted
       - run: mix credo
-      - run: mix sobelow
+      - run: mix sobelow --config
       - run: npx prettier --check .
         working-directory: ./assets
       - run: npx stylelint "css/*"
