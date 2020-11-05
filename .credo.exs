@@ -4,7 +4,7 @@
       name: "default",
       files: %{
         included: ["*.exs", "config/", "lib/", "priv/", "test/"],
-        excluded: []
+        excluded: ["priv/templates/"]
       },
       plugins: [],
       requires: [],
