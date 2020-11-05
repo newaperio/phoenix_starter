@@ -32,6 +32,8 @@ defmodule PhoenixStarter.MixProject do
   defp deps do
     [
       {:assert_identity, "~> 0.1.0", only: :test},
+      {:bamboo, "~> 1.6"},
+      {:bamboo_ses, "~> 0.1.0"},
       {:bcrypt_elixir, "~> 2.0"},
       {:credo, "~> 1.5.0-rc.2", only: [:dev, :test], runtime: false},
       {:ecto_psql_extras, "~> 0.2"},

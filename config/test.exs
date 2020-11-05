@@ -18,5 +18,8 @@ config :phoenix_starter, PhoenixStarterWeb.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
+# Configures Bamboo
+config :phoenix_starter, PhoenixStarter.Mailer, adapter: Bamboo.TestAdapter
+
 # Configures Sentry
 config :sentry, environment_name: "test"
