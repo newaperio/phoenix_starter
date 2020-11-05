@@ -16,6 +16,7 @@ The following technologies are included and configured with our defaults:
 - [ExUnit] for testing
 - [ExDoc] for rendering Elixir code documentation
 - [AssertIdentity] for easy Ecto identity assertions in tests
+- [phx_gen_auth] for a user authentication system
 - [asdf] for managing runtime versions
 - [Docker] for building release containers
 - [Mix Releases] for compiling release binaries
@@ -53,6 +54,7 @@ Elixir and Phoenix][services] development as part of our portfolio of services.
 [exunit]: https://hexdocs.pm/ex_unit/master/ExUnit.html
 [exdoc]: https://github.com/elixir-lang/ex_doc
 [assertidentity]: https://github.com/newaperio/assert_identity/
+[phx_gen_auth]: https://github.com/aaronrenner/phx_gen_auth
 [asdf]: https://asdf-vm.com/
 [docker]: https://docs.docker.com/
 [mix releases]: https://hexdocs.pm/mix/Mix.Tasks.Release.html
