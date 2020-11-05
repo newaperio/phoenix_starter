@@ -45,6 +45,10 @@ defmodule PhoenixStarterWeb.Router do
         metrics: PhoenixStarterWeb.Telemetry,
         ecto_repos: [PhoenixStarter.Repo]
     end
+
+    if Mix.env() == :dev do
+      forward "/sent_emails", Bamboo.SentEmailViewerPlug
+    end
   end
 
   ## Authentication routes

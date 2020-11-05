@@ -16,6 +16,12 @@ defmodule PhoenixStarter.Users.User do
     timestamps()
   end
 
+  defimpl Bamboo.Formatter do
+    def format_email_address(user, _opts) do
+      {user.email, user.email}
+    end
+  end
+
   @doc """
   A `PhoenixStarter.Users.User` changeset for registration.
 

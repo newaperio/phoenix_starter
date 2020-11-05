@@ -21,6 +21,11 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Configures Bamboo
+# Note: by default this reads from the IAM task or instance role
+config :phoenix_starter, PhoenixStarter.Mailer,
+  default_from: {"PhoenixStarter", "notifications@example.com"}
+
 # Configures Sentry
 config :sentry,
   enable_source_code_context: true,
