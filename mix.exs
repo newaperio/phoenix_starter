@@ -32,6 +32,7 @@ defmodule PhoenixStarter.MixProject do
   defp deps do
     [
       {:assert_identity, "~> 0.1.0", only: :test},
+      {:bcrypt_elixir, "~> 2.0"},
       {:credo, "~> 1.5.0-rc.2", only: [:dev, :test], runtime: false},
       {:ecto_psql_extras, "~> 0.2"},
       {:ecto_sql, "~> 3.4"},
@@ -46,6 +47,7 @@ defmodule PhoenixStarter.MixProject do
       {:phoenix_live_dashboard, "~> 0.3 or ~> 0.2.9"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.14.6"},
+      {:phx_gen_auth, "~> 0.5", only: [:dev], runtime: false},
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, ">= 0.0.0"},
       {:sentry, "8.0.2"},
