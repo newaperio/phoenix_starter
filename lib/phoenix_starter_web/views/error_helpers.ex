@@ -10,7 +10,7 @@ defmodule PhoenixStarterWeb.ErrorHelpers do
   @doc """
   Generates tag for inlined form input errors.
   """
-  @spec error_tag(HTML.Form.t(), Keyword.key()) :: HTML.safe()
+  @spec error_tag(HTML.Form.t(), Keyword.key()) :: [HTML.safe()]
   def error_tag(form, field) do
     Enum.map(Keyword.get_values(form.errors, field), fn error ->
       content_tag(:span, translate_error(error),
