@@ -13,14 +13,7 @@ module.exports = {
     "./js/**/*.tsx",
   ],
   theme: {
-    extend: {
-      backgroundOpacity: {
-        40: "0.4",
-      },
-      zIndex: {
-        1: 1,
-      },
-    },
+    extend: {},
   },
   variants: {},
   plugins: [],
