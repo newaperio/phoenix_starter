@@ -1,8 +1,9 @@
 defmodule PhoenixStarter.UsersTest do
   use PhoenixStarter.DataCase
 
-  alias PhoenixStarter.Users
   import PhoenixStarter.UsersFixtures
+
+  alias PhoenixStarter.Users
   alias PhoenixStarter.Users.User
   alias PhoenixStarter.Users.UserToken
 

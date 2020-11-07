@@ -17,6 +17,7 @@ defmodule PhoenixStarter.Users.User do
   end
 
   defimpl Bamboo.Formatter do
+    @spec format_email_address(User.t(), map) :: Bamboo.Email.address()
     def format_email_address(user, _opts) do
       {user.email, user.email}
     end

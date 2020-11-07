@@ -1,0 +1,7 @@
+<%= gettext("Hi %{user_email},", user_email: @user.email) %>
+
+<%= gettext("You can confirm your account by visiting the URL below:") %>
+
+<%= @url %>
+
+<%= gettext("If you didn't create an account with us, please ignore this.") %>

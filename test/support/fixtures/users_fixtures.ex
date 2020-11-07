@@ -21,7 +21,7 @@ defmodule PhoenixStarter.UsersFixtures do
 
   def extract_user_token(fun) do
     {:ok, captured} = fun.(&"[TOKEN]#{&1}[TOKEN]")
-    [_, token, _] = String.split(captured.body, "[TOKEN]")
+    [_, token, _] = String.split(captured.text_body, "[TOKEN]")
     token
   end
 end
