@@ -7,9 +7,9 @@ defmodule PhoenixStarterWeb.ContentSecurityPolicy do
   needs.
   """
 
-  use Plug.Builder
-
   import Phoenix.Controller, only: [put_secure_browser_headers: 2]
+
+  def init(opts), do: opts
 
   def call(conn, _) do
     directives = [
