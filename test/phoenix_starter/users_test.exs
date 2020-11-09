@@ -87,7 +87,10 @@ defmodule PhoenixStarter.UsersTest do
 
     test "registers users with a hashed password" do
       email = unique_user_email()
-      {:ok, user} = Users.register_user(%{email: email, password: valid_user_password()})
+
+      {:ok, user} =
+        Users.register_user(%{email: email, password: valid_user_password(), role: :user})
+
       assert user.email == email
       assert is_binary(user.hashed_password)
       assert is_nil(user.confirmed_at)
@@ -98,7 +101,7 @@ defmodule PhoenixStarter.UsersTest do
   describe "change_user_registration/2" do
     test "returns a changeset" do
       assert %Ecto.Changeset{} = changeset = Users.change_user_registration(%User{})
-      assert changeset.required == [:password, :email]
+      assert changeset.required == [:role, :password, :email]
     end
   end
 
@@ -475,6 +478,15 @@ defmodule PhoenixStarter.UsersTest do
   describe "inspect/2" do
     test "does not include password" do
       refute inspect(%User{password: "123456"}) =~ "password: \"123456\""
+    end
+  end
+
+  describe "permitted?/2" do
+    test "checks if user is permitted" do
+      user = user_fixture(%{role: :admin})
+
+      assert Users.permitted?(user, "me.update_profile")
+      refute Users.permitted?(user, "notareal.permission")
     end
   end
 end

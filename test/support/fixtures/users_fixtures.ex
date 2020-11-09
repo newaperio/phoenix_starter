@@ -12,7 +12,8 @@ defmodule PhoenixStarter.UsersFixtures do
       attrs
       |> Enum.into(%{
         email: unique_user_email(),
-        password: valid_user_password()
+        password: valid_user_password(),
+        role: :user
       })
       |> PhoenixStarter.Users.register_user()
 

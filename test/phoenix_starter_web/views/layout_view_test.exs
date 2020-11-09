@@ -2,6 +2,7 @@ defmodule PhoenixStarterWeb.LayoutViewTest do
   use PhoenixStarterWeb.ConnCase, async: true
 
   import Phoenix.HTML
+  import PhoenixStarter.UsersFixtures
 
   alias PhoenixStarterWeb.LayoutView
 
@@ -69,6 +70,13 @@ defmodule PhoenixStarterWeb.LayoutViewTest do
                error message
              </p>
              """
+  end
+
+  test "permitted?/2 returns a boolean" do
+    current_user = user_fixture(%{role: :admin})
+
+    assert LayoutView.permitted?(current_user, "me.update_profile")
+    refute LayoutView.permitted?(current_user, "notareal.permission")
   end
 
   defp conn_with_flash(flash_key, msg) do

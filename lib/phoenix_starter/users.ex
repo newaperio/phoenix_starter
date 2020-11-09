@@ -6,8 +6,9 @@ defmodule PhoenixStarter.Users do
   import Ecto.Query, warn: false
   alias PhoenixStarter.Repo
   alias PhoenixStarter.Users.User
-  alias PhoenixStarter.Users.UserToken
   alias PhoenixStarter.Users.UserNotifier
+  alias PhoenixStarter.Users.UserRole
+  alias PhoenixStarter.Users.UserToken
 
   ## Database getters
 
@@ -379,5 +380,22 @@ defmodule PhoenixStarter.Users do
       {:ok, %{user: user}} -> {:ok, user}
       {:error, :user, changeset, _} -> {:error, changeset}
     end
+  end
+
+  @doc """
+  Checks if the given `PhoenixStarter.Users.User` is permitted to the `permission`.
+
+  ## Examples
+
+      iex> permitted?(%User{role: "admin"}, "users.update")
+      true
+
+      iex> permitted?(%User{role: "user"}, "users.update")
+      false
+
+  """
+  @spec permitted?(User.t(), String.t()) :: boolean
+  def permitted?(%User{role: role}, permission) do
+    UserRole.permitted?(role, permission)
   end
 end

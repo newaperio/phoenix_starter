@@ -5,6 +5,7 @@ defmodule PhoenixStarter.Users.User do
   use PhoenixStarter.Schema
   import Ecto.Changeset
   alias Ecto.Changeset
+  alias PhoenixStarter.Users.UserRole
 
   @derive {Inspect, except: [:password]}
   schema "users" do
@@ -12,6 +13,7 @@ defmodule PhoenixStarter.Users.User do
     field :password, :string, virtual: true
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
+    field :role, UserRole.Type, roles: UserRole.roles(), default: :user
 
     timestamps()
   end
@@ -34,9 +36,10 @@ defmodule PhoenixStarter.Users.User do
   @spec registration_changeset(t, map) :: Changeset.t()
   def registration_changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :password, :role])
     |> validate_email()
     |> validate_password()
+    |> validate_required([:role])
   end
 
   defp validate_email(changeset) do
