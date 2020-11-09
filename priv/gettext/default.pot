@@ -28,11 +28,6 @@ msgid "You can confirm your account by visiting the URL below:"
 msgstr ""
 
 #, elixir-format
-#: lib/phoenix_starter/email.ex:29
-msgid "[PhoenixStarter]"
-msgstr ""
-
-#, elixir-format
 #: lib/phoenix_starter_web/templates/user_email/confirmation_instructions.html.eex:1
 #: lib/phoenix_starter_web/templates/user_email/confirmation_instructions.text.eex:1
 #: lib/phoenix_starter_web/templates/user_email/reset_password_instructions.html.eex:1
@@ -70,4 +65,9 @@ msgstr ""
 #: lib/phoenix_starter_web/templates/user_email/reset_password_instructions.html.eex:3
 #: lib/phoenix_starter_web/templates/user_email/reset_password_instructions.text.eex:3
 msgid "You can reset your password by visiting the URL below:"
+msgstr ""
+
+#, elixir-format
+#: lib/phoenix_starter_web/plugs/require_user_permission.ex:37
+msgid "You are not authorized to perform this action."
 msgstr ""

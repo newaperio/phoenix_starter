@@ -2,6 +2,9 @@ defmodule PhoenixStarterWeb.Router do
   use PhoenixStarterWeb, :router
 
   import PhoenixStarterWeb.UserAuth
+  import Phoenix.LiveDashboard.Router
+
+  alias PhoenixStarterWeb.RequireUserPermission
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -17,22 +20,23 @@ defmodule PhoenixStarterWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :require_ops_admin do
+    plug :require_authenticated_user
+    plug RequireUserPermission, permission: "ops.dashboard"
+  end
+
   scope "/", PhoenixStarterWeb do
     pipe_through :browser
 
     live "/", PageLive, :index
   end
 
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
+  scope "/" do
+    pipe_through [:browser, :require_ops_admin]
 
-    scope "/" do
-      pipe_through :browser
-
-      live_dashboard "/dashboard",
-        metrics: PhoenixStarterWeb.Telemetry,
-        ecto_repos: [PhoenixStarter.Repo]
-    end
+    live_dashboard "/dashboard",
+      metrics: PhoenixStarterWeb.Telemetry,
+      ecto_repos: [PhoenixStarter.Repo]
   end
 
   if Mix.env() == :dev do
