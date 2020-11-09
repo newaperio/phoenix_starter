@@ -2,6 +2,7 @@ defmodule PhoenixStarterWeb.LayoutView do
   use PhoenixStarterWeb, :view
 
   alias Phoenix.HTML
+  alias PhoenixStarter.Users
 
   @type flash_key() :: :info | :warning | :error
 
@@ -57,4 +58,9 @@ defmodule PhoenixStarterWeb.LayoutView do
     do: @alert_class <> " bg-yellow-100 border-yellow-200 text-yellow-700"
 
   defp alert_class(:error), do: @alert_class <> " bg-red-200 border-red-300 text-red-800"
+
+  @spec permitted?(Users.User.t(), String.t()) :: boolean
+  def permitted?(user, permission) do
+    Users.permitted?(user, permission)
+  end
 end
