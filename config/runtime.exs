@@ -1,17 +1,15 @@
 import Config
 
-database_url =
-  System.get_env("DATABASE_URL") ||
+database_url = System.get_env("DATABASE_URL")
+
+if config_env() == :prod do
+  if database_url == nil do
     raise """
     environment variable DATABASE_URL is missing.
     For example: ecto://USER:PASS@HOST/DATABASE
     """
+  end
 
-config :phoenix_starter, PhoenixStarter.Repo,
-  url: database_url,
-  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
-
-if config_env() == :prod do
   secret_key_base =
     System.get_env("SECRET_KEY_BASE") ||
       raise """
@@ -32,4 +30,10 @@ if config_env() == :prod do
   config :sentry,
     dsn: System.fetch_env!("SENTRY_DSN"),
     environment_name: System.fetch_env!("SENTRY_ENVIRONMENT")
+end
+
+if database_url != nil do
+  config :phoenix_starter, PhoenixStarter.Repo,
+    url: database_url,
+    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 end

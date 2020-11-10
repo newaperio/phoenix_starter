@@ -47,3 +47,6 @@ config :phoenix, :plug_init_mode, :runtime
 
 # Configures Sentry
 config :sentry, environment_name: "dev"
+
+# Config Content Security Policy
+config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy, allow_unsafe: true
