@@ -33,5 +33,7 @@ npm-debug.log
 # this depending on your deployment strategy.
 /priv/static/
 
-# Ignore local .terraform state that shouldn't be shared
+# Ignore local .terraform cache and .tfstate that shouldn't be committed
 .terraform
+*.tfstate
+*.tfstate.backup

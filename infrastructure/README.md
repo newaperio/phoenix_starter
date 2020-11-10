@@ -13,6 +13,9 @@ This directory contains the [Terraform](https://www.terraform.io/) manifests for
 - [ ] Create CI/CD pipeline for testing on Pull Request to master
 - [ ] Clean up all "Test" resources
 - [ ] Lots of refactoring to modularize
+- [ ] Create bootstrap module for all the manual stuff
+  - [ ] Move bootstrap to its own repo
+- [ ] Move modules to their own repo
 
 # Manual Steps (for now)
 - Create `TFState_Test` Role with S3 access. This allows Terraform to manage state of the "Staging" environment in a centralized location

@@ -31,4 +31,11 @@ variable "customer" {
 variable "tags" {
   type = map(string)
   description = "map of tags to apply to resources created by this manifest."
+  default = {
+    Terraform="true"
+  }
+}
+
+variable "container_image" {
+  description = "The container image to deploy"
 }
