@@ -59,7 +59,7 @@ defmodule PhoenixStarterWeb.UserConfirmationControllerTest do
     test "confirms the given token once", %{conn: conn, user: user} do
       token =
         extract_user_token(fn url ->
-          Users.deliver_user_confirmation_instructions(user, url)
+          Users.deliver_user_confirmation_instructions(user, url, false)
         end)
 
       conn = get(conn, Routes.user_confirmation_path(conn, :confirm, token))

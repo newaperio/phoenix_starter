@@ -7,6 +7,8 @@ defmodule PhoenixStarter.Application do
 
   @impl true
   def start(_type, _args) do
+    attach_telemetry_handlers()
+
     children = [
       # Start the Ecto repository
       PhoenixStarter.Repo,
@@ -15,9 +17,10 @@ defmodule PhoenixStarter.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: PhoenixStarter.PubSub},
       # Start the Endpoint (http/https)
-      PhoenixStarterWeb.Endpoint
+      PhoenixStarterWeb.Endpoint,
       # Start a worker by calling: PhoenixStarter.Worker.start_link(arg)
       # {PhoenixStarter.Worker, arg}
+      {Oban, oban_config()}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -32,5 +35,18 @@ defmodule PhoenixStarter.Application do
   def config_change(changed, _new, removed) do
     PhoenixStarterWeb.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  defp attach_telemetry_handlers do
+    :telemetry.attach_many(
+      "oban-errors",
+      [[:oban, :job, :exception], [:oban, :circuit, :trip]],
+      &PhoenixStarter.Workers.ErrorReporter.handle_event/4,
+      %{}
+    )
+  end
+
+  defp oban_config do
+    Application.get_env(:phoenix_starter, Oban)
   end
 end

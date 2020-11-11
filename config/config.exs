@@ -26,6 +26,12 @@ config :phoenix, :json_library, Jason
 config :phoenix_starter, PhoenixStarter.Email,
   default_from: {"PhoenixStarter", "notifications@example.com"}
 
+# Configures Oban
+config :phoenix_starter, Oban,
+  repo: PhoenixStarter.Repo,
+  plugins: [Oban.Plugins.Pruner],
+  queues: [default: 10, emails: 10]
+
 # Configures Sentry
 config :sentry,
   enable_source_code_context: true,

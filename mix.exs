@@ -43,6 +43,7 @@ defmodule PhoenixStarter.MixProject do
       {:gettext, "~> 0.11"},
       {:hackney, "~> 1.8"},
       {:jason, "~> 1.0"},
+      {:oban, "~> 2.1"},
       {:phoenix, "~> 1.5.6"},
       {:phoenix_ecto, "~> 4.1"},
       {:phoenix_html, "~> 2.11"},

@@ -18,6 +18,7 @@ The following technologies are included and configured with our defaults:
 - [AssertIdentity] for easy Ecto identity assertions in tests
 - [phx_gen_auth] for a user authentication system
 - [Bamboo] for sending emails
+- [Oban] for background jobs
 - [asdf] for managing runtime versions
 - [Docker] for building release containers
 - [Mix Releases] for compiling release binaries
@@ -57,6 +58,7 @@ Elixir and Phoenix][services] development as part of our portfolio of services.
 [assertidentity]: https://github.com/newaperio/assert_identity/
 [phx_gen_auth]: https://github.com/aaronrenner/phx_gen_auth
 [bamboo]: https://github.com/thoughtbot/bamboo
+[oban]: https://github.com/sorentwo/oban/
 [asdf]: https://asdf-vm.com/
 [docker]: https://docs.docker.com/
 [mix releases]: https://hexdocs.pm/mix/Mix.Tasks.Release.html
