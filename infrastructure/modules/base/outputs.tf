@@ -1,3 +1,3 @@
 output "load_balancer" {
-    value = resource.aws_lb.id
+    value = aws_lb.fargate_lb.id
 }
