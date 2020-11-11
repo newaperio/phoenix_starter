@@ -18,7 +18,7 @@ If all dependencies are present, it'll run `asdf` to install language versions.
 
 If the preflight script reports any missing executables or you run into any other errors, here are the prerequisites for running the app. Check you have all of these installed.
 
-1. asdf, which manages package versions. We recommend [installing with the `git` method][asdf-install]. We also need plugins for the versions specified in `.tool-versions`. (The preflight script will install these for you.)
+1. asdf, which manages package versions. We recommend [installing with the `git` method][asdf-install]. We also need plugins for the versions specified in `.tool-versions` (the preflight script will install these for you).
 2. Docker Desktop (community edition). You can download the Mac version from [Docker Hub]. It's a self-contained install.
 3. PostgreSQL, the database. This can be installed with [Homebrew][brew-pg]: `brew install postgresql`. Be sure to follow the post-installation notes to make sure PG is running: `brew info postgresql`. You can start it with `brew services start postgresql`.
 4. A few dependencies for installing languages:
