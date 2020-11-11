@@ -168,7 +168,7 @@ defmodule PhoenixStarter.UsersTest do
     test "sends token through notification", %{user: user} do
       token =
         extract_user_token(fn url ->
-          Users.deliver_update_email_instructions(user, "current@example.com", url)
+          Users.deliver_update_email_instructions(user, "current@example.com", url, false)
         end)
 
       {:ok, token} = Base.url_decode64(token, padding: false)
@@ -186,7 +186,7 @@ defmodule PhoenixStarter.UsersTest do
 
       token =
         extract_user_token(fn url ->
-          Users.deliver_update_email_instructions(%{user | email: email}, user.email, url)
+          Users.deliver_update_email_instructions(%{user | email: email}, user.email, url, false)
         end)
 
       %{user: user, token: token, email: email}
@@ -345,7 +345,7 @@ defmodule PhoenixStarter.UsersTest do
     test "sends token through notification", %{user: user} do
       token =
         extract_user_token(fn url ->
-          Users.deliver_user_confirmation_instructions(user, url)
+          Users.deliver_user_confirmation_instructions(user, url, false)
         end)
 
       {:ok, token} = Base.url_decode64(token, padding: false)
@@ -362,7 +362,7 @@ defmodule PhoenixStarter.UsersTest do
 
       token =
         extract_user_token(fn url ->
-          Users.deliver_user_confirmation_instructions(user, url)
+          Users.deliver_user_confirmation_instructions(user, url, false)
         end)
 
       %{user: user, token: token}
@@ -398,7 +398,7 @@ defmodule PhoenixStarter.UsersTest do
     test "sends token through notification", %{user: user} do
       token =
         extract_user_token(fn url ->
-          Users.deliver_user_reset_password_instructions(user, url)
+          Users.deliver_user_reset_password_instructions(user, url, false)
         end)
 
       {:ok, token} = Base.url_decode64(token, padding: false)
@@ -415,7 +415,7 @@ defmodule PhoenixStarter.UsersTest do
 
       token =
         extract_user_token(fn url ->
-          Users.deliver_user_reset_password_instructions(user, url)
+          Users.deliver_user_reset_password_instructions(user, url, false)
         end)
 
       %{user: user, token: token}

@@ -174,16 +174,28 @@ defmodule PhoenixStarter.Users do
       {:ok, %Bamboo.Email{}}
 
   """
-  @spec deliver_update_email_instructions(User.t(), String.t(), (String.t() -> String.t())) ::
-          {:ok, Bamboo.Email.t()}
-  def deliver_update_email_instructions(%User{} = user, current_email, update_email_url_fun)
+  @spec deliver_update_email_instructions(
+          User.t(),
+          String.t(),
+          (String.t() -> String.t()),
+          boolean
+        ) :: UserNotifier.notifier_result()
+  def deliver_update_email_instructions(
+        %User{} = user,
+        current_email,
+        update_email_url_fun,
+        async \\ true
+      )
       when is_function(update_email_url_fun, 1) do
     {encoded_token, user_token} = UserToken.build_email_token(user, "change:#{current_email}")
 
     Repo.insert!(user_token)
 
-    {:ok,
-     UserNotifier.deliver_update_email_instructions(user, update_email_url_fun.(encoded_token))}
+    UserNotifier.deliver_update_email_instructions(
+      user,
+      update_email_url_fun.(encoded_token),
+      async
+    )
   end
 
   @doc """
@@ -273,9 +285,9 @@ defmodule PhoenixStarter.Users do
       {:error, :already_confirmed}
 
   """
-  @spec deliver_user_confirmation_instructions(User.t(), (String.t() -> String.t())) ::
-          {:ok, Bamboo.Email.t()} | {:error, atom()}
-  def deliver_user_confirmation_instructions(%User{} = user, confirmation_url_fun)
+  @spec deliver_user_confirmation_instructions(User.t(), (String.t() -> String.t()), boolean) ::
+          UserNotifier.notifier_result() | {:error, atom()}
+  def deliver_user_confirmation_instructions(%User{} = user, confirmation_url_fun, async \\ true)
       when is_function(confirmation_url_fun, 1) do
     if user.confirmed_at do
       {:error, :already_confirmed}
@@ -283,8 +295,11 @@ defmodule PhoenixStarter.Users do
       {encoded_token, user_token} = UserToken.build_email_token(user, "confirm")
       Repo.insert!(user_token)
 
-      {:ok,
-       UserNotifier.deliver_confirmation_instructions(user, confirmation_url_fun.(encoded_token))}
+      UserNotifier.deliver_confirmation_instructions(
+        user,
+        confirmation_url_fun.(encoded_token),
+        async
+      )
     end
   end
 
@@ -322,18 +337,22 @@ defmodule PhoenixStarter.Users do
       {:ok, %Bamboo.Email{}}
 
   """
-  @spec deliver_user_reset_password_instructions(User.t(), (String.t() -> String.t())) ::
-          {:ok, Bamboo.Email.t()}
-  def deliver_user_reset_password_instructions(%User{} = user, reset_password_url_fun)
+  @spec deliver_user_reset_password_instructions(User.t(), (String.t() -> String.t()), boolean) ::
+          UserNotifier.notifier_result()
+  def deliver_user_reset_password_instructions(
+        %User{} = user,
+        reset_password_url_fun,
+        async \\ true
+      )
       when is_function(reset_password_url_fun, 1) do
     {encoded_token, user_token} = UserToken.build_email_token(user, "reset_password")
     Repo.insert!(user_token)
 
-    {:ok,
-     UserNotifier.deliver_reset_password_instructions(
-       user,
-       reset_password_url_fun.(encoded_token)
-     )}
+    UserNotifier.deliver_reset_password_instructions(
+      user,
+      reset_password_url_fun.(encoded_token),
+      async
+    )
   end
 
   @doc """

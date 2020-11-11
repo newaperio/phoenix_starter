@@ -21,5 +21,8 @@ config :logger, level: :warn
 # Configures Bamboo
 config :phoenix_starter, PhoenixStarter.Mailer, adapter: Bamboo.TestAdapter
 
+# Configures Oban
+config :phoenix_starter, Oban, crontab: false, queues: false, plugins: false
+
 # Configures Sentry
 config :sentry, environment_name: "test"

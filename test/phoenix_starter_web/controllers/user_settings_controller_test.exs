@@ -91,7 +91,7 @@ defmodule PhoenixStarterWeb.UserSettingsControllerTest do
 
       token =
         extract_user_token(fn url ->
-          Users.deliver_update_email_instructions(%{user | email: email}, user.email, url)
+          Users.deliver_update_email_instructions(%{user | email: email}, user.email, url, false)
         end)
 
       %{token: token, email: email}
