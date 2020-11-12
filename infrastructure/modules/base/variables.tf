@@ -7,10 +7,6 @@ variable "aws_profile" {
   description = "Name of the AWS Profile to use. Equivalent of the AWS_PROFILE env variable."
 }
 
-variable "saml_role" {
-  description = "Name of the role that has access to TFState"
-}
-
 variable "app" {
   description = "Name of the application"
 }
@@ -34,8 +30,4 @@ variable "tags" {
   default = {
     Terraform="true"
   }
-}
-
-variable "container_image" {
-  description = "The container image to deploy"
 }

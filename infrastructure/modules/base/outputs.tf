@@ -1,3 +1,7 @@
-output "load_balancer" {
-    value = aws_lb.fargate_lb.id
+output "public_subnets" {
+  value = module.vpc.public_subnets
+}
+
+output "vpc_id" {
+  value = module.vpc.vpc_id
 }

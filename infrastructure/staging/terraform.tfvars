@@ -4,7 +4,7 @@ aws_profile = "newaperio"
 
 saml_role = "TFState_Test"
 
-app = "phoenix_starter"
+app = "phoenix-starter"
 
 env = "staging"
 

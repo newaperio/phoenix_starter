@@ -22,23 +22,3 @@ module "vpc" {
     customer    = var.customer
   }
 }
-
-resource "aws_security_group" "public_security_group" {
-  name        = "public_lb"
-  description = "Access to the public facing load balancer"
-  vpc_id      = module.vpc.vpc_id
-
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    description = "Anywhere on the internet"
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-resource "aws_lb" "fargate_lb" {
-  internal        = false
-  subnets         = module.vpc.public_subnets
-  security_groups = [aws_security_group.public_security_group.id]
-}

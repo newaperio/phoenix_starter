@@ -26,11 +26,24 @@ module "base" {
 
   region = var.region
   aws_profile = var.aws_profile
-  saml_role = var.saml_role
+  app = var.app
+  env = var.env
+  team = var.team
+  customer = var.customer
+  tags = var.tags
+}
+
+module "fargate" {
+  source = "../modules/fargate"
+
+  region = var.region
+  aws_profile = var.aws_profile
   app = var.app
   env = var.env
   team = var.team
   customer = var.customer
   tags = var.tags
   container_image = var.container_image
+  public_subnets = module.base.public_subnets
+  vpc_id = module.base.vpc_id
 }
