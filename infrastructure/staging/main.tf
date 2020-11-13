@@ -44,6 +44,7 @@ module "fargate" {
   customer = var.customer
   tags = var.tags
   container_image = var.container_image
+  private_subnets = module.base.private_subnets
   public_subnets = module.base.public_subnets
   vpc_id = module.base.vpc_id
 }
