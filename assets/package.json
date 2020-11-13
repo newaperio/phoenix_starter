@@ -21,7 +21,7 @@
     "@types/phoenix": "^1.5.0",
     "@types/phoenix_live_view": "^0.14.0",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
-    "@typescript-eslint/parser": "^4.6.1",
+    "@typescript-eslint/parser": "^4.7.0",
     "babel-loader": "^8.0.0",
     "copy-webpack-plugin": "^6.3.0",
     "css-loader": "^5.0.1",
