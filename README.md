@@ -1,4 +1,4 @@
-# PhoenixStarter
+# Phoenix Starter
 
 ![CI](https://github.com/newaperio/phoenix_starter/workflows/CI/badge.svg)
 
