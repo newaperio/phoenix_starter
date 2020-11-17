@@ -1,4 +1,4 @@
-# PhoenixStarter
+# Phoenix Starter
 
 ![CI](https://github.com/newaperio/phoenix_starter/workflows/CI/badge.svg)
 
@@ -40,6 +40,10 @@ The repo is setup as a [GitHub template] to make it easy to get started.
 2. Clone the new repo locally.
 3. Run the init script to rename the starter project and do some other housekeeping: `$ ./bin/init.sh MyApp my_app`.
 4. Commit the result: `$ git add --all . && git commit -m "Initalize starter project"`.
+
+## License
+
+Phoenix Starter is Copyright © 2020 NewAperio. It is free software, and may be redistributed under the terms specified in the [LICENSE](/LICENSE) file.
 
 ## About NewAperio
 
