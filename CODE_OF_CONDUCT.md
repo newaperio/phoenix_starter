@@ -66,7 +66,7 @@ Project maintainers who do not follow or enforce the Code of Conduct in good
 faith may face temporary or permanent repercussions as determined by other
 members of the project's leadership.
 
-[team+phx-starter-coc@newaperio.com]: mailto:team+phx-starter-coc@newaperio.com@newaperio.com
+[team+phx-starter-coc@newaperio.com]: mailto:team+phx-starter-coc@newaperio.com
 
 ## Attribution
 
