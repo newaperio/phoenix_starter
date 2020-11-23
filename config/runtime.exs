@@ -26,6 +26,10 @@ if config_env() == :prod do
     secret_key_base: secret_key_base,
     url: [scheme: "https", host: System.get_env("APP_HOST"), port: 443]
 
+  # Configures Bamboo
+  # Note: by default this reads from the IAM task or instance role
+  config :phoenix_starter, PhoenixStarter.Mailer, adapter: Bamboo.SesAdapter
+
   # Configures Sentry
   config :sentry,
     dsn: System.fetch_env!("SENTRY_DSN"),

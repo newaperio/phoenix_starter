@@ -4,7 +4,7 @@
       name: "default",
       files: %{
         included: ["*.exs", "config/", "lib/", "priv/", "test/"],
-        excluded: []
+        excluded: ["priv/templates/"]
       },
       plugins: [],
       requires: [],
@@ -52,8 +52,13 @@
         {Credo.Check.Readability.SpaceAfterCommas, []},
         {Credo.Check.Readability.Specs,
          files: %{
-           excluded: ["lib/phoenix_starter_web.ex"],
-           included: ["lib/*.ex", "lib/phoenix_starter/**/*.ex"]
+           excluded: [
+             "mix.exs",
+             "lib/phoenix_starter_web.ex",
+             "lib/phoenix_starter_web/",
+             "test/",
+             "priv/"
+           ]
          }},
         {Credo.Check.Readability.StrictModuleLayout,
          [order: [:shortdoc, :moduledoc, :behaviour, :use, :require, :import, :alias]]},

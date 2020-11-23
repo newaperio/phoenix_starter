@@ -1,0 +1,10 @@
+A message from PhoenixStarter:
+------------------------------
+
+<%= @inner_content %>
+
+==============================
+
+Have questions? Contact support: support@example.com.
+
+You’re receiving this email because you have an account with PhoenixStarter.

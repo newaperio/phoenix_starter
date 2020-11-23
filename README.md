@@ -1,4 +1,4 @@
-# PhoenixStarter
+# Phoenix Starter
 
 ![CI](https://github.com/newaperio/phoenix_starter/workflows/CI/badge.svg)
 
@@ -16,6 +16,9 @@ The following technologies are included and configured with our defaults:
 - [ExUnit] for testing
 - [ExDoc] for rendering Elixir code documentation
 - [AssertIdentity] for easy Ecto identity assertions in tests
+- [phx_gen_auth] for a user authentication system
+- [Bamboo] for sending emails
+- [Oban] for background jobs
 - [asdf] for managing runtime versions
 - [Docker] for building release containers
 - [Mix Releases] for compiling release binaries
@@ -38,6 +41,10 @@ The repo is setup as a [GitHub template] to make it easy to get started.
 3. Run the init script to rename the starter project and do some other housekeeping: `$ ./bin/init.sh MyApp my_app`.
 4. Commit the result: `$ git add --all . && git commit -m "Initalize starter project"`.
 
+## License
+
+Phoenix Starter is Copyright © 2020 NewAperio. It is free software, and may be redistributed under the terms specified in the [LICENSE](/LICENSE) file.
+
 ## About NewAperio
 
 PhoenixStarter is built by NewAperio, LLC.
@@ -53,6 +60,9 @@ Elixir and Phoenix][services] development as part of our portfolio of services.
 [exunit]: https://hexdocs.pm/ex_unit/master/ExUnit.html
 [exdoc]: https://github.com/elixir-lang/ex_doc
 [assertidentity]: https://github.com/newaperio/assert_identity/
+[phx_gen_auth]: https://github.com/aaronrenner/phx_gen_auth
+[bamboo]: https://github.com/thoughtbot/bamboo
+[oban]: https://github.com/sorentwo/oban/
 [asdf]: https://asdf-vm.com/
 [docker]: https://docs.docker.com/
 [mix releases]: https://hexdocs.pm/mix/Mix.Tasks.Release.html
