@@ -48,3 +48,16 @@ module "fargate" {
   public_subnets = module.base.public_subnets
   vpc_id = module.base.vpc_id
 }
+
+module "db" {
+  source = "git@github.com:newaperio/terraform-modules.git//database/aws"
+
+  env = var.env
+  app = var.app
+  team = var.team
+  name = var.app
+  username = var.team
+  security_groups = [module.fargate.security_group]
+  vpc_id = module.base.vpc_id
+  database_subnet_group = module.base.database_subnet_group
+}

@@ -19,7 +19,7 @@ module "fargate" {
 
   name_prefix            = var.app
   vpc_id                 = var.vpc_id
-  private_subnet_ids     = var.public_subnets
+  private_subnet_ids     = var.private_subnets
   lb_arn                 = module.alb.arn
 
   cluster_id             = aws_ecs_cluster.cluster.id
@@ -90,4 +90,13 @@ resource "aws_security_group_rule" "task_ingress_80" {
   from_port                = 80
   to_port                  = 80
   source_security_group_id = module.alb.security_group_id
+}
+
+resource "aws_ecr_repository" "ecr" {
+  name                 = "${var.env}-${var.app}"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
 }

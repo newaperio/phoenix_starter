@@ -32,9 +32,14 @@ variable "tags" {
   }
 }
 
+variable "private_subnets" {
+  description = "The subnets to connect the fargate instance to"
+}
+
 variable "public_subnets" {
   description = "The subnets to connect the fargate instance to"
 }
+
 
 variable "cpu" {
   description = "The CPU count for each task instance"
