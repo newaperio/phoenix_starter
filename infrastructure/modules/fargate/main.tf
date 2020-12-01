@@ -24,7 +24,7 @@ module "fargate" {
 
   cluster_id             = aws_ecs_cluster.cluster.id
 
-  task_container_image   = var.container_image
+  task_container_image   = "${aws_ecr_repository.ecr.repository_url}:${var.task_container_tag}"
   task_definition_cpu    = var.cpu
   task_definition_memory = var.memory
 
@@ -32,7 +32,7 @@ module "fargate" {
 
   health_check = {
     port = "80"
-    path = "/health"
+    path = "/"
   }
 
   tags = {

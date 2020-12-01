@@ -51,10 +51,12 @@ variable "memory" {
   default = 512
 }
 
-variable "container_image" { 
-  description = "The container image to deploy"
-}
-
 variable "vpc_id" {
   description = "The VPC ID where the cluster will deploy to."
+}
+
+variable "task_container_tag" {
+  type        = string
+  description = "(optional) The tag of the image to deploy"
+  default     = "latest"
 }
