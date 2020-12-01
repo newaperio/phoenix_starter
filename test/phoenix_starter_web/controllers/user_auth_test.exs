@@ -5,6 +5,8 @@ defmodule PhoenixStarterWeb.UserAuthTest do
   alias PhoenixStarterWeb.UserAuth
   import PhoenixStarter.UsersFixtures
 
+  @remember_me_cookie "_phoenix_starter_web_user_remember_me"
+
   setup %{conn: conn} do
     conn =
       conn
@@ -35,9 +37,9 @@ defmodule PhoenixStarterWeb.UserAuthTest do
 
     test "writes a cookie if remember_me is configured", %{conn: conn, user: user} do
       conn = conn |> fetch_cookies() |> UserAuth.log_in_user(user, %{"remember_me" => "true"})
-      assert get_session(conn, :user_token) == conn.cookies["user_remember_me"]
+      assert get_session(conn, :user_token) == conn.cookies[@remember_me_cookie]
 
-      assert %{value: signed_token, max_age: max_age} = conn.resp_cookies["user_remember_me"]
+      assert %{value: signed_token, max_age: max_age} = conn.resp_cookies[@remember_me_cookie]
       assert signed_token != get_session(conn, :user_token)
       assert max_age == 5_184_000
     end
@@ -50,13 +52,13 @@ defmodule PhoenixStarterWeb.UserAuthTest do
       conn =
         conn
         |> put_session(:user_token, user_token)
-        |> put_req_cookie("user_remember_me", user_token)
+        |> put_req_cookie(@remember_me_cookie, user_token)
         |> fetch_cookies()
         |> UserAuth.log_out_user()
 
       refute get_session(conn, :user_token)
-      refute conn.cookies["user_remember_me"]
-      assert %{max_age: 0} = conn.resp_cookies["user_remember_me"]
+      refute conn.cookies[@remember_me_cookie]
+      assert %{max_age: 0} = conn.resp_cookies[@remember_me_cookie]
       assert redirected_to(conn) == "/"
       refute Users.get_user_by_session_token(user_token)
     end
@@ -78,7 +80,7 @@ defmodule PhoenixStarterWeb.UserAuthTest do
     test "works even if user is already logged out", %{conn: conn} do
       conn = conn |> fetch_cookies() |> UserAuth.log_out_user()
       refute get_session(conn, :user_token)
-      assert %{max_age: 0} = conn.resp_cookies["user_remember_me"]
+      assert %{max_age: 0} = conn.resp_cookies[@remember_me_cookie]
       assert redirected_to(conn) == "/"
     end
   end
@@ -94,12 +96,12 @@ defmodule PhoenixStarterWeb.UserAuthTest do
       logged_in_conn =
         conn |> fetch_cookies() |> UserAuth.log_in_user(user, %{"remember_me" => "true"})
 
-      user_token = logged_in_conn.cookies["user_remember_me"]
-      %{value: signed_token} = logged_in_conn.resp_cookies["user_remember_me"]
+      user_token = logged_in_conn.cookies[@remember_me_cookie]
+      %{value: signed_token} = logged_in_conn.resp_cookies[@remember_me_cookie]
 
       conn =
         conn
-        |> put_req_cookie("user_remember_me", signed_token)
+        |> put_req_cookie(@remember_me_cookie, signed_token)
         |> UserAuth.fetch_current_user([])
 
       assert get_session(conn, :user_token) == user_token

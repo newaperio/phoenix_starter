@@ -45,8 +45,22 @@ defmodule PhoenixStarterWeb.UserSessionControllerTest do
           }
         })
 
-      assert conn.resp_cookies["user_remember_me"]
+      assert conn.resp_cookies["_phoenix_starter_web_user_remember_me"]
       assert redirected_to(conn) =~ "/"
+    end
+
+    test "logs the user in with return to", %{conn: conn, user: user} do
+      conn =
+        conn
+        |> init_test_session(user_return_to: "/foo/bar")
+        |> post(Routes.user_session_path(conn, :create), %{
+          "user" => %{
+            "email" => user.email,
+            "password" => valid_user_password()
+          }
+        })
+
+      assert redirected_to(conn) == "/foo/bar"
     end
 
     test "emits error message with invalid credentials", %{conn: conn, user: user} do
