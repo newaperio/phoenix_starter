@@ -53,7 +53,7 @@ defmodule PhoenixStarter.MixProject do
       {:phx_gen_auth, "~> 0.5", only: [:dev], runtime: false},
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, ">= 0.0.0"},
-      {:sentry, "8.0.3"},
+      {:sentry, "8.0.4"},
       {:sobelow, "~> 0.10", only: [:dev, :test]},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"}
