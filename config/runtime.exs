@@ -3,6 +3,13 @@ import Config
 database_url = System.get_env("DATABASE_URL")
 
 if config_env() == :prod do
+  {:ok, ssm_resp} =
+    "/staging/phoenix-starter/database/url"
+    |> ExAws.SSM.get_parameter(with_decryption: true)
+    |> ExAws.request()
+
+  database_url = ssm_resp["Parameter"]["Value"]
+
   if database_url == nil do
     raise """
     environment variable DATABASE_URL is missing.

@@ -38,6 +38,8 @@ defmodule PhoenixStarter.MixProject do
       {:credo, "~> 1.5.0-rc.2", only: [:dev, :test], runtime: false},
       {:ecto_psql_extras, "~> 0.2"},
       {:ecto_sql, "~> 3.4"},
+      {:ex_aws, "~> 2.0"},
+      {:ex_aws_ssm, "~> 2.0"},
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:floki, ">= 0.27.0", only: :test},
       {:gettext, "~> 0.11"},
