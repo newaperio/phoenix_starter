@@ -103,6 +103,19 @@ defmodule PhoenixStarter.UsersTest do
       assert %Ecto.Changeset{} = changeset = Users.change_user_registration(%User{})
       assert changeset.required == [:role, :password, :email]
     end
+
+    test "allows fields to be set" do
+      email = unique_user_email()
+      password = valid_user_password()
+
+      changeset =
+        Users.change_user_registration(%User{}, %{"email" => email, "password" => password})
+
+      assert changeset.valid?
+      assert get_change(changeset, :email) == email
+      assert get_change(changeset, :password) == password
+      assert is_nil(get_change(changeset, :hashed_password))
+    end
   end
 
   describe "change_user_email/2" do
@@ -226,6 +239,17 @@ defmodule PhoenixStarter.UsersTest do
     test "returns a user changeset" do
       assert %Ecto.Changeset{} = changeset = Users.change_user_password(%User{})
       assert changeset.required == [:password]
+    end
+
+    test "allows fields to be set" do
+      changeset =
+        Users.change_user_password(%User{}, %{
+          "password" => "new valid password"
+        })
+
+      assert changeset.valid?
+      assert get_change(changeset, :password) == "new valid password"
+      assert is_nil(get_change(changeset, :hashed_password))
     end
   end
 
