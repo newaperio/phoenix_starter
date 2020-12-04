@@ -15,5 +15,3 @@ customer = "test"
 tags = {
   Terraform="true"
 }
-
-container_image = "nginx"

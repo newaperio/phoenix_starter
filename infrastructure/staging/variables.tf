@@ -35,7 +35,3 @@ variable "tags" {
     Terraform="true"
   }
 }
-
-variable "container_image" {
-  description = "The container image to deploy"
-}

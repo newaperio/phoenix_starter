@@ -14,7 +14,7 @@ provider "aws" {
 }
 
 # module "tf_remote_state" {
-#   source = "github.com/turnerlabs/terraform-remote-state?ref=v4.0.2"
+#   source      = "github.com/turnerlabs/terraform-remote-state?ref=v4.0.2"
 
 #   role        = var.saml_role
 #   application = "${var.env}-${var.customer}-${var.app}"
@@ -22,42 +22,39 @@ provider "aws" {
 # }
 
 module "base" {
-  source = "../modules/base"
+  source      = "../modules/base"
 
-  region = var.region
+  region      = var.region
   aws_profile = var.aws_profile
-  app = var.app
-  env = var.env
-  team = var.team
-  customer = var.customer
-  tags = var.tags
+  app         = var.app
+  env         = var.env
+  team        = var.team
+  customer    = var.customer
+  tags        = var.tags
 }
 
 module "fargate" {
-  source = "../modules/fargate"
+  source          = "../modules/fargate"
 
-  region = var.region
-  aws_profile = var.aws_profile
-  app = var.app
-  env = var.env
-  team = var.team
-  customer = var.customer
-  tags = var.tags
-  container_image = var.container_image
+  app             = var.app
+  env             = var.env
+  team            = var.team
+  customer        = var.customer
+  tags            = var.tags
   private_subnets = module.base.private_subnets
-  public_subnets = module.base.public_subnets
-  vpc_id = module.base.vpc_id
+  public_subnets  = module.base.public_subnets
+  vpc_id          = module.base.vpc_id
 }
 
 module "db" {
-  source = "git@github.com:newaperio/terraform-modules.git//database/aws"
+  source                = "git@github.com:newaperio/terraform-modules.git//database/aws"
 
-  env = var.env
-  app = var.app
-  team = var.team
-  name = var.app
-  username = var.team
-  security_groups = [module.fargate.security_group]
-  vpc_id = module.base.vpc_id
+  env                   = var.env
+  app                   = var.app
+  team                  = var.team
+  name                  = var.app
+  username              = var.team
+  security_groups       = [module.fargate.security_group]
+  vpc_id                = module.base.vpc_id
   database_subnet_group = module.base.database_subnet_group
 }

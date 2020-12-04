@@ -14,8 +14,8 @@ resource "aws_ecs_cluster" "cluster" {
 }
 
 module "fargate" {
-  source = "umotif-public/ecs-fargate/aws"
-  version = "~> 5.0.0"
+  source = "git@github.com:umotif-public/terraform-aws-ecs-fargate.git?ref=fix/registries"
+  # version = "~> 5.0.0"
 
   name_prefix            = var.app
   vpc_id                 = var.vpc_id
@@ -23,6 +23,8 @@ module "fargate" {
   lb_arn                 = module.alb.arn
 
   cluster_id             = aws_ecs_cluster.cluster.id
+
+  force_new_deployment   = true
 
   task_container_image   = "${aws_ecr_repository.ecr.repository_url}:${var.task_container_tag}"
   task_definition_cpu    = var.cpu
@@ -36,9 +38,12 @@ module "fargate" {
   }
 
   tags = {
-    Environment = "test"
-    Project = "Test"
+    Terraform   = true
+    Environment = var.env
+    Application = var.app
   }
+
+  service_registry_arn = aws_service_discovery_service.service.arn
 
   depends_on = [
     module.alb
@@ -49,7 +54,7 @@ module "alb" {
   source = "umotif-public/alb/aws"
   version = "~> 1.2.1"
 
-  name_prefix = "complete-alb"
+  name_prefix = "${var.env}-${var.app}"
 
   load_balancer_type = "application"
 
@@ -58,7 +63,9 @@ module "alb" {
   subnets            = var.public_subnets
 
   tags = {
-    Terraform = "true"
+    Terraform   = true
+    Environment = var.env
+    Application = var.app
   }
 }
 
