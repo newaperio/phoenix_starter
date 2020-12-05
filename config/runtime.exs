@@ -3,7 +3,10 @@ import Config
 database_url = System.get_env("DATABASE_URL")
 
 if config_env() == :prod do
-  database_url = get_database_url_from_ssm!
+  db_config = Application.fetch_env!(:phoenix_starter, :database)
+
+  database_url =
+    "ecto://#{db_config[:user]}:#{db_config[:password]}@#{db_config[:host]}/#{db_config[:name]}"
 
   if database_url == nil do
     raise """
@@ -42,28 +45,4 @@ if database_url != nil do
   config :phoenix_starter, PhoenixStarter.Repo,
     url: database_url,
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
-end
-
-defp get_database_url_from_ssm! do
-  ssm_prefix = "/staging/phoenix-starter/database"
-
-  {:ok, ssm_resp} =
-    ssm_prefix
-    |> ExAws.SSM.get_parameter(recursive: true, with_decryption: true)
-    |> ExAws.request()
-
-  params = ssm_resp["Parameters"]
-
-  user = get_param_from_ssm_resp!(params, ssm_prefix <> "/user")
-  password = get_param_from_ssm_resp!(params, ssm_prefix <> "/password")
-  host = get_param_from_ssm_resp!(params, ssm_prefix <> "/url")
-  name = get_param_from_ssm_resp!(params, ssm_prefix <> "/name")
-
-  "ecto://#{user}:#{password}@#{host}/#{name}"
-end
-
-defp get_param_from_ssm_resp!(params, name) do
-  Enum.find(params, fn p ->
-    p["Name"] == name
-  end) || raise "missing #{name} in AWS SSM"
 end
