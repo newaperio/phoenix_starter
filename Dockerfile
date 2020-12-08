@@ -27,10 +27,12 @@ COPY config config
 COPY mix.* ./
 RUN mix do deps.get --only=$MIX_ENV, deps.compile
 
+WORKDIR /opt/aws
+
 RUN apk --no-cache --update add curl
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.1.7.zip" -o "awscliv2.zip"
 RUN unzip awscliv2.zip
-RUN ./aws/install
+RUN ./aws/install --bin-dir /aws-cli-bin/
 
 # Assets builder
 # ---------------
@@ -76,7 +78,10 @@ RUN apk --no-cache --update add \
 WORKDIR /opt/app
 
 COPY --from=release /opt/app/_build/prod/rel/${RELEASE_NAME} ./
-COPY --from=deps /usr/local/bin/aws /usr/local/bin/aws
+COPY --from=deps /usr/local/aws-cli/ /usr/local/aws-cli/
+COPY --from=deps /aws-cli-bin/aws /usr/bin/aws
+RUN chown -R nobody: /usr/local/aws-cli
+RUN chown -R nobody: /usr/bin/aws
 RUN chown -R nobody: /opt/app
 USER nobody
 
