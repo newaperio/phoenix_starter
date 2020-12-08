@@ -1,3 +1,6 @@
+data "aws_region" "current" {}
+data "aws_caller_identity" "current" {}
+
 resource "aws_ecs_cluster" "cluster" {
   name = var.app
 
@@ -14,23 +17,28 @@ resource "aws_ecs_cluster" "cluster" {
 }
 
 module "fargate" {
-  source = "git@github.com:umotif-public/terraform-aws-ecs-fargate.git?ref=fix/registries"
-  # version = "~> 5.0.0"
+  source = "umotif-public/ecs-fargate/aws"
+  version = "~> 5.0.0"
 
-  name_prefix            = var.app
-  vpc_id                 = var.vpc_id
-  private_subnet_ids     = var.private_subnets
-  lb_arn                 = module.alb.arn
+  name_prefix                = var.app
+  vpc_id                     = var.vpc_id
+  private_subnet_ids         = var.private_subnets
+  lb_arn                     = module.alb.arn
 
-  cluster_id             = aws_ecs_cluster.cluster.id
+  cluster_id                 = aws_ecs_cluster.cluster.id
 
-  force_new_deployment   = true
+  force_new_deployment       = true
 
-  task_container_image   = "${aws_ecr_repository.ecr.repository_url}:${var.task_container_tag}"
-  task_definition_cpu    = var.cpu
-  task_definition_memory = var.memory
+  task_container_image       = "${aws_ecr_repository.ecr.repository_url}:${var.task_container_tag}"
+  task_definition_cpu        = var.cpu
+  task_definition_memory     = var.memory
+  task_container_environment = {
+    APP_ENV            = var.env
+    APP_NAME           = var.app
+    AWS_DEFAULT_REGION = data.aws_region.current.name
+  }
 
-  task_container_port    = 80
+  task_container_port        = 80
 
   health_check = {
     port = "80"
@@ -43,7 +51,7 @@ module "fargate" {
     Application = var.app
   }
 
-  service_registry_arn = aws_service_discovery_service.service.arn
+  service_registry_arn       = aws_service_discovery_service.service.arn
 
   depends_on = [
     module.alb
@@ -106,4 +114,10 @@ resource "aws_ecr_repository" "ecr" {
   image_scanning_configuration {
     scan_on_push = true
   }
+}
+
+resource "aws_iam_role_policy" "task_role_ssm" {
+  name   = "${var.app}-ssm-read"
+  role   = module.fargate.task_role_name
+  policy = data.aws_iam_policy_document.ssm_read.json
 }
