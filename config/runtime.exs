@@ -1,12 +1,9 @@
 import Config
 
-database_url = System.get_env("DATABASE_URL")
-
 if config_env() == :prod do
-  db_config = Application.fetch_env!(:phoenix_starter, :database)
-
-  database_url =
-    "ecto://#{db_config[:user]}:#{db_config[:password]}@#{db_config[:host]}/#{db_config[:name]}"
+  # Configures Ecto
+  config :phoenix_starter, PhoenixStarter.Repo,
+    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
   # if database_url == nil do
   #   raise """
@@ -49,8 +46,14 @@ if config_env() == :prod do
   #   environment_name: System.fetch_env!("SENTRY_ENVIRONMENT")
 end
 
-if database_url != nil do
-  config :phoenix_starter, PhoenixStarter.Repo,
-    url: database_url,
-    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
+case System.fetch_env("DATABASE_URL") do
+  :error ->
+    config :phoenix_starter, PhoenixStarter.Repo,
+      database: System.fetch_env!("DATABASE_NAME"),
+      username: System.fetch_env!("DATABASE_USER"),
+      password: System.fetch_env!("DATABASE_PASSWORD"),
+      hostname: System.fetch_env!("DATABASE_HOST")
+
+  {:ok, database_url} ->
+    config :phoenix_starter, PhoenixStarter.Repo, url: database_url
 end

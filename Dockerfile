@@ -66,10 +66,7 @@ ENV HOME=/opt/app
 
 RUN apk --no-cache --update add \
   bash \
-  openssl \
-  python3 \
-  py3-pip \
-  && pip3 install awscli
+  openssl
 
 WORKDIR /opt/app
 
@@ -79,4 +76,4 @@ USER nobody
 
 EXPOSE ${PORT}
 
-CMD ["/opt/app/load_env.sh", "/opt/app/bin/${RELEASE_NAME} start"]
+CMD ["/opt/app/bin/${RELEASE_NAME}", "start"]

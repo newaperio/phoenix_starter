@@ -32,7 +32,6 @@ defmodule PhoenixStarter.MixProject do
   defp deps do
     [
       {:assert_identity, "~> 0.1.0", only: :test},
-      {:aws_ssm_provider, "~> 3.0.0"},
       {:bamboo, "~> 1.6"},
       {:bamboo_ses, "~> 0.1.0"},
       {:bcrypt_elixir, "~> 2.0"},
@@ -77,8 +76,7 @@ defmodule PhoenixStarter.MixProject do
       phoenix_starter: [
         applications: [phoenix_starter: :permanent],
         include_executables_for: [:unix],
-        version: {:from_app, :phoenix_starter},
-        config_providers: [{AwsSsmProvider, "/opt/app/env.json"}]
+        version: {:from_app, :phoenix_starter}
       ]
     ]
   end
