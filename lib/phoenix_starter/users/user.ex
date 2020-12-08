@@ -32,13 +32,23 @@ defmodule PhoenixStarter.Users.User do
   Otherwise databases may truncate the email without warnings, which
   could lead to unpredictable or insecure behaviour. Long passwords may
   also be very expensive to hash for certain algorithms.
+
+  ## Options
+
+    * `:hash_password` - Hashes the password so it can be stored securely
+      in the database and ensures the password field is cleared to prevent
+      leaks in the logs. If password hashing is not needed and clearing the
+      password field is not desired (like when using this changeset for
+      validations on a LiveView form), this option can be set to `false`.
+      Defaults to `true`.
+
   """
-  @spec registration_changeset(t, map) :: Changeset.t()
-  def registration_changeset(user, attrs) do
+  @spec registration_changeset(t, map, list) :: Changeset.t()
+  def registration_changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, [:email, :password, :role])
     |> validate_email()
-    |> validate_password()
+    |> validate_password(opts)
     |> validate_required([:role])
   end
 
@@ -51,22 +61,27 @@ defmodule PhoenixStarter.Users.User do
     |> unique_constraint(:email)
   end
 
-  defp validate_password(changeset) do
+  defp validate_password(changeset, opts) do
     changeset
     |> validate_required([:password])
     |> validate_length(:password, min: 12, max: 80)
     # |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
     # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
     # |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
-    |> prepare_changes(&hash_password/1)
+    |> maybe_hash_password(opts)
   end
 
-  defp hash_password(changeset) do
+  defp maybe_hash_password(changeset, opts) do
+    hash_password? = Keyword.get(opts, :hash_password, true)
     password = get_change(changeset, :password)
 
-    changeset
-    |> put_change(:hashed_password, Bcrypt.hash_pwd_salt(password))
-    |> delete_change(:password)
+    if hash_password? && password && changeset.valid? do
+      changeset
+      |> put_change(:hashed_password, Bcrypt.hash_pwd_salt(password))
+      |> delete_change(:password)
+    else
+      changeset
+    end
   end
 
   @doc """
@@ -87,13 +102,23 @@ defmodule PhoenixStarter.Users.User do
 
   @doc """
   A `PhoenixStarter.Users.User` changeset for changing the password.
+
+  ## Options
+
+    * `:hash_password` - Hashes the password so it can be stored securely
+      in the database and ensures the password field is cleared to prevent
+      leaks in the logs. If password hashing is not needed and clearing the
+      password field is not desired (like when using this changeset for
+      validations on a LiveView form), this option can be set to `false`.
+      Defaults to `true`.
+
   """
-  @spec password_changeset(t, map) :: Changeset.t()
-  def password_changeset(user, attrs) do
+  @spec password_changeset(t, map, list) :: Changeset.t()
+  def password_changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, [:password])
     |> validate_confirmation(:password, message: "does not match password")
-    |> validate_password()
+    |> validate_password(opts)
   end
 
   @doc """
