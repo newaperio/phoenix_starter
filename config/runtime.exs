@@ -45,9 +45,9 @@ if config_env() == :prod do
   config :phoenix_starter, PhoenixStarter.Mailer, adapter: Bamboo.SesAdapter
 
   # Configures Sentry
-  # config :sentry,
-  #   dsn: System.fetch_env!("SENTRY_DSN"),
-  #   environment_name: System.fetch_env!("SENTRY_ENVIRONMENT")
+  config :sentry,
+    dsn: System.fetch_env!("SENTRY_DSN"),
+    environment_name: System.fetch_env!("SENTRY_ENV")
 end
 
 if config_env() == :test && System.get_env("CI", false) do
