@@ -2,9 +2,6 @@ import Config
 
 if config_env() == :prod do
   # Configures Ecto
-  config :phoenix_starter, PhoenixStarter.Repo,
-    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
-
   with {:ok, database_name} <- System.fetch_env("DATABASE_NAME"),
        {:ok, database_username} <- System.fetch_env("DATABASE_USER"),
        {:ok, database_password} <- System.fetch_env("DATABASE_PASSWORD"),
@@ -13,7 +10,8 @@ if config_env() == :prod do
       database: database_name,
       username: database_username,
       password: database_password,
-      hostname: database_hostname
+      hostname: database_hostname,
+      pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
   else
     _ ->
       raise """
@@ -24,18 +22,6 @@ if config_env() == :prod do
         - DATABASE_PASSWORD
         - DATABASE_HOST
       """
-  end
-
-  case System.fetch_env("DATABASE_URL") do
-    :error ->
-      config :phoenix_starter, PhoenixStarter.Repo,
-        database: System.fetch_env!("DATABASE_NAME"),
-        username: System.fetch_env!("DATABASE_USER"),
-        password: System.fetch_env!("DATABASE_PASSWORD"),
-        hostname: System.fetch_env!("DATABASE_HOST")
-
-    {:ok, database_url} ->
-      config :phoenix_starter, PhoenixStarter.Repo, url: database_url
   end
 
   secret_key_base =
