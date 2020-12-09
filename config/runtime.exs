@@ -6,6 +6,13 @@ if config_env() == :prod do
        {:ok, database_username} <- System.fetch_env("DATABASE_USER"),
        {:ok, database_password} <- System.fetch_env("DATABASE_PASSWORD"),
        {:ok, database_hostname} <- System.fetch_env("DATABASE_HOST") do
+    database_hostname =
+      if String.contains?(database_hostname, ":") do
+        String.split(":") |> List.first()
+      else
+        database_hostname
+      end
+
     config :phoenix_starter, PhoenixStarter.Repo,
       database: database_name,
       username: database_username,
