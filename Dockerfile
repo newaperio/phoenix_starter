@@ -76,4 +76,5 @@ USER nobody
 
 EXPOSE ${PORT}
 
-CMD ["/opt/app/bin/phoenix_starter", "start"]
+ENTRYPOINT ["/opt/app/docker-entrypoint.sh"]
+CMD ["start"]
