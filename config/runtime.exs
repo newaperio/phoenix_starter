@@ -48,7 +48,7 @@ if config_env() == :prod do
     secret_key_base: secret_key_base,
     url: [scheme: "https", host: System.get_env("APP_HOST"), port: 443]
 
-  if System.fetch_env("FORCE_SSL", "true") == "true" do
+  if System.get_env("FORCE_SSL", "true") == "true" do
     config :phoenix_starter, PhoenixStarterWeb.Endpoint,
       force_ssl: [hsts: true, rewrite_on: [:x_forwarded_proto]]
   end
