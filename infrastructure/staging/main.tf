@@ -34,7 +34,7 @@ module "base" {
 }
 
 module "fargate" {
-  source          = "../modules/fargate"
+  source          = "git@github.com:newaperio/terraform-modules.git//fargate"
 
   app             = var.app
   env             = var.env
@@ -44,6 +44,7 @@ module "fargate" {
   private_subnets = module.base.private_subnets
   public_subnets  = module.base.public_subnets
   vpc_id          = module.base.vpc_id
+  desired_count   = 2
 }
 
 module "db" {
