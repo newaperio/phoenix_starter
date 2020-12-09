@@ -38,6 +38,7 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
+  # Configures Phoenix endpoint
   config :phoenix_starter, PhoenixStarterWeb.Endpoint,
     http: [
       port: String.to_integer(System.get_env("PORT") || "4000"),
@@ -46,6 +47,11 @@ if config_env() == :prod do
     live_view: [signing_salt: System.fetch_env!("LIVE_VIEW_SALT")],
     secret_key_base: secret_key_base,
     url: [scheme: "https", host: System.get_env("APP_HOST"), port: 443]
+
+  if System.fetch_env("FORCE_SSL", "true") == "true" do
+    config :phoenix_starter, PhoenixStarterWeb.Endpoint,
+      force_ssl: [hsts: true, rewrite_on: [:x_forwarded_proto]]
+  end
 
   # Configures Bamboo
   # Note: by default this reads from the IAM task or instance role
