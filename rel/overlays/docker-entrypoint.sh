@@ -3,11 +3,11 @@
 set -e
 
 case $1 in
-  migrate | seeds)
+  migrate)
     /opt/app/bin/phoenix_starter eval "PhoenixStarter.ReleaseTasks.$1"
     ;;
 
-  migrations)
+  migrations | seeds)
     /opt/app/bin/phoenix_starter eval "PhoenixStarter.ReleaseTasks.$1($2)"
     ;;
 
