@@ -11,22 +11,28 @@ defmodule PhoenixStarter.ReleaseTasks do
     end
   end
 
-  def migrations(repo) do
+  def migrations do
     load_app()
-    {:ok, migrations, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.migrations(&1))
-    migrations |> format_migrations(repo) |> Logger.info()
+
+    for repo <- repos() do
+      {:ok, migrations, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.migrations(&1))
+      migrations |> format_migrations(repo) |> Logger.info()
+    end
   end
 
-  def rollback(repo, version) do
+  def rollback do
     load_app()
-    {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :down, to: version))
+
+    for repo <- repos() do
+      {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :down, step: 1))
+    end
   end
 
-  def seeds(repo) do
+  def seeds do
     load_app()
 
     {:ok, _, _} =
-      Ecto.Migrator.with_repo(repo, fn _ ->
+      Ecto.Migrator.with_repo(PhoenixStarter.Repo, fn _ ->
         seeds_path = Application.app_dir(:phoenix_starter, "priv/repo/seeds.exs")
 
         if File.exists?(seeds_path) do
