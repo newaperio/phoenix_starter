@@ -19,7 +19,7 @@ RUN apk --no-cache --update add \
 
 FROM otp-build AS deps
 
-ENV MIX_ENV prod
+ENV MIX_ENV=prod
 
 WORKDIR /opt/app
 
@@ -32,7 +32,7 @@ RUN mix do deps.get --only=$MIX_ENV, deps.compile
 
 FROM node:${NODE_VERSION}-alpine AS assets-build
 
-ENV NODE_ENV prod
+ENV NODE_ENV=prod
 
 WORKDIR /opt/app
 
@@ -45,7 +45,7 @@ RUN npm --prefix assets ci && npm run --prefix assets deploy
 
 FROM deps AS release
 
-ENV MIX_ENV prod
+ENV MIX_ENV=prod
 
 WORKDIR /opt/app
 
