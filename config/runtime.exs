@@ -63,7 +63,7 @@ if config_env() == :prod do
     environment_name: System.fetch_env!("SENTRY_ENV")
 end
 
-if config_env() == :test && System.get_env("CI", false) do
+if config_env() == :test && System.get_env("CI") == "true" do
   database_url =
     System.get_env("DATABASE_URL") ||
       raise """

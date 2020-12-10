@@ -20,6 +20,14 @@ defmodule PhoenixStarter.ReleaseTasks do
     {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :down, to: version))
   end
 
+  def seeds do
+    seeds_path = Application.app_dir(:phoenix_starter, "priv/repo/seeds.exs")
+
+    if File.exists?(seeds_path) do
+      Code.eval_file(seeds_path)
+    end
+  end
+
   defp repos do
     Application.fetch_env!(@app, :ecto_repos)
   end
