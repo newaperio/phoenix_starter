@@ -1,6 +1,8 @@
 defmodule PhoenixStarter.ReleaseTasks do
   @app :phoenix_starter
 
+  require Logger
+
   def migrate do
     load_app()
 
@@ -12,7 +14,7 @@ defmodule PhoenixStarter.ReleaseTasks do
   def migrations(repo) do
     load_app()
     {:ok, migrations, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.migrations(&1))
-    migrations
+    migrations |> format_migrations(repo) |> Logger.info
   end
 
   def rollback(repo, version) do
@@ -35,5 +37,25 @@ defmodule PhoenixStarter.ReleaseTasks do
   defp load_app do
     Application.load(@app)
     Application.ensure_all_started(:ssl)
+  end
+
+  defp format_migrations(migrations, repo) do
+    # Borrowed from mix ecto.migrations
+    """
+
+    Repo: #{inspect(repo)}
+
+      Status    Migration ID    Migration Name
+    --------------------------------------------------
+    """ <>
+      Enum.map_join(migrations, "\n", fn {status, number, description} ->
+        "  #{format(status, 10)}#{format(number, 16)}#{description}"
+      end)
+  end
+
+  defp format(content, pad) do
+    content
+    |> to_string
+    |> String.pad_trailing(pad)
   end
 end
