@@ -34,17 +34,21 @@ module "base" {
 }
 
 module "fargate" {
-  source          = "git@github.com:newaperio/terraform-modules.git//fargate"
+  source                     = "git@github.com:newaperio/terraform-modules.git//fargate"
 
-  app             = var.app
-  env             = var.env
-  team            = var.team
-  customer        = var.customer
-  tags            = var.tags
-  private_subnets = module.base.private_subnets
-  public_subnets  = module.base.public_subnets
-  vpc_id          = module.base.vpc_id
-  desired_count   = 2
+  app                        = var.app
+  env                        = var.env
+  team                       = var.team
+  customer                   = var.customer
+  tags                       = var.tags
+  private_subnets            = module.base.private_subnets
+  public_subnets             = module.base.public_subnets
+  vpc_id                     = module.base.vpc_id
+  desired_count              = 2
+  task_container_environment = {
+    POOL_SIZE = 10
+    FORCE_SSL = "false"
+  }
 }
 
 module "db" {
