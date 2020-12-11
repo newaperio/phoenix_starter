@@ -15,3 +15,5 @@ customer = "test"
 tags = {
   Terraform="true"
 }
+
+domain_name = "phxstarter.cloud"

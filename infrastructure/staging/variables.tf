@@ -35,3 +35,8 @@ variable "tags" {
     Terraform="true"
   }
 }
+
+variable "domain_name" {
+  type = string
+  description = "The name of the hosted zone for Route53"
+}

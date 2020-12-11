@@ -63,3 +63,20 @@ module "db" {
   vpc_id                = module.base.vpc_id
   database_subnet_group = module.base.database_subnet_group
 }
+
+# Route 53
+data "aws_route53_zone" "zone" {
+  name = var.domain_name
+}
+
+resource "aws_route53_record" "domain" {
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "${var.app}.${data.aws_route53_zone.zone.name}"
+  type    = "A"
+
+  alias {
+    name                   = module.fargate.alb_dns_name
+    zone_id                = module.fargate.alb_zone_id
+    evaluate_target_health = true
+  }
+}
