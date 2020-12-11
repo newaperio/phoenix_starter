@@ -48,6 +48,7 @@ module "fargate" {
   task_container_environment = {
     POOL_SIZE = 10
     FORCE_SSL = "false"
+    APP_HOST  = "${var.app}.${data.aws_route53_zone.zone.name}"
   }
 }
 
