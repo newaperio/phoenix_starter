@@ -50,6 +50,8 @@ module "fargate" {
     FORCE_SSL = "false"
     APP_HOST  = data.aws_route53_zone.zone.name
   }
+
+  certificate                = module.acm.this_acm_certificate_arn
 }
 
 module "db" {
@@ -68,6 +70,24 @@ module "db" {
 # Route 53
 data "aws_route53_zone" "zone" {
   name = var.domain_name
+}
+
+module "acm" {
+  source  = "terraform-aws-modules/acm/aws"
+  version = "~> v2.12.0"
+
+  domain_name = var.domain_name
+  zone_id     = data.aws_route53_zone.zone.zone_id
+
+  subject_alternative_names = [
+    "*.${var.domain_name}"
+  ]
+
+  wait_for_validation = true
+
+  tags = {
+    Name = var.domain_name
+  }
 }
 
 resource "aws_route53_record" "domain" {
