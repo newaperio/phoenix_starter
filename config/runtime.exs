@@ -8,7 +8,7 @@ if config_env() == :prod do
        {:ok, database_hostname} <- System.fetch_env("DATABASE_HOST") do
     database_hostname =
       if String.contains?(database_hostname, ":") do
-        String.split(":") |> List.first()
+        String.split(database_hostname, ":") |> List.first()
       else
         database_hostname
       end
