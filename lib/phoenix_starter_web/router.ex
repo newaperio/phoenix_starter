@@ -36,7 +36,8 @@ defmodule PhoenixStarterWeb.Router do
 
     live_dashboard "/dashboard",
       metrics: PhoenixStarterWeb.Telemetry,
-      ecto_repos: [PhoenixStarter.Repo]
+      ecto_repos: [PhoenixStarter.Repo],
+      env_keys: ["APP_ENV", "APP_HOST", "APP_NAME"]
   end
 
   if Mix.env() == :dev do
