@@ -59,8 +59,9 @@ if config_env() == :prod do
 
   # Configures Sentry
   config :sentry,
-    dsn: System.fetch_env!("SENTRY_DSN"),
-    environment_name: System.fetch_env!("SENTRY_ENV")
+  # Config Content Security Policy
+  config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy,
+    host: System.get_env("APP_HOST")
 end
 
 if config_env() == :test && System.get_env("CI") == "true" do
