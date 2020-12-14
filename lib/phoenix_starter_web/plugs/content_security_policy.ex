@@ -31,7 +31,7 @@ defmodule PhoenixStarterWeb.ContentSecurityPolicy do
   defp form_action_directive, do: "'self'"
   defp media_src_directive, do: "'self'"
   defp font_src_directive, do: "'self' data:"
-  defp connect_src_directive, do: "'self'" <> " " <> app_host("wss://*.")
+  defp connect_src_directive, do: "'self'" <> app_host("wss://*.")
   defp style_src_directive, do: "'self' 'unsafe-inline'"
   defp frame_src_directive, do: "'self'"
   defp image_src_directive, do: "'self' data:"
@@ -51,7 +51,7 @@ defmodule PhoenixStarterWeb.ContentSecurityPolicy do
   defp app_host(prefix) do
     case Keyword.get(config(), :app_host) do
       host when is_binary(host) ->
-        prefix <> host
+        " " <> prefix <> host
 
       _ ->
         ""
