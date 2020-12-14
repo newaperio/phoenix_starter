@@ -61,7 +61,7 @@ if config_env() == :prod do
   config :sentry,
   # Config Content Security Policy
   config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy,
-    host: System.get_env("APP_HOST")
+    app_host: System.get_env("APP_HOST")
 end
 
 if config_env() == :test && System.get_env("CI") == "true" do
