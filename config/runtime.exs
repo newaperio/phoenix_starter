@@ -48,11 +48,6 @@ if config_env() == :prod do
     secret_key_base: secret_key_base,
     url: [scheme: "https", host: System.get_env("APP_HOST"), port: 443]
 
-  if System.get_env("FORCE_SSL", "true") == "true" do
-    config :phoenix_starter, PhoenixStarterWeb.Endpoint,
-      force_ssl: [hsts: true, rewrite_on: [:x_forwarded_proto]]
-  end
-
   # Configures Bamboo
   # Note: by default this reads from the IAM task or instance role
   config :phoenix_starter, PhoenixStarter.Mailer, adapter: Bamboo.SesAdapter
