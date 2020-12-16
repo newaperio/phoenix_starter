@@ -31,14 +31,16 @@ defmodule PhoenixStarter.ReleaseTasks do
   def seeds do
     load_app()
 
-    {:ok, _, _} =
-      Ecto.Migrator.with_repo(PhoenixStarter.Repo, fn _ ->
-        seeds_path = Application.app_dir(:phoenix_starter, "priv/repo/seeds.exs")
+    for repo <- repos() do
+      {:ok, _, _} =
+        Ecto.Migrator.with_repo(repo, fn _ ->
+          seeds_path = Ecto.Migrator.migrations_path(repo, "/seeds.ex")
 
-        if File.exists?(seeds_path) do
-          Code.eval_file(seeds_path)
-        end
-      end)
+          if File.exists?(seeds_path) do
+            Code.eval_file(seeds_path)
+          end
+        end)
+    end
   end
 
   defp repos do
