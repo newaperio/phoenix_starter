@@ -21,14 +21,20 @@ provider "aws" {
 # }
 
 module "base" {
-  source = "../modules/base"
+  source = "git@github.com:newaperio/terraform-modules.git//base"
 
   region      = var.region
   app         = var.app
   env         = var.env
   team        = var.team
   customer    = var.customer
-  tags        = var.tags
+  tags        = merge({
+    Terraform   = "true"
+    environment = var.env
+    app         = var.app
+    team        = var.team
+    customer    = var.customer
+  }, var.tags)
 }
 
 module "fargate" {
@@ -38,18 +44,25 @@ module "fargate" {
   env             = var.env
   team            = var.team
   customer        = var.customer
-  tags            = var.tags
   private_subnets = module.base.private_subnets
   public_subnets  = module.base.public_subnets
   vpc_id          = module.base.vpc_id
   desired_count   = 2
+
   task_container_environment = {
     POOL_SIZE = 10
-    FORCE_SSL = "false"
     APP_HOST  = data.aws_route53_zone.zone.name
   }
 
-  certificate = module.acm.this_acm_certificate_arn
+  certificate     = module.acm.this_acm_certificate_arn
+
+  tags = merge({
+    Terraform   = "true"
+    environment = var.env
+    app         = var.app
+    team        = var.team
+    customer    = var.customer
+  }, var.tags)
 }
 
 module "db" {
@@ -63,6 +76,14 @@ module "db" {
   security_groups       = [module.fargate.security_group]
   subnets               = module.base.database_subnets
   vpc_id                = module.base.vpc_id
+
+  tags = merge({
+    Terraform   = "true"
+    environment = var.env
+    app         = var.app
+    team        = var.team
+    customer    = var.customer
+  }, var.tags)
 }
 
 # Route 53
@@ -83,9 +104,14 @@ module "acm" {
 
   wait_for_validation = true
 
-  tags = {
-    Name = var.domain_name
-  }
+  tags = merge({
+    Name        = var.domain_name
+    Terraform   = "true"
+    environment = var.env
+    app         = var.app
+    team        = var.team
+    customer    = var.customer
+  }, var.tags)
 }
 
 resource "aws_route53_record" "domain" {

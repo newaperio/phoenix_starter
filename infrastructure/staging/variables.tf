@@ -26,10 +26,8 @@ variable "customer" {
 
 variable "tags" {
   type        = map(string)
-  description = "map of tags to apply to resources created by this manifest."
-  default = {
-    Terraform = "true"
-  }
+  description = "Map of tags to apply to resources created by this manifest."
+  default     = {}
 }
 
 variable "domain_name" {
