@@ -8,7 +8,7 @@ if config_env() == :prod do
        {:ok, database_hostname} <- System.fetch_env("DATABASE_HOST") do
     database_hostname =
       if String.contains?(database_hostname, ":") do
-        String.split(database_hostname, ":") |> List.first()
+        database_hostname |> String.split(":") |> List.first()
       else
         database_hostname
       end
@@ -55,7 +55,7 @@ if config_env() == :prod do
   # Configures Sentry
   config :sentry,
     dsn: System.get_env("SENTRY_DSN"),
-    environment_name: System.get_env("SENTRY_ENV", config_env() |> Atom.to_string())
+    environment_name: System.get_env("SENTRY_ENV", Atom.to_string(config_env()))
 
   # Config Content Security Policy
   config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy,

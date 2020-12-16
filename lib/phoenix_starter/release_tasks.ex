@@ -1,8 +1,12 @@
 defmodule PhoenixStarter.ReleaseTasks do
+  @moduledoc """
+  Server tasks to be run inside the production release container.
+  """
   @app :phoenix_starter
 
   require Logger
 
+  @spec migrate :: [any]
   def migrate do
     load_app()
 
@@ -11,6 +15,7 @@ defmodule PhoenixStarter.ReleaseTasks do
     end
   end
 
+  @spec migrations :: [any]
   def migrations do
     load_app()
 
@@ -20,6 +25,7 @@ defmodule PhoenixStarter.ReleaseTasks do
     end
   end
 
+  @spec rollback :: [any]
   def rollback do
     load_app()
 
@@ -28,6 +34,7 @@ defmodule PhoenixStarter.ReleaseTasks do
     end
   end
 
+  @spec seeds :: [any]
   def seeds do
     load_app()
 
