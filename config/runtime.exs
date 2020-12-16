@@ -50,14 +50,12 @@ if config_env() == :prod do
 
   # Configures libcluster
   config :phoenix_starter, PhoenixStarter.ClusterSupervisor,
-    topologies: [
-      aws_service_discovery_private_dns_namespace: [
-        strategy: Cluster.Strategy.DNSPoll,
-        config: [
-          polling_interval: 5_000,
-          query: System.fetch_env!("SERVICE_DISCOVERY"),
-          node_basename: System.fetch_env!("APP_NAME")
-        ]
+    aws_service_discovery_private_dns_namespace: [
+      strategy: Cluster.Strategy.DNSPoll,
+      config: [
+        polling_interval: 5_000,
+        query: System.fetch_env!("SERVICE_DISCOVERY"),
+        node_basename: System.fetch_env!("APP_NAME")
       ]
     ]
 
