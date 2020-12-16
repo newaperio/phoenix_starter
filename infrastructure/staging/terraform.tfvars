@@ -1,8 +1,6 @@
 region = "us-east-1"
 
-aws_profile = "newaperio"
-
-saml_role = "TFState_Test"
+saml_role = "TFState"
 
 app = "phoenix-starter"
 
@@ -13,7 +11,7 @@ team = "newaperio"
 customer = "test"
 
 tags = {
-  Terraform="true"
+  Terraform = "true"
 }
 
 domain_name = "phxstarter.cloud"

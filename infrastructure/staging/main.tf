@@ -10,7 +10,6 @@ terraform {
 provider "aws" {
   version = ">= 2.23.0"
   region  = var.region
-  profile = var.aws_profile
 }
 
 # module "tf_remote_state" {
@@ -22,10 +21,9 @@ provider "aws" {
 # }
 
 module "base" {
-  source      = "../modules/base"
+  source = "../modules/base"
 
   region      = var.region
-  aws_profile = var.aws_profile
   app         = var.app
   env         = var.env
   team        = var.team
@@ -34,28 +32,28 @@ module "base" {
 }
 
 module "fargate" {
-  source                     = "git@github.com:newaperio/terraform-modules.git//fargate"
+  source = "git@github.com:newaperio/terraform-modules.git//fargate"
 
-  app                        = var.app
-  env                        = var.env
-  team                       = var.team
-  customer                   = var.customer
-  tags                       = var.tags
-  private_subnets            = module.base.private_subnets
-  public_subnets             = module.base.public_subnets
-  vpc_id                     = module.base.vpc_id
-  desired_count              = 2
+  app             = var.app
+  env             = var.env
+  team            = var.team
+  customer        = var.customer
+  tags            = var.tags
+  private_subnets = module.base.private_subnets
+  public_subnets  = module.base.public_subnets
+  vpc_id          = module.base.vpc_id
+  desired_count   = 2
   task_container_environment = {
     POOL_SIZE = 10
     FORCE_SSL = "false"
     APP_HOST  = data.aws_route53_zone.zone.name
   }
 
-  certificate                = module.acm.this_acm_certificate_arn
+  certificate = module.acm.this_acm_certificate_arn
 }
 
 module "db" {
-  source                = "git@github.com:newaperio/terraform-modules.git//database/aws"
+  source = "git@github.com:newaperio/terraform-modules.git//database/aws"
 
   env                   = var.env
   app                   = var.app
@@ -63,8 +61,8 @@ module "db" {
   name                  = var.app
   username              = var.team
   security_groups       = [module.fargate.security_group]
+  subnets               = module.base.database_subnets
   vpc_id                = module.base.vpc_id
-  database_subnet_group = module.base.database_subnet_group
 }
 
 # Route 53

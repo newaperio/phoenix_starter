@@ -1,10 +1,6 @@
 variable "region" {
-  default = "us-east-1"
+  default     = "us-east-1"
   description = "The AWS Region"
-}
-
-variable "aws_profile" {
-  description = "Name of the AWS Profile to use. Equivalent of the AWS_PROFILE env variable."
 }
 
 variable "saml_role" {
@@ -17,7 +13,7 @@ variable "app" {
 
 variable "env" {
   description = "The environment for this deployment"
-  default = "staging"
+  default     = "staging"
 }
 
 variable "team" {
@@ -29,14 +25,14 @@ variable "customer" {
 }
 
 variable "tags" {
-  type = map(string)
+  type        = map(string)
   description = "map of tags to apply to resources created by this manifest."
   default = {
-    Terraform="true"
+    Terraform = "true"
   }
 }
 
 variable "domain_name" {
-  type = string
+  type        = string
   description = "The name of the hosted zone for Route53"
 }
