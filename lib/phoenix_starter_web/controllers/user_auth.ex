@@ -12,7 +12,7 @@ defmodule PhoenixStarterWeb.UserAuth do
   # If you want bump or reduce this value, also change
   # the token expiry itself in `PhoenixStarter.Users.UserToken`.
   @max_age 60 * 60 * 24 * 60
-  @remember_me_cookie "user_remember_me"
+  @remember_me_cookie "_phoenix_starter_web_user_remember_me"
   @remember_me_options [sign: true, max_age: @max_age, same_site: "Lax"]
 
   @doc """
@@ -148,9 +148,7 @@ defmodule PhoenixStarterWeb.UserAuth do
   end
 
   defp maybe_store_return_to(%{method: "GET"} = conn) do
-    %{request_path: request_path, query_string: query_string} = conn
-    return_to = if query_string == "", do: request_path, else: request_path <> "?" <> query_string
-    put_session(conn, :user_return_to, return_to)
+    put_session(conn, :user_return_to, current_path(conn))
   end
 
   defp maybe_store_return_to(conn), do: conn

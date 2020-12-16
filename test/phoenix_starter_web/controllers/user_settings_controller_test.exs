@@ -20,10 +20,11 @@ defmodule PhoenixStarterWeb.UserSettingsControllerTest do
     end
   end
 
-  describe "PUT /users/settings/update_password" do
+  describe "PUT /users/settings (change password form)" do
     test "updates the user password and resets tokens", %{conn: conn, user: user} do
       new_password_conn =
-        put(conn, Routes.user_settings_path(conn, :update_password), %{
+        put(conn, Routes.user_settings_path(conn, :update), %{
+          "action" => "update_password",
           "current_password" => valid_user_password(),
           "user" => %{
             "password" => "new valid password",
@@ -39,7 +40,8 @@ defmodule PhoenixStarterWeb.UserSettingsControllerTest do
 
     test "does not update password on invalid data", %{conn: conn} do
       old_password_conn =
-        put(conn, Routes.user_settings_path(conn, :update_password), %{
+        put(conn, Routes.user_settings_path(conn, :update), %{
+          "action" => "update_password",
           "current_password" => "invalid",
           "user" => %{
             "password" => "too short",
@@ -57,11 +59,12 @@ defmodule PhoenixStarterWeb.UserSettingsControllerTest do
     end
   end
 
-  describe "PUT /users/settings/update_email" do
+  describe "PUT /users/settings (change email form)" do
     @tag :capture_log
     test "updates the user email", %{conn: conn, user: user} do
       conn =
-        put(conn, Routes.user_settings_path(conn, :update_email), %{
+        put(conn, Routes.user_settings_path(conn, :update), %{
+          "action" => "update_email",
           "current_password" => valid_user_password(),
           "user" => %{"email" => unique_user_email()}
         })
@@ -73,7 +76,8 @@ defmodule PhoenixStarterWeb.UserSettingsControllerTest do
 
     test "does not update email on invalid data", %{conn: conn} do
       conn =
-        put(conn, Routes.user_settings_path(conn, :update_email), %{
+        put(conn, Routes.user_settings_path(conn, :update), %{
+          "action" => "update_email",
           "current_password" => "invalid",
           "user" => %{"email" => "with spaces"}
         })
