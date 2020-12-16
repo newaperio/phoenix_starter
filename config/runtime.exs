@@ -49,15 +49,17 @@ if config_env() == :prod do
     url: [scheme: "https", host: System.get_env("APP_HOST"), port: 443]
 
   # Configures libcluster
-  config :phoenix_starter, PhoenixStarter.ClusterSupervisor,
-    aws_service_discovery_private_dns_namespace: [
-      strategy: Cluster.Strategy.DNSPoll,
-      config: [
-        polling_interval: 5_000,
-        query: System.fetch_env!("SERVICE_DISCOVERY"),
-        node_basename: System.fetch_env!("APP_NAME")
+  if cluster_service_discovery_dns_query = System.get_env("SERVICE_DISCOVERY") do
+    config :phoenix_starter, PhoenixStarter.ClusterSupervisor,
+      aws_service_discovery_private_dns_namespace: [
+        strategy: Cluster.Strategy.DNSPoll,
+        config: [
+          polling_interval: 5_000,
+          query: cluster_service_discovery_dns_query,
+          node_basename: System.fetch_env!("APP_NAME")
+        ]
       ]
-    ]
+  end
 
   # Configures Bamboo
   # Note: by default this reads from the IAM task or instance role
