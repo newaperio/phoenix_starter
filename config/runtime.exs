@@ -54,6 +54,9 @@ if config_env() == :prod do
 
   # Configures Sentry
   config :sentry,
+    dsn: System.get_env("SENTRY_DSN"),
+    environment_name: System.get_env("SENTRY_ENV", config_env() |> Atom.to_string())
+
   # Config Content Security Policy
   config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy,
     app_host: System.get_env("APP_HOST")
