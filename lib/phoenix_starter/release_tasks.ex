@@ -41,7 +41,7 @@ defmodule PhoenixStarter.ReleaseTasks do
     for repo <- repos() do
       {:ok, _, _} =
         Ecto.Migrator.with_repo(repo, fn repo ->
-          seeds_path = Ecto.Migrator.migrations_path(repo, "/seeds.ex")
+          seeds_path = Ecto.Migrator.migrations_path(repo, "/seeds.exs")
 
           if File.exists?(seeds_path) do
             Logger.info("Running seeds for #{repo}: #{seeds_path}")
