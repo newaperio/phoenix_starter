@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 0.13"
+  required_version = ">= 0.14"
   # backend "s3" {
   #   bucket = module.tf_remote_state.bucket
   #   key = "base"
