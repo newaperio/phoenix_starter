@@ -20,7 +20,8 @@ defmodule PhoenixStarter.Application do
       PhoenixStarterWeb.Endpoint,
       # Start a worker by calling: PhoenixStarter.Worker.start_link(arg)
       # {PhoenixStarter.Worker, arg}
-      {Oban, oban_config()}
+      {Oban, oban_config()},
+      {Cluster.Supervisor, [cluster_config(), [name: PhoenixStarter.ClusterSupervisor]]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -48,5 +49,9 @@ defmodule PhoenixStarter.Application do
 
   defp oban_config do
     Application.get_env(:phoenix_starter, Oban)
+  end
+
+  defp cluster_config do
+    Application.get_env(:phoenix_starter, PhoenixStarter.ClusterSupervisor, [])
   end
 end

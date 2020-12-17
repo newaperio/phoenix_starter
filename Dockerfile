@@ -19,7 +19,7 @@ RUN apk --no-cache --update add \
 
 FROM otp-build AS deps
 
-ENV MIX_ENV prod
+ENV MIX_ENV=prod
 
 WORKDIR /opt/app
 
@@ -32,7 +32,7 @@ RUN mix do deps.get --only=$MIX_ENV, deps.compile
 
 FROM node:${NODE_VERSION}-alpine AS assets-build
 
-ENV NODE_ENV prod
+ENV NODE_ENV=prod
 
 WORKDIR /opt/app
 
@@ -45,7 +45,7 @@ RUN npm --prefix assets ci && npm run --prefix assets deploy
 
 FROM deps AS release
 
-ENV MIX_ENV prod
+ENV MIX_ENV=prod
 
 WORKDIR /opt/app
 
@@ -60,9 +60,9 @@ RUN mix do compile, deps.compile sentry --force, release --quiet
 
 FROM alpine:${ALPINE_VERSION} AS app
 
-ARG RELEASE_NAME=phoenix_starter
 ARG PORT=4000
 ENV HOME=/opt/app
+ENV PORT=${PORT}
 
 RUN apk --no-cache --update add \
   bash \
@@ -70,10 +70,11 @@ RUN apk --no-cache --update add \
 
 WORKDIR /opt/app
 
-COPY --from=release /opt/app/_build/prod/rel/${RELEASE_NAME} ./
+COPY --from=release /opt/app/_build/prod/rel/phoenix_starter ./
 RUN chown -R nobody: /opt/app
 USER nobody
 
 EXPOSE ${PORT}
 
-CMD ["/opt/app/bin/${RELEASE_NAME}", "start"]
+ENTRYPOINT ["/opt/app/docker-entrypoint.sh"]
+CMD ["start"]
