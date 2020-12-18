@@ -29,10 +29,10 @@ module "base" {
   customer    = var.customer
   tags        = merge({
     Terraform   = "true"
-    environment = var.env
-    app         = var.app
-    team        = var.team
-    customer    = var.customer
+    Environment = var.env
+    App         = var.app
+    Team        = var.team
+    Customer    = var.customer
   }, var.tags)
 }
 
@@ -57,10 +57,10 @@ module "fargate" {
 
   tags = merge({
     Terraform   = "true"
-    environment = var.env
-    app         = var.app
-    team        = var.team
-    customer    = var.customer
+    Environment = var.env
+    App         = var.app
+    Team        = var.team
+    Customer    = var.customer
   }, var.tags)
 }
 
@@ -78,10 +78,10 @@ module "db" {
 
   tags = merge({
     Terraform   = "true"
-    environment = var.env
-    app         = var.app
-    team        = var.team
-    customer    = var.customer
+    Environment = var.env
+    App         = var.app
+    Team        = var.team
+    Customer    = var.customer
   }, var.tags)
 }
 
@@ -106,10 +106,10 @@ module "acm" {
   tags = merge({
     Name        = var.domain_name
     Terraform   = "true"
-    environment = var.env
-    app         = var.app
-    team        = var.team
-    customer    = var.customer
+    Environment = var.env
+    App         = var.app
+    Team        = var.team
+    Customer    = var.customer
   }, var.tags)
 }
 
