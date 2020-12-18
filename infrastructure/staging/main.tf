@@ -15,7 +15,7 @@ provider "aws" {
 #   source      = "github.com/turnerlabs/terraform-remote-state?ref=v4.0.2"
 
 #   role        = var.saml_role
-#   application = "${var.env}-${var.customer}-${var.app}"
+#   application = "${var.env}-${var.app}"
 #   tags        = var.tags
 # }
 
@@ -26,13 +26,11 @@ module "base" {
   app         = var.app
   env         = var.env
   team        = var.team
-  customer    = var.customer
   tags        = merge({
     Terraform   = "true"
     Environment = var.env
     App         = var.app
     Team        = var.team
-    Customer    = var.customer
   }, var.tags)
 }
 
@@ -42,7 +40,6 @@ module "fargate" {
   app             = var.app
   env             = var.env
   team            = var.team
-  customer        = var.customer
   private_subnets = module.base.private_subnets
   public_subnets  = module.base.public_subnets
   vpc_id          = module.base.vpc_id
@@ -60,7 +57,6 @@ module "fargate" {
     Environment = var.env
     App         = var.app
     Team        = var.team
-    Customer    = var.customer
   }, var.tags)
 }
 
@@ -81,7 +77,6 @@ module "db" {
     Environment = var.env
     App         = var.app
     Team        = var.team
-    Customer    = var.customer
   }, var.tags)
 }
 
@@ -109,7 +104,6 @@ module "acm" {
     Environment = var.env
     App         = var.app
     Team        = var.team
-    Customer    = var.customer
   }, var.tags)
 }
 

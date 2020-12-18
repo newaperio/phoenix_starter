@@ -20,10 +20,6 @@ variable "team" {
   description = "The team responsible"
 }
 
-variable "customer" {
-  description = "The customer for this application"
-}
-
 variable "tags" {
   type        = map(string)
   description = "Map of tags to apply to resources created by this manifest."

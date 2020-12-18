@@ -8,8 +8,6 @@ env = "staging"
 
 team = "newaperio"
 
-customer = "test"
-
 tags = {
   Terraform = "true"
 }
