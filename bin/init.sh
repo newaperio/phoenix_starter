@@ -72,6 +72,10 @@ mv test/"${snake_case_old}_web" test/"${snake_case_new}_web"
 print_step "Copying blank README"
 mv README_starter.md README.md
 
+print_step "Removing starter specific files"
+rm CHANGELOG.md
+rm LICENSE
+
 print_step "Removing this script"
 rm bin/init.sh
 
