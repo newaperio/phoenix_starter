@@ -37,10 +37,12 @@ defmodule PhoenixStarterWeb.ContentSecurityPolicy do
   defp image_src_directive, do: "'self' data:"
 
   defp script_src_directive do
-    if Keyword.get(config(), :allow_unsafe, false) do
+    # Webpack HMR needs unsafe-inline (dev only)
+    # Alpine needs unsafe-eval
+    if Keyword.get(config(), :allow_unsafe_inline, false) do
       "'self' 'unsafe-eval' 'unsafe-inline'"
     else
-      "'self'"
+      "'self' unsafe-eval'"
     end
   end
 
