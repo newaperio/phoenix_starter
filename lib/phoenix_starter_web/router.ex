@@ -31,7 +31,7 @@ defmodule PhoenixStarterWeb.Router do
     live "/", PageLive, :index
   end
 
-  scope "/" do
+  scope "/manage" do
     pipe_through [:browser, :require_ops_admin]
 
     live_dashboard "/dashboard",
