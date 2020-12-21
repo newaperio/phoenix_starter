@@ -52,4 +52,4 @@ config :phoenix_starter, PhoenixStarter.Mailer, adapter: Bamboo.LocalAdapter
 config :sentry, environment_name: "dev"
 
 # Config Content Security Policy
-config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy, allow_unsafe: true
+config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy, allow_unsafe_inline: true
