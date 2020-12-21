@@ -7,10 +7,12 @@ config :phoenix_starter, PhoenixStarter.Repo,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
+web_port = 4000
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 config :phoenix_starter, PhoenixStarterWeb.Endpoint,
-  http: [port: 4000],
+  http: [port: web_port],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -52,4 +54,6 @@ config :phoenix_starter, PhoenixStarter.Mailer, adapter: Bamboo.LocalAdapter
 config :sentry, environment_name: "dev"
 
 # Config Content Security Policy
-config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy, allow_unsafe_inline: true
+config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy,
+  allow_unsafe: true,
+  app_host: "localhost:#{web_port}"
