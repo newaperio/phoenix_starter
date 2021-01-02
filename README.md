@@ -41,6 +41,22 @@ The repo is setup as a [GitHub template] to make it easy to get started.
 3. Run the init script to rename the starter project and do some other housekeeping: `$ ./bin/init.sh MyApp my_app`.
 4. Commit the result: `$ git add --all . && git commit -m "Initalize starter project"`.
 
+## Updating
+
+To update a Phoenix app generated from this repo, you need to compare the changes between the version that initialized your repo and the current version.
+
+You can find your current version in the `.starter-version` file. This is the git tag that generated your app.
+
+You can find changes in the [CHANGELOG](/CHANGELOG.md).
+
+You can also check the diff on GitHub between your version and the latest version. There's a helpful script that will grab the version information and print out the URLs.
+
+```sh
+./bin/starter-version-info.sh
+```
+
+After updating make sure to update the version in `.starter-version` with the tag you updated to.
+
 ## License
 
 Phoenix Starter is Copyright © 2020 NewAperio. It is free software, and may be redistributed under the terms specified in the [LICENSE](/LICENSE) file.
