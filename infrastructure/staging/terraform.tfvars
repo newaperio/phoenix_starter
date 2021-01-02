@@ -13,3 +13,5 @@ tags = {
 }
 
 domain_name = "phxstarter.cloud"
+email_from = ["notifications@phxstarter.cloud"]
+dmarc_rua = "dmarc@phxstarter.cloud"

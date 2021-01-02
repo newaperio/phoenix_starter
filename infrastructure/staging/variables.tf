@@ -30,3 +30,13 @@ variable "domain_name" {
   type        = string
   description = "The name of the hosted zone for Route53"
 }
+
+variable "email_from" {
+  type        = list(string)
+  description = "Email addresses to send mail from"
+}
+
+variable "dmarc_rua" {
+  type = string
+  description = "The email address for DMARC reporting"
+}

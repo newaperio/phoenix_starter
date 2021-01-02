@@ -118,3 +118,23 @@ resource "aws_route53_record" "domain" {
     evaluate_target_health = true
   }
 }
+
+# SES
+resource "aws_ses_receipt_rule_set" "main" {
+  rule_set_name = "notifications"
+}
+
+resource "aws_ses_active_receipt_rule_set" "main" {
+  rule_set_name = aws_ses_receipt_rule_set.main.rule_set_name
+}
+
+module "ses_domain" {
+  source                = "git@github.com:ericduvic/terraform-aws-ses-domain.git"
+  domain_name           = var.domain_name
+  mail_from_domain      = "email.${var.domain_name}"
+  route53_zone_id       = data.aws_route53_zone.zone.zone_id
+  from_addresses        = var.email_from
+  dmarc_rua             = var.dmarc_rua
+  enable_incoming_email = false
+  ses_rule_set          = aws_ses_receipt_rule_set.main.rule_set_name
+}
