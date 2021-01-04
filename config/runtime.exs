@@ -80,7 +80,7 @@ if config_env() == :prod do
     environment_name: System.get_env("SENTRY_ENV", Atom.to_string(config_env()))
 
   # Config Content Security Policy
-  config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy, 
+  config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy,
     app_host: app_host
 end
 
