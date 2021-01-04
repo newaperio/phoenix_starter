@@ -138,3 +138,10 @@ module "ses_domain" {
   enable_incoming_email = false
   ses_rule_set          = aws_ses_receipt_rule_set.main.rule_set_name
 }
+
+# Allow fargate role to send emails via SES
+resource "aws_iam_role_policy" "execution_role_ssm_db_migrate" {
+  name   = "${var.env}-${var.app}-ses"
+  role   = module.fargate.task_role_name
+  policy = data.aws_iam_policy_document.ses_fargate.json
+}
