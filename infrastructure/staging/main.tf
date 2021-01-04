@@ -68,7 +68,7 @@ module "db" {
   team                  = var.team
   name                  = var.app
   username              = var.team
-  security_groups       = [module.fargate.security_group]
+  security_groups       = [module.fargate.fargate_security_group, module.fargate.task_security_group]
   subnets               = module.base.database_subnets
   vpc_id                = module.base.vpc_id
 
