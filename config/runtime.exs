@@ -37,12 +37,13 @@ if config_env() == :prod do
       environment variable SECRET_KEY_BASE is missing.
       You can generate one by calling: mix phx.gen.secret
       """
-  
-  app_host = System.get_env("APP_HOST") ||
-    raise """
-    environment variable APP_HOST is missing.
-    Set to the DNS hostname of the app.
-    """
+
+  app_host =
+    System.get_env("APP_HOST") ||
+      raise """
+      environment variable APP_HOST is missing.
+      Set to the DNS hostname of the app.
+      """
 
   # Configures Phoenix endpoint
   config :phoenix_starter, PhoenixStarterWeb.Endpoint,
@@ -80,8 +81,7 @@ if config_env() == :prod do
     environment_name: System.get_env("SENTRY_ENV", Atom.to_string(config_env()))
 
   # Config Content Security Policy
-  config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy,
-    app_host: app_host
+  config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy, app_host: app_host
 end
 
 if config_env() == :test && System.get_env("CI") == "true" do
