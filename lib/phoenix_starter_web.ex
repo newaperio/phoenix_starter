@@ -48,6 +48,7 @@ defmodule PhoenixStarterWeb do
         layout: {PhoenixStarterWeb.LayoutView, "live.html"}
 
       unquote(view_helpers())
+      import PhoenixStarterWeb.LiveHelpers
     end
   end
 
@@ -56,6 +57,7 @@ defmodule PhoenixStarterWeb do
       use Phoenix.LiveComponent
 
       unquote(view_helpers())
+      import PhoenixStarterWeb.LiveHelpers
     end
   end
 
