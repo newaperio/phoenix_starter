@@ -38,6 +38,13 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
+  app_host =
+    System.get_env("APP_HOST") ||
+      raise """
+      environment variable APP_HOST is missing.
+      Set to the DNS hostname of the app.
+      """
+
   # Configures Phoenix endpoint
   config :phoenix_starter, PhoenixStarterWeb.Endpoint,
     http: [
@@ -46,7 +53,7 @@ if config_env() == :prod do
     ],
     live_view: [signing_salt: System.fetch_env!("LIVE_VIEW_SALT")],
     secret_key_base: secret_key_base,
-    url: [scheme: "https", host: System.get_env("APP_HOST"), port: 443]
+    url: [scheme: "https", host: app_host, port: 443]
 
   # Configures libcluster
   if cluster_service_discovery_dns_query = System.get_env("SERVICE_DISCOVERY") do
@@ -65,14 +72,16 @@ if config_env() == :prod do
   # Note: by default this reads from the IAM task or instance role
   config :phoenix_starter, PhoenixStarter.Mailer, adapter: Bamboo.SesAdapter
 
+  config :phoenix_starter, PhoenixStarter.Email,
+    default_from: {"PhoenixStarter", "notifications@m.#{app_host}"}
+
   # Configures Sentry
   config :sentry,
     dsn: System.get_env("SENTRY_DSN"),
     environment_name: System.get_env("SENTRY_ENV", Atom.to_string(config_env()))
 
   # Config Content Security Policy
-  config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy,
-    app_host: System.get_env("APP_HOST")
+  config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy, app_host: app_host
 end
 
 if config_env() == :test && System.get_env("CI") == "true" do
