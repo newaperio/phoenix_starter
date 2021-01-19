@@ -13,5 +13,6 @@ tags = {
 }
 
 domain_name = "phxstarter.cloud"
-email_from = ["notifications@phxstarter.cloud"]
+email_from = ["notifications@m.phxstarter.cloud"]
+mail_from_subdomain = "m"
 dmarc_rua = "dmarc@phxstarter.cloud"

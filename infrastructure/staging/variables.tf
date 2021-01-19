@@ -37,6 +37,12 @@ variable "email_from" {
 }
 
 variable "dmarc_rua" {
-  type = string
+  type        = string
   description = "The email address for DMARC reporting"
+}
+
+variable "mail_from_subdomain" {
+  type        = string
+  description = "The subdomain to send email from"
+  default     = "m"
 }

@@ -80,6 +80,24 @@ module "db" {
   }, var.tags)
 }
 
+module "uploads_bucket" {
+  source = "git@github.com:newaperio/terraform-modules.git//s3"
+
+  env  = var.env
+  app  = var.app
+  team = var.team
+  tags = merge({
+    Terraform   = "true"
+    Environment = var.env
+    App         = var.app
+    Team        = var.team
+  }, var.tags)
+
+  name = "uploads"
+
+  principals = [module.fargate.task_role_name]
+}
+
 # Route 53
 data "aws_route53_zone" "zone" {
   name = var.domain_name
@@ -131,7 +149,7 @@ resource "aws_ses_active_receipt_rule_set" "main" {
 module "ses_domain" {
   source                = "git@github.com:ericduvic/terraform-aws-ses-domain.git"
   domain_name           = var.domain_name
-  mail_from_domain      = "email.${var.domain_name}"
+  mail_from_domain      = "${var.mail_from_subdomain}.${var.domain_name}"
   route53_zone_id       = data.aws_route53_zone.zone.zone_id
   from_addresses        = var.email_from
   dmarc_rua             = var.dmarc_rua

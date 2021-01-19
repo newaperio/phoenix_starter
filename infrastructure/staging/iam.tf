@@ -14,7 +14,7 @@ data "aws_iam_policy_document" "ses_fargate" {
     condition {
       test = "StringLike"
       variable = "ses:FromAddress"
-      values = ["*@${var.domain_name}"]
+      values = ["*@${var.mail_from_subdomain}.${var.domain_name}"]
     }
   }
 }
