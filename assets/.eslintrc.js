@@ -19,4 +19,11 @@ module.exports = {
     "prefer-const": "error",
     "prettier/prettier": "error",
   },
+  settings: {
+    "import/resolver": {
+      node: {
+        extensions: [".ts"],
+      },
+    },
+  },
 }
