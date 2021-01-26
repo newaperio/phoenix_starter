@@ -14,6 +14,7 @@ defmodule PhoenixStarter.Users.User do
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
     field :role, UserRole.Type, roles: UserRole.roles(), default: :user
+    field :profile_image, {:array, :map}
 
     timestamps()
   end
@@ -96,6 +97,7 @@ defmodule PhoenixStarter.Users.User do
     |> validate_email()
     |> case do
       %{changes: %{email: _}} = changeset -> changeset
+      %{errors: [_ | _]} = changeset -> changeset
       %{} = changeset -> add_error(changeset, :email, "did not change")
     end
   end
@@ -156,5 +158,14 @@ defmodule PhoenixStarter.Users.User do
     else
       add_error(changeset, :current_password, "is not valid")
     end
+  end
+
+  @doc """
+  A `PhoenixStarter.Users.User` changeset for updating the profile.
+  """
+  @spec profile_changeset(t, map) :: Changeset.t()
+  def profile_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:profile_image])
   end
 end

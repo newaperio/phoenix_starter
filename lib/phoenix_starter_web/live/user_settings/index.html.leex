@@ -1,0 +1,26 @@
+<h1>Settings</h1>
+
+<nav>
+  <%= live_patch "Update profile", to: Routes.user_settings_path(@socket, :profile) %>
+  <%= live_patch "Update email", to: Routes.user_settings_path(@socket, :email) %>
+  <%= live_patch "Update password", to: Routes.user_settings_path(@socket, :password) %>
+</nav>
+
+<%= case @live_action do %>
+
+<% :profile -> %>
+<%= live_component @socket, PhoenixStarterWeb.UserSettingsLive.ProfileComponent,
+    id: :update_profile,
+    current_user: @current_user %>
+
+<% :email -> %>
+<%= live_component @socket, PhoenixStarterWeb.UserSettingsLive.EmailComponent,
+    id: :update_email,
+    current_user: @current_user %>
+
+<% :password -> %>
+<%= live_component @socket, PhoenixStarterWeb.UserSettingsLive.PasswordComponent,
+    id: :update_password,
+    current_user: @current_user %>
+
+<% end %>

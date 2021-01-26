@@ -70,6 +70,9 @@ if config_env() == :prod do
     dsn: System.get_env("SENTRY_DSN"),
     environment_name: System.get_env("SENTRY_ENV", Atom.to_string(config_env()))
 
+  # Configures Uploads
+  config :phoenix_starter, PhoenixStarter.Uploads, bucket_name: System.get_env("AWS_S3_BUCKET")
+
   # Config Content Security Policy
   config :phoenix_starter, PhoenixStarterWeb.ContentSecurityPolicy,
     app_host: System.get_env("APP_HOST")

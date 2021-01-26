@@ -17,6 +17,7 @@ import "alpinejs"
 import { Socket } from "phoenix"
 import NProgress from "nprogress"
 import { LiveSocket } from "phoenix_live_view"
+import { s3Uploader } from "./uploads"
 
 declare global {
   interface Window {
@@ -47,6 +48,7 @@ const liveSocket = new LiveSocket("/live", Socket, {
     },
   },
   params: { _csrf_token: csrfToken },
+  uploaders: { S3: s3Uploader },
 })
 
 // Show progress bar on live navigation and form submits

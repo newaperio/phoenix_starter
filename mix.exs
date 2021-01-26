@@ -38,6 +38,7 @@ defmodule PhoenixStarter.MixProject do
       {:credo, "~> 1.5.0-rc.2", only: [:dev, :test], runtime: false},
       {:ecto_psql_extras, "~> 0.2"},
       {:ecto_sql, "~> 3.4"},
+      {:ex_aws_s3, "~> 2.1"},
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:floki, ">= 0.27.0", only: :test},
       {:gettext, "~> 0.11"},
@@ -57,7 +58,8 @@ defmodule PhoenixStarter.MixProject do
       {:sentry, "8.0.4"},
       {:sobelow, "~> 0.10", only: [:dev, :test]},
       {:telemetry_metrics, "~> 0.4"},
-      {:telemetry_poller, "~> 0.4"}
+      {:telemetry_poller, "~> 0.4"},
+      {:timex, "~> 3.6"}
     ]
   end
 

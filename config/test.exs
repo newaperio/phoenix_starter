@@ -26,3 +26,8 @@ config :phoenix_starter, Oban, crontab: false, queues: false, plugins: false
 
 # Configures Sentry
 config :sentry, environment_name: "test"
+
+# Configures ExAWS
+config :ex_aws,
+  access_key_id: "AKIATEST",
+  secret_access_key: "TESTKEY"
