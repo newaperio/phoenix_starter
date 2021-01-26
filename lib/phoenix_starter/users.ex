@@ -107,13 +107,16 @@ defmodule PhoenixStarter.Users do
 
   ## Examples
 
-      iex> change_user_email(user)
+      iex> change_user_email(user, current_password)
       %Ecto.Changeset{data: %User{}}
 
   """
-  @spec change_user_email(User.t(), map) :: Ecto.Changeset.t()
-  def change_user_email(user, attrs \\ %{}) do
-    User.email_changeset(user, attrs)
+  @spec change_user_email(User.t(), String.t() | nil, map()) :: Ecto.Changeset.t()
+  def change_user_email(user, current_password \\ nil, attrs \\ %{}) do
+    user
+    |> User.email_changeset(attrs)
+    |> User.validate_current_password(current_password)
+    |> attach_action_if_current_password(current_password)
   end
 
   @doc """
@@ -207,9 +210,12 @@ defmodule PhoenixStarter.Users do
       %Ecto.Changeset{data: %User{}}
 
   """
-  @spec change_user_password(User.t(), map) :: Ecto.Changeset.t()
-  def change_user_password(user, attrs \\ %{}) do
-    User.password_changeset(user, attrs, hash_password: false)
+  @spec change_user_password(User.t(), String.t() | nil, map) :: Ecto.Changeset.t()
+  def change_user_password(user, current_password \\ nil, attrs \\ %{}) do
+    user
+    |> User.password_changeset(attrs)
+    |> User.validate_current_password(current_password)
+    |> attach_action_if_current_password(current_password)
   end
 
   @doc """
@@ -239,6 +245,65 @@ defmodule PhoenixStarter.Users do
       {:ok, %{user: user}} -> {:ok, user}
       {:error, :user, changeset, _} -> {:error, changeset}
     end
+  end
+
+  @doc """
+  Applies update action for changing `PhoenixStarter.Users.User` password.
+
+  ## Examples
+
+      iex> apply_user_password(user, valid_current_password, %{password: "new long password", password_confirmation: "new long password"})
+      {:ok, %User{}}
+
+      iex> apply_user_password(user, invalid_current_password, %{password: "valid", password_confirmation: "not the same"})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec apply_user_password(User.t(), String.t(), map) :: Repo.result()
+  def apply_user_password(user, password, attrs) do
+    user
+    |> User.password_changeset(attrs)
+    |> User.validate_current_password(password)
+    |> Ecto.Changeset.apply_action(:update)
+  end
+
+  defp attach_action_if_current_password(changeset, nil),
+    do: changeset
+
+  defp attach_action_if_current_password(changeset, _),
+    do: Map.replace!(changeset, :action, :validate)
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking `PhoenixStarter.Users.User` changes.
+
+  ## Examples
+
+      iex> change_user_profile(user)
+      %Ecto.Changeset{data: %User{}}
+
+  """
+  @spec change_user_profile(User.t(), map) :: Ecto.Changeset.t()
+  def change_user_profile(%User{} = user, attrs \\ %{}) do
+    User.profile_changeset(user, attrs)
+  end
+
+  @doc """
+  Updates the `PhoenixStarter.Users.User` profile.
+
+  ## Examples
+
+      iex> update_user_profile(user, %{password: ...})
+      {:ok, %User{}}
+
+      iex> update_user_profile(user, %{password: ...})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  @spec update_user_profile(User.t(), map) :: Repo.result()
+  def update_user_profile(user, attrs) do
+    user
+    |> User.profile_changeset(attrs)
+    |> Repo.update()
   end
 
   ## Session

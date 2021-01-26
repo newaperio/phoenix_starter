@@ -62,9 +62,11 @@ defmodule PhoenixStarterWeb.Router do
   scope "/", PhoenixStarterWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    get "/users/settings", UserSettingsController, :edit
-    put "/users/settings", UserSettingsController, :update
+    live "/users/settings", UserSettingsLive.Index, :profile, as: :user_settings
+    live "/users/settings/email", UserSettingsLive.Index, :email, as: :user_settings
+    live "/users/settings/password", UserSettingsLive.Index, :password, as: :user_settings
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
+    put "/users/settings/password", UserSettingsController, :update_password
   end
 
   scope "/", PhoenixStarterWeb do

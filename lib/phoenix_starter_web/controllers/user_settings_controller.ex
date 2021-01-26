@@ -6,47 +6,20 @@ defmodule PhoenixStarterWeb.UserSettingsController do
 
   plug :assign_email_and_password_changesets
 
-  def edit(conn, _params) do
-    render(conn, "edit.html")
-  end
-
-  def update(conn, %{"action" => "update_email"} = params) do
-    %{"current_password" => password, "user" => user_params} = params
-    user = conn.assigns.current_user
-
-    case Users.apply_user_email(user, password, user_params) do
-      {:ok, applied_user} ->
-        Users.deliver_update_email_instructions(
-          applied_user,
-          user.email,
-          &Routes.user_settings_url(conn, :confirm_email, &1)
-        )
-
-        conn
-        |> put_flash(
-          :info,
-          "A link to confirm your email change has been sent to the new address."
-        )
-        |> redirect(to: Routes.user_settings_path(conn, :edit))
-
-      {:error, changeset} ->
-        render(conn, "edit.html", email_changeset: changeset)
-    end
-  end
-
-  def update(conn, %{"action" => "update_password"} = params) do
-    %{"current_password" => password, "user" => user_params} = params
+  def update_password(conn, %{"current_password" => password, "user" => user_params}) do
     user = conn.assigns.current_user
 
     case Users.update_user_password(user, password, user_params) do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Password updated successfully.")
-        |> put_session(:user_return_to, Routes.user_settings_path(conn, :edit))
+        |> put_session(:user_return_to, Routes.user_settings_path(conn, :password))
         |> UserAuth.log_in_user(user)
 
-      {:error, changeset} ->
-        render(conn, "edit.html", password_changeset: changeset)
+      _ ->
+        conn
+        |> put_flash(:error, "We were unable to update your password. Please try again.")
+        |> redirect(to: Routes.user_settings_path(conn, :password))
     end
   end
 
@@ -55,12 +28,12 @@ defmodule PhoenixStarterWeb.UserSettingsController do
       :ok ->
         conn
         |> put_flash(:info, "Email changed successfully.")
-        |> redirect(to: Routes.user_settings_path(conn, :edit))
+        |> redirect(to: Routes.user_settings_path(conn, :email))
 
       :error ->
         conn
         |> put_flash(:error, "Email change link is invalid or it has expired.")
-        |> redirect(to: Routes.user_settings_path(conn, :edit))
+        |> redirect(to: Routes.user_settings_path(conn, :email))
     end
   end
 

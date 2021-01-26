@@ -122,6 +122,13 @@ defmodule PhoenixStarter.UsersTest do
     test "returns a user changeset" do
       assert %Ecto.Changeset{} = changeset = Users.change_user_email(%User{})
       assert changeset.required == [:email]
+      assert changeset.action == nil
+    end
+
+    test "validates the current password" do
+      assert %Ecto.Changeset{} = changeset = Users.change_user_email(%User{}, "bad")
+      assert %{current_password: ["is not valid"]} = errors_on(changeset)
+      assert changeset.action == :validate
     end
   end
 
@@ -173,6 +180,7 @@ defmodule PhoenixStarter.UsersTest do
     end
   end
 
+  # TODO test oban
   describe "deliver_update_email_instructions/3" do
     setup do
       %{user: user_fixture()}
@@ -239,17 +247,13 @@ defmodule PhoenixStarter.UsersTest do
     test "returns a user changeset" do
       assert %Ecto.Changeset{} = changeset = Users.change_user_password(%User{})
       assert changeset.required == [:password]
+      assert changeset.action == nil
     end
 
-    test "allows fields to be set" do
-      changeset =
-        Users.change_user_password(%User{}, %{
-          "password" => "new valid password"
-        })
-
-      assert changeset.valid?
-      assert get_change(changeset, :password) == "new valid password"
-      assert is_nil(get_change(changeset, :hashed_password))
+    test "validates the current password" do
+      assert %Ecto.Changeset{} = changeset = Users.change_user_password(%User{}, "bad")
+      assert %{current_password: ["is not valid"]} = errors_on(changeset)
+      assert changeset.action == :validate
     end
   end
 
@@ -306,6 +310,68 @@ defmodule PhoenixStarter.UsersTest do
         })
 
       refute Repo.get_by(UserToken, user_id: user.id)
+    end
+  end
+
+  describe "apply_user_password/3" do
+    setup do
+      %{user: user_fixture()}
+    end
+
+    test "validates password", %{user: user} do
+      {:error, changeset} =
+        Users.apply_user_password(user, valid_user_password(), %{
+          password: "not valid",
+          password_confirmation: "another"
+        })
+
+      assert %{
+               password: ["should be at least 12 character(s)"],
+               password_confirmation: ["does not match password"]
+             } = errors_on(changeset)
+    end
+
+    test "validates current password", %{user: user} do
+      {:error, changeset} =
+        Users.apply_user_password(user, "invalid", %{email: unique_user_email()})
+
+      assert %{current_password: ["is not valid"]} = errors_on(changeset)
+    end
+
+    test "applies the password without persisting it", %{user: user} do
+      new_password = "LetsDoThisOneMoreTime"
+
+      {:ok, user} =
+        Users.apply_user_password(user, valid_user_password(), %{
+          password: new_password
+        })
+
+      assert User.valid_password?(user, new_password)
+    end
+  end
+
+  describe "change_user_profile/2" do
+    test "returns a changeset" do
+      assert %Ecto.Changeset{} = Users.change_user_profile(%User{})
+    end
+
+    test "allows fields to be set" do
+      changeset = Users.change_user_profile(%User{}, %{"profile_image" => [%{}]})
+
+      assert changeset.valid?
+      assert get_change(changeset, :profile_image) == [%{}]
+    end
+  end
+
+  describe "update_user_profile/2" do
+    test "updates the profile" do
+      user = user_fixture()
+
+      assert {:ok, %User{}} =
+               Users.update_user_profile(user, %{"profile_image" => [%{"foo" => "bar"}]})
+
+      changed_user = Repo.get!(User, user.id)
+      assert changed_user.profile_image == [%{"foo" => "bar"}]
     end
   end
 
