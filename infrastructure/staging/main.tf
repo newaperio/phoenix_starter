@@ -95,7 +95,7 @@ module "uploads_bucket" {
 
   name = "uploads"
 
-  principals = [module.fargate.task_role_name]
+  principals = [module.fargate.task_role_arn]
 }
 
 # Route 53
