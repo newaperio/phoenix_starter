@@ -32,3 +32,9 @@ npm-debug.log
 # we ignore priv/static. You may want to comment
 # this depending on your deployment strategy.
 /priv/static/
+
+# Ignore local .terraform cache and .tfstate that shouldn't be committed
+.terraform
+*.tfstate
+*.tfstate.backup
+.terraform.tfstate.lock.info

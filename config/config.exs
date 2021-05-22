@@ -22,7 +22,6 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 # Configures Bamboo
-# Note: by default this reads from the IAM task or instance role
 config :phoenix_starter, PhoenixStarter.Email,
   default_from: {"PhoenixStarter", "notifications@example.com"}
 
