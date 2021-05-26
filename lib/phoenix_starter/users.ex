@@ -248,7 +248,7 @@ defmodule PhoenixStarter.Users do
   end
 
   @doc """
-  Applies update action for changing `PhoenixStarter.Users.User` password.
+  Applies update action for changing a `PhoenixStarter.Users.User`'s password.
 
   ## Examples
 
@@ -288,7 +288,7 @@ defmodule PhoenixStarter.Users do
   end
 
   @doc """
-  Updates the `PhoenixStarter.Users.User` profile.
+  Updates a `PhoenixStarter.Users.User`'s profile.
 
   ## Examples
 

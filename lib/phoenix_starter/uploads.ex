@@ -8,9 +8,9 @@ defmodule PhoenixStarter.Uploads do
   @doc """
   Returns a presigned URL to the upload on S3.
 
-  It is assumed that the given param is a list of maps with keys `variation`
+  It is assumed that the given param is a list of maps with string keys `variation`
   and `key`. The returned URL is to the map with `variation == "source"`.
-  Returns `nil` otherwise.
+  Returns `nil` if no match is found.
   """
   @spec upload_url(list(map())) :: String.t() | nil
   def upload_url(upload) do
