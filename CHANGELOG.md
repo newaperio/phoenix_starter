@@ -9,12 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-### Changed
-
-- Bump dependencies (#41, #42, #43, #44, #45, #46, #47, #50, #51, #52, #53, #54, #57, #58, #59, #61, #62, #76)
 - Add LICENSE (#48)
 - Add CODE_OF_CONDUCT (#49)
 - Add configuration to allow app to run on AWS ECS Fargate (#74)
+- Add CHANGELOG and version scripts (#83)
+- Add LiveView uploads, refactor User Settings to LiveView (#186)
+
+### Changed
+
+- Bump dependencies (various PRs)
+- Update CSP for Alpinejs (#85)
+- Update configuration for deploy (#84)
+- Update GitHub Actions CI Config (#158)
+- Update NodeJS to 16.x (#185)
 
 ### Deprecated
 
