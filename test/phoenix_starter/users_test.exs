@@ -180,7 +180,6 @@ defmodule PhoenixStarter.UsersTest do
     end
   end
 
-  # TODO test oban
   describe "deliver_update_email_instructions/3" do
     setup do
       %{user: user_fixture()}
@@ -197,6 +196,17 @@ defmodule PhoenixStarter.UsersTest do
       assert user_token.user_id == user.id
       assert user_token.sent_to == user.email
       assert user_token.context == "change:current@example.com"
+    end
+
+    test "sends notification in the background", %{user: user} do
+      Users.deliver_update_email_instructions(
+        user,
+        "current@example.com",
+        fn _ -> "https://example.com" end,
+        true
+      )
+
+      assert_enqueued(worker: PhoenixStarter.Workers.UserEmailWorker)
     end
   end
 
@@ -444,6 +454,16 @@ defmodule PhoenixStarter.UsersTest do
       assert user_token.sent_to == user.email
       assert user_token.context == "confirm"
     end
+
+    test "sends notification in the background", %{user: user} do
+      Users.deliver_user_confirmation_instructions(
+        user,
+        fn _ -> "https://example.com" end,
+        true
+      )
+
+      assert_enqueued(worker: PhoenixStarter.Workers.UserEmailWorker)
+    end
   end
 
   describe "confirm_user/2" do
@@ -496,6 +516,16 @@ defmodule PhoenixStarter.UsersTest do
       assert user_token.user_id == user.id
       assert user_token.sent_to == user.email
       assert user_token.context == "reset_password"
+    end
+
+    test "sends notification in the background", %{user: user} do
+      Users.deliver_user_reset_password_instructions(
+        user,
+        fn _ -> "https://example.com" end,
+        true
+      )
+
+      assert_enqueued(worker: PhoenixStarter.Workers.UserEmailWorker)
     end
   end
 

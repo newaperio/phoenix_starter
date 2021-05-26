@@ -18,6 +18,8 @@ defmodule PhoenixStarter.DataCase do
 
   using do
     quote do
+      use Oban.Testing, repo: PhoenixStarter.Repo
+
       alias PhoenixStarter.Repo
 
       import Ecto

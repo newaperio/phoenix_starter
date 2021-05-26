@@ -1,6 +1,5 @@
 defmodule PhoenixStarter.Workers.UserEmailWorkerTest do
   use PhoenixStarter.DataCase
-  use Oban.Testing, repo: PhoenixStarter.Repo
 
   import PhoenixStarter.UsersFixtures
 
