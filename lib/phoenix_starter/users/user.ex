@@ -165,7 +165,6 @@ defmodule PhoenixStarter.Users.User do
   """
   @spec profile_changeset(t, map) :: Changeset.t()
   def profile_changeset(user, attrs) do
-    user
-    |> cast(attrs, [:profile_image])
+    cast(user, attrs, [:profile_image])
   end
 end

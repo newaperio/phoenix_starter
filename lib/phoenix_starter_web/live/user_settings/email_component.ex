@@ -48,7 +48,8 @@ defmodule PhoenixStarterWeb.UserSettingsLive.EmailComponent do
         socket
       ) do
     changeset =
-      Users.change_user_email(socket.assigns.current_user, current_password, user_params)
+      socket.assigns.current_user
+      |> Users.change_user_email(current_password, user_params)
       |> Map.put(:action, :validate)
 
     socket =

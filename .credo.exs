@@ -36,7 +36,7 @@
         {Credo.Check.Readability.ModuleDoc,
          [
            ignore_names: [
-             ~r/(\.\w+Controller|\.Endpoint|\.Repo|\.Router|\.\w+Socket|\.\w+View|\.\w+Live|\.\w+Component)$/
+             ~r/(\.\w+Controller|\.Endpoint|\.Repo|\.Router|\.\w+Socket|\.\w+View|\.\w+Live(.\w+)?|\.\w+Component)$/
            ]
          ]},
         {Credo.Check.Readability.ModuleNames, []},
