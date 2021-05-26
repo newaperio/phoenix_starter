@@ -42,7 +42,7 @@ defmodule PhoenixStarterWeb.ContentSecurityPolicy do
     if Keyword.get(config(), :allow_unsafe_inline, false) do
       "'self' 'unsafe-eval' 'unsafe-inline'"
     else
-      "'self' unsafe-eval'"
+      "'self' 'unsafe-eval'"
     end
   end
 
