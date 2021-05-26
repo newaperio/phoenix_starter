@@ -9,8 +9,7 @@ defmodule PhoenixStarterWeb.UserSettingsLive.ProfileComponent do
   @impl true
   def mount(socket) do
     socket =
-      socket
-      |> allow_upload(:profile_image,
+      allow_upload(socket, :profile_image,
         accept: ~w(.jpg .jpeg .png),
         external: &presign_upload/2,
         max_file_size: @upload_limit

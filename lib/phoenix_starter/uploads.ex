@@ -102,7 +102,8 @@ defmodule PhoenixStarter.Uploads do
   defp generate_signature(policy, now) do
     date = now |> Timex.to_date() |> Timex.format!("{YYYY}{0M}{0D}")
 
-    hmac_digest("AWS4#{config(:secret_access_key)}", date)
+    "AWS4#{config(:secret_access_key)}"
+    |> hmac_digest(date)
     |> hmac_digest(config(:region))
     |> hmac_digest("s3")
     |> hmac_digest("aws4_request")
@@ -145,7 +146,6 @@ defmodule PhoenixStarter.Uploads do
   end
 
   defp hmac_hexdigest(digest) do
-    digest
-    |> Base.encode16(case: :lower)
+    Base.encode16(digest, case: :lower)
   end
 end

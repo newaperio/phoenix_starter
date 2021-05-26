@@ -36,8 +36,7 @@ defmodule PhoenixStarterWeb.UserSettingsLive.PasswordComponentTest do
       |> render_change()
 
     form =
-      live
-      |> form(@form_id,
+      form(live, @form_id,
         user: %{password: "new password", password_confirmation: "new password"},
         current_password: valid_user_password(),
         _method: "put"

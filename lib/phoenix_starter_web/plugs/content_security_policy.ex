@@ -69,7 +69,8 @@ defmodule PhoenixStarterWeb.ContentSecurityPolicy do
 
   defp upload_host(prefix \\ "https://") do
     bucket_name =
-      Application.get_env(:phoenix_starter, PhoenixStarter.Uploads, [])
+      :phoenix_starter
+      |> Application.get_env(PhoenixStarter.Uploads, [])
       |> Keyword.get(:bucket_name)
 
     "#{prefix}#{bucket_name}.s3.amazonaws.com"

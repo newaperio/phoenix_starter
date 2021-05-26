@@ -3,9 +3,7 @@ defmodule PhoenixStarterWeb.UserSettingsLive.Index do
 
   @impl true
   def mount(params, session, socket) do
-    socket =
-      socket
-      |> assign_defaults(params, session)
+    socket = assign_defaults(socket, params, session)
 
     {:ok, socket}
   end
@@ -16,18 +14,15 @@ defmodule PhoenixStarterWeb.UserSettingsLive.Index do
   end
 
   defp apply_action(socket, :profile, _params) do
-    socket
-    |> assign(:page_title, "Update Profile")
+    assign(socket, :page_title, "Update Profile")
   end
 
   defp apply_action(socket, :email, _params) do
-    socket
-    |> assign(:page_title, "Update Email")
+    assign(socket, :page_title, "Update Email")
   end
 
   defp apply_action(socket, :password, _params) do
-    socket
-    |> assign(:page_title, "Update Password")
+    assign(socket, :page_title, "Update Password")
   end
 
   @impl true
