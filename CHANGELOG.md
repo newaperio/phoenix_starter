@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## Unreleased
 
 ### Added
 
@@ -30,6 +30,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## v1.1 - 2021-05-27
+
+### Added
+
+- Add LICENSE (#48)
+- Add CODE_OF_CONDUCT (#49)
+- Add configuration to allow app to run on AWS ECS Fargate (#74)
+- Add CHANGELOG and version scripts (#83)
+- Add LiveView uploads, refactor User Settings to LiveView (#186)
+
+### Changed
+
+- Bump dependencies (various PRs)
+- Update CSP for Alpinejs (#85)
+- Update configuration for deploy (#84)
+- Update GitHub Actions CI Config (#158)
+- Update NodeJS to 16.x (#185)
 
 ## v1.0 - 2020-11-11
 
