@@ -18,7 +18,7 @@ If all dependencies are present, it'll run `asdf` to install language versions.
 
 If the preflight script reports any missing executables or you run into any other errors, here are the prerequisites for running the app. Check you have all of these installed.
 
-1. asdf, which manages package versions. We recommend [installing with the `git` method][asdf-install]. We also need plugins for the versions specified in `.tool-versions` (the preflight script will install these for you).
+1. asdf, which manages package versions. We recommend [installing with the `git` method][asdf-install]. We also need plugins for the versions specified in `.tool-versions` (the preflight script will install these for you). Don’t forget to [load asdf in your shell][asdf-shell].
 2. Docker Desktop (community edition). You can download the Mac version from [Docker Hub]. It's a self-contained install.
 3. PostgreSQL, the database. This can be installed with [Homebrew][brew-pg]: `brew install postgresql`. Be sure to follow the post-installation notes to make sure PG is running: `brew info postgresql`. You can start it with `brew services start postgresql`.
 4. A few dependencies for installing languages:
@@ -27,6 +27,7 @@ If the preflight script reports any missing executables or you run into any othe
    - For Erlang, it's recommended to skip the Java dependency on macOS. Run this or add to your shell: `export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=$(brew --prefix openssl)"`.
 
 [asdf-install]: https://asdf-vm.com/#/core-manage-asdf?id=install
+[asdf-shell]: https://asdf-vm.com/#/core-manage-asdf?id=add-to-your-shell
 [docker hub]: https://www.docker.com/products/docker-desktop
 [brew-pg]: https://formulae.brew.sh/cask/postgres#default
 [erlang-req]: https://github.com/asdf-vm/asdf-erlang#osx
@@ -44,7 +45,7 @@ This will do a few things:
 
 1. Run `mix deps.get` to fetch Elixir dependencies
 2. Run `ecto.setup`, which creates, migrates, and seeds the DB
-3. Run `npm install`, to fetch Node dependencies for the asset pipeline
+3. Run `npm install --prefix assets`, to fetch Node dependencies for the asset pipeline
 
 ## Running
 
