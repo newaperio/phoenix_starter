@@ -35,7 +35,7 @@ defmodule PhoenixStarter.MixProject do
       {:bamboo, "~> 1.6"},
       {:bamboo_ses, "~> 0.1.0"},
       {:bcrypt_elixir, "~> 2.0"},
-      {:credo, "~> 1.5.0-rc.2", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.6.2", only: [:dev, :test], runtime: false},
       {:ecto_psql_extras, "~> 0.2"},
       {:ecto_sql, "~> 3.4"},
       {:ex_aws_s3, "~> 2.1"},
