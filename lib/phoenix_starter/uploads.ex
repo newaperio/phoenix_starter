@@ -142,7 +142,7 @@ defmodule PhoenixStarter.Uploads do
   end
 
   defp hmac_digest(key, string) do
-    :crypto.hmac(:sha256, key, string)
+    :crypto.mac(:hmac, :sha256, key, string)
   end
 
   defp hmac_hexdigest(digest) do
