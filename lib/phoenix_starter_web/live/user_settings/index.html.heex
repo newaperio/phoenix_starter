@@ -9,17 +9,17 @@
 <%= case @live_action do %>
 
 <% :profile -> %>
-<%= live_component @socket, PhoenixStarterWeb.UserSettingsLive.ProfileComponent,
+<%= live_component PhoenixStarterWeb.UserSettingsLive.ProfileComponent,
     id: :update_profile,
     current_user: @current_user %>
 
 <% :email -> %>
-<%= live_component @socket, PhoenixStarterWeb.UserSettingsLive.EmailComponent,
+<%= live_component PhoenixStarterWeb.UserSettingsLive.EmailComponent,
     id: :update_email,
     current_user: @current_user %>
 
 <% :password -> %>
-<%= live_component @socket, PhoenixStarterWeb.UserSettingsLive.PasswordComponent,
+<%= live_component PhoenixStarterWeb.UserSettingsLive.PasswordComponent,
     id: :update_password,
     current_user: @current_user %>
 

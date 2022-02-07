@@ -33,16 +33,11 @@ defmodule PhoenixStarterWeb.UserSettingsLive.ProfileComponent do
 
   @impl true
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div>
       <h2>Update profile</h2>
 
-      <%= _ = form_for @changeset, "#",
-        id: "form__update-profile",
-        phx_change: "validate",
-        phx_submit: "save",
-        phx_target: @myself %>
-
+      <.form for={@changeset} id="form__update-profile" phx-change="validate" phx-submit="save" phx-target={@myself}>
         <h2>Profile Photo</h2>
 
         <div>
@@ -61,7 +56,7 @@ defmodule PhoenixStarterWeb.UserSettingsLive.ProfileComponent do
         <% end %>
 
         <%= submit "Update profile", phx_disable_with: "Saving..." %>
-      </form>
+      </.form>
     </div>
     """
   end
