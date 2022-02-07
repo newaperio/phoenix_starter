@@ -19,8 +19,8 @@ jobs:
 
     strategy:
       matrix:
-        elixir: ["1.11.0"]
-        otp: ["23.1.1"]
+        elixir: ["1.13.0"]
+        otp: ["24.2.1"]
 
     services:
       db:
