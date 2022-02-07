@@ -5,15 +5,11 @@ defmodule PhoenixStarterWeb.UserSettingsLive.EmailComponent do
 
   @impl true
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div>
       <h2>Update email</h2>
-      <%= f = form_for @changeset, "#",
-        id: "form__update-email",
-        phx_change: "validate",
-        phx_submit: "save",
-        phx_target: @myself %>
 
+      <.form let={f} for={@changeset} id="form__update-email" phx-change="validate" phx-submit="save" phx-target={@myself}>
         <%= label f, :email %>
         <%= email_input f, :email, required: true, phx_debounce: "blur" %>
         <%= error_tag f, :email %>
@@ -23,7 +19,7 @@ defmodule PhoenixStarterWeb.UserSettingsLive.EmailComponent do
         <%= error_tag f, :current_password %>
 
         <%= submit "Update e-mail", phx_disable_with: "Saving..." %>
-      </form>
+      </.form>
     </div>
     """
   end

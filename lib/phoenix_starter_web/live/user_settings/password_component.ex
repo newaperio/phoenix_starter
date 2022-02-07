@@ -5,17 +5,19 @@ defmodule PhoenixStarterWeb.UserSettingsLive.PasswordComponent do
 
   @impl true
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div>
       <h2>Update password</h2>
 
-      <%= f = form_for @changeset, Routes.user_settings_path(@socket, :update_password),
-        id: "form__update-password",
-        phx_change: "validate",
-        phx_submit: "update",
-        phx_trigger_action: @trigger_action,
-        phx_target: @myself %>
-
+      <.form let={f}
+             for={@changeset}
+             id="form__update-password"
+             action={Routes.user_settings_path(@socket, :password)}
+             phx-change="validate"
+             phx-submit="update"
+             phx-trigger-action={@trigger_action}
+             phx-target={@myself}
+      >
         <%= label f, :password, "New password" %>
         <%= password_input f, :password, required: true, value: input_value(f, :password), phx_debounce: "blur" %>
         <%= error_tag f, :password %>
@@ -29,7 +31,7 @@ defmodule PhoenixStarterWeb.UserSettingsLive.PasswordComponent do
         <%= error_tag f, :current_password %>
 
         <%= submit "Change password", phx_disable_with: "Saving..." %>
-      </form>
+      </.form>
     </div>
     """
   end

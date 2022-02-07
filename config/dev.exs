@@ -33,7 +33,7 @@ config :phoenix_starter, PhoenixStarterWeb.Endpoint,
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/phoenix_starter_web/(live|views)/.*(ex)$",
-      ~r"lib/phoenix_starter_web/templates/.*(eex)$"
+      ~r"lib/phoenix_starter_web/templates/.*(heex)$"
     ]
   ]
 
