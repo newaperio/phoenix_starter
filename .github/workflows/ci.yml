@@ -90,4 +90,4 @@ jobs:
         env:
           NODE_ENV: production
         working-directory: ./assets
-      - run: mix test
+      - run: mix test --warnings-as-errors
