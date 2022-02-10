@@ -10,7 +10,7 @@ defmodule PhoenixStarter.Users.UserNotifier do
   @type notifier_result ::
           {:ok, Bamboo.Email}
           | {:ok, Oban.Job.t()}
-          | {:error, Oban.job_changeset()}
+          | {:error, Oban.Job.changeset()}
           | {:error, term()}
 
   @doc """

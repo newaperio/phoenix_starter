@@ -11,6 +11,7 @@ defmodule PhoenixStarter.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
+      dialyzer: dialyzer(),
       default_release: :phoenix_starter,
       releases: releases(),
       name: "PhoenixStarter",
@@ -36,6 +37,7 @@ defmodule PhoenixStarter.MixProject do
       {:bamboo_ses, "~> 0.1.0"},
       {:bcrypt_elixir, "~> 2.0"},
       {:credo, "~> 1.5.0-rc.2", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ecto_psql_extras, "~> 0.2"},
       {:ecto_sql, "~> 3.4"},
       {:ex_aws_s3, "~> 2.1"},
@@ -59,6 +61,13 @@ defmodule PhoenixStarter.MixProject do
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:timex, "~> 3.6"}
+    ]
+  end
+
+  defp dialyzer do
+    [
+      ignore_warnings: ".dialyzer_ignore.exs",
+      plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
     ]
   end
 
