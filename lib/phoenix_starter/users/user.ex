@@ -20,7 +20,7 @@ defmodule PhoenixStarter.Users.User do
   end
 
   defimpl Bamboo.Formatter do
-    @spec format_email_address(User.t(), map) :: Bamboo.Email.address()
+    @spec format_email_address(PhoenixStarter.Users.User.t(), map) :: Bamboo.Email.address()
     def format_email_address(user, _opts) do
       {user.email, user.email}
     end
@@ -138,7 +138,7 @@ defmodule PhoenixStarter.Users.User do
   If there is no `PhoenixStarter.Users.User` or the `User` doesn't have a password, we call
   `Bcrypt.no_user_verify/0` to avoid timing attacks.
   """
-  @spec valid_password?(t, String.t()) :: boolean()
+  @spec valid_password?(t, String.t() | nil) :: boolean()
   def valid_password?(%PhoenixStarter.Users.User{hashed_password: hashed_password}, password)
       when is_binary(hashed_password) and byte_size(password) > 0 do
     Bcrypt.verify_pass(password, hashed_password)
@@ -151,7 +151,7 @@ defmodule PhoenixStarter.Users.User do
   @doc """
   Validates the current password otherwise adds an error to the changeset.
   """
-  @spec validate_current_password(Changeset.t(), String.t()) :: Changeset.t()
+  @spec validate_current_password(Changeset.t(), String.t() | nil) :: Changeset.t()
   def validate_current_password(changeset, password) do
     if valid_password?(changeset.data, password) do
       changeset
