@@ -12,7 +12,7 @@
     "phoenix": "file:../deps/phoenix",
     "phoenix_html": "file:../deps/phoenix_html",
     "phoenix_live_view": "file:../deps/phoenix_live_view",
-    "tailwindcss": "^1.9.6"
+    "tailwindcss": "^3.0.23"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
