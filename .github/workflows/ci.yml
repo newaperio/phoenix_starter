@@ -8,13 +8,178 @@ on:
     branches:
       - "**"
 
+env:
+  MIX_ENV: test
+
 jobs:
-  test:
+  deps:
     runs-on: ubuntu-latest
-    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    name: Dependencies
+
+    strategy:
+      matrix:
+        elixir: ["1.13.0"]
+        otp: ["24.2.1"]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+
+      - name: Restore dependencies cache
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{runner.os}}-mix-${{matrix.otp}}-${{matrix.elixir}}-${{hashFiles('**/mix.lock')}}
+          restore-keys: ${{runner.os}}-mix-
+
+      - name: Restore build cache
+        uses: actions/cache@v2
+        with:
+          path: _build
+          key: ${{runner.os}}-build-${{matrix.otp}}-${{matrix.elixir}}-${{hashFiles('**/mix.lock')}}
+
+      - name: Install Dependencies
+        run: mix deps.get
+
+      - name: Compile app
+        run: mix compile --force --warnings-as-errors
+
+  assets:
+    name: Frontend Assets
+    needs: deps
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        elixir: ["1.13.0"]
+        otp: ["24.2.1"]
+        node: ["14.13.1"]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{matrix.node}}
+
+      - name: Restore dependencies cache
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{runner.os}}-mix-${{matrix.otp}}-${{matrix.elixir}}-${{hashFiles('**/mix.lock')}}
+          restore-keys: ${{runner.os}}-mix-
+
+      - name: Restore NPM cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{runner.os}}-npm-${{matrix.node}}-${{hashFiles(format('**/assets/package-lock.json'))}}
+          restore-keys: ${{runner.os}}-npm-
+
+      - name: Install Node dependencies
+        run: npm --prefix assets ci
+      - run: npx prettier --check .
+        working-directory: ./assets
+      - run: npx stylelint "css/*"
+        working-directory: ./assets
+      - run: npx eslint js --ext .js,.jsx,.ts,.tsx
+        working-directory: ./assets
+      - run: npm run deploy
+        env:
+          NODE_ENV: production
+        working-directory: ./assets
+
+  lint:
+    name: Lint
+    needs: deps
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        elixir: ["1.13.0"]
+        otp: ["24.2.1"]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+
+      - name: Restore dependencies cache
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{runner.os}}-mix-${{matrix.otp}}-${{matrix.elixir}}-${{hashFiles('**/mix.lock')}}
+          restore-keys: ${{runner.os}}-mix-
+
+      - name: Restore build cache
+        uses: actions/cache@v2
+        with:
+          path: _build
+          key: ${{runner.os}}-build-${{matrix.otp}}-${{matrix.elixir}}-${{hashFiles('**/mix.lock')}}
+
+      - run: mix format --check-formatted
+      - run: mix credo
+      - run: mix sobelow --config
+
+  dialyzer:
+    name: Dialyzer
+    needs: deps
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        elixir: ["1.13.0"]
+        otp: ["24.2.1"]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+
+      - name: Restore dependencies cache
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{runner.os}}-mix-${{matrix.otp}}-${{matrix.elixir}}-${{hashFiles('**/mix.lock')}}
+          restore-keys: ${{runner.os}}-mix-
+
+      - name: Restore build cache
+        uses: actions/cache@v2
+        with:
+          path: _build
+          key: ${{runner.os}}-build-${{matrix.otp}}-${{matrix.elixir}}-${{hashFiles('**/mix.lock')}}
+
+      - name: Restore PLT cache
+        uses: actions/cache@v2
+        id: plt-cache
+        with:
+          path: priv/plts
+          key: ${{runner.os}}-plts-${{matrix.otp}}-${{matrix.elixir}}-${{hashFiles('**/mix.lock')}}
+
+      - name: Create PLTs
+        if: steps.plt-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p priv/plts
+          mix dialyzer --plt
+
+      - run: mix dialyzer --no-check --format short
+
+  test:
+    name: Tests
+    needs: deps
+    runs-on: ubuntu-latest
 
     env:
-      MIX_ENV: test
       DATABASE_URL: ecto://postgres:newaperio@localhost/phoenix_starter_test
 
     strategy:
@@ -44,64 +209,17 @@ jobs:
           otp-version: ${{matrix.otp}}
           elixir-version: ${{matrix.elixir}}
 
-      - uses: actions/setup-node@v1
-        with:
-          node-version: "14.13.1"
-
       - name: Restore dependencies cache
         uses: actions/cache@v2
         with:
           path: deps
-          key: ${{runner.os}}-mix-${{matrix.otp-version}}-${{matrix.elixir-version}}-${{hashFiles('**/mix.lock')}}
+          key: ${{runner.os}}-mix-${{matrix.otp}}-${{matrix.elixir}}-${{hashFiles('**/mix.lock')}}
           restore-keys: ${{runner.os}}-mix-
 
       - name: Restore build cache
         uses: actions/cache@v2
         with:
           path: _build
-          key: ${{runner.os}}-build-${{matrix.otp-version}}-${{matrix.elixir-version}}-${{hashFiles('**/mix.lock')}}
+          key: ${{runner.os}}-build-${{matrix.otp}}-${{matrix.elixir}}-${{hashFiles('**/mix.lock')}}
 
-      - name: Restore NPM cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{runner.os}}-npm-${{hashFiles(format('**/assets/package-lock.json'))}}
-          restore-keys: ${{runner.os}}-npm-
-
-      - name: Install Dependencies
-        run: mix deps.get
-
-      - name: Restore PLT cache
-        uses: actions/cache@v2
-        id: plt-cache
-        with:
-          path: priv/plts
-          key: ${{runner.os}}-plts-${{matrix.otp}}-${{matrix.elixir}}-${{hashFiles('**/mix.lock')}}
-
-      - name: Create PLTs
-        if: steps.plt-cache.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p priv/plts
-          mix dialyzer --plt
-
-      - name: Install Node Dependencies
-        run: npm --prefix assets ci
-
-      - name: Compile app
-        run: mix compile --force --warnings-as-errors
-
-      - run: mix format --check-formatted
-      - run: mix credo
-      - run: mix sobelow --config
-      - run: mix dialyzer --no-check --format short
-      - run: npx prettier --check .
-        working-directory: ./assets
-      - run: npx stylelint "css/*"
-        working-directory: ./assets
-      - run: npx eslint js --ext .js,.jsx,.ts,.tsx
-        working-directory: ./assets
-      - run: npm run deploy
-        env:
-          NODE_ENV: production
-        working-directory: ./assets
-      - run: mix test --warnings-as-errors
+      - run: mix test
