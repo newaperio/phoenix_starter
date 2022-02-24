@@ -17,7 +17,7 @@ The following technologies are included and configured with our defaults:
 - [ExDoc] for rendering Elixir code documentation
 - [AssertIdentity] for easy Ecto identity assertions in tests
 - [phx_gen_auth] for a user authentication system
-- [Bamboo] for sending emails
+- [Swoosh] for sending emails
 - [Oban] for background jobs
 - [asdf] for managing runtime versions
 - [Docker] for building release containers
@@ -77,8 +77,8 @@ Elixir and Phoenix][services] development as part of our portfolio of services.
 [exdoc]: https://github.com/elixir-lang/ex_doc
 [assertidentity]: https://github.com/newaperio/assert_identity/
 [phx_gen_auth]: https://github.com/aaronrenner/phx_gen_auth
-[bamboo]: https://github.com/thoughtbot/bamboo
-[oban]: https://github.com/sorentwo/oban/
+[swoosh]: https://github.com/swoosh/swoosh
+[oban]: https://github.com/sorentwo/oban
 [asdf]: https://asdf-vm.com/
 [docker]: https://docs.docker.com/
 [mix releases]: https://hexdocs.pm/mix/Mix.Tasks.Release.html

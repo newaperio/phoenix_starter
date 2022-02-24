@@ -33,8 +33,6 @@ defmodule PhoenixStarter.MixProject do
   defp deps do
     [
       {:assert_identity, "~> 0.1.0", only: :test},
-      {:bamboo, "~> 1.6"},
-      {:bamboo_ses, "~> 0.1.0"},
       {:bcrypt_elixir, "~> 2.0"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
@@ -43,6 +41,7 @@ defmodule PhoenixStarter.MixProject do
       {:ex_aws_s3, "~> 2.1"},
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
       {:floki, ">= 0.27.0", only: :test},
+      {:gen_smtp, "~> 1.0"},
       {:gettext, "~> 0.11"},
       {:hackney, "~> 1.8"},
       {:jason, "~> 1.0"},
@@ -54,10 +53,12 @@ defmodule PhoenixStarter.MixProject do
       {:phoenix_live_dashboard, "~> 0.6"},
       {:phoenix_live_reload, "~> 1.3", only: :dev},
       {:phoenix_live_view, "~> 0.17"},
+      {:phoenix_swoosh, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, ">= 0.0.0"},
       {:sentry, "8.0.4"},
       {:sobelow, "~> 0.10", only: [:dev, :test]},
+      {:swoosh, "~> 1.6"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:timex, "~> 3.6"}

@@ -8,7 +8,7 @@ defmodule PhoenixStarter.Workers.UserEmailWorkerTest do
   test "sends email" do
     user = user_fixture()
 
-    assert {:ok, %Bamboo.Email{}} =
+    assert {:ok, _} =
              UserEmailWorker.perform(%Oban.Job{
                args: %{
                  "email" => "confirmation_instructions",

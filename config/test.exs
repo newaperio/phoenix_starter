@@ -18,8 +18,8 @@ config :phoenix_starter, PhoenixStarterWeb.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
-# Configures Bamboo
-config :phoenix_starter, PhoenixStarter.Mailer, adapter: Bamboo.TestAdapter
+# Configures Swoosh
+config :phoenix_starter, PhoenixStarter.Mailer, adapter: Swoosh.Adapters.Test
 
 # Configures Oban
 config :phoenix_starter, Oban, crontab: false, queues: false, plugins: false

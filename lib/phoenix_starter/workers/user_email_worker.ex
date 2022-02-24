@@ -23,7 +23,8 @@ defmodule PhoenixStarter.Workers.UserEmailWorker do
     user = Users.get_user!(user_id)
 
     email = apply(UserEmail, String.to_existing_atom(email), [user, url])
-    {:ok, Mailer.deliver_now(email)}
+    Mailer.deliver(email)
+    {:ok, email}
   end
 
   def perform(_job), do: {:discard, :invalid_email}

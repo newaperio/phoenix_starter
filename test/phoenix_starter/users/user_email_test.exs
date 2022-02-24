@@ -14,7 +14,7 @@ defmodule PhoenixStarter.Users.UserEmailTest do
 
     email = UserEmail.confirmation_instructions(user, url)
 
-    assert email.to == user
+    assert email.to == [{"", user.email}]
     assert email.html_body =~ url
     assert email.text_body =~ url
   end
@@ -24,7 +24,7 @@ defmodule PhoenixStarter.Users.UserEmailTest do
 
     email = UserEmail.reset_password_instructions(user, url)
 
-    assert email.to == user
+    assert email.to == [{"", user.email}]
     assert email.html_body =~ url
     assert email.text_body =~ url
   end
@@ -34,7 +34,7 @@ defmodule PhoenixStarter.Users.UserEmailTest do
 
     email = UserEmail.update_email_instructions(user, url)
 
-    assert email.to == user
+    assert email.to == [{"", user.email}]
     assert email.html_body =~ url
     assert email.text_body =~ url
   end

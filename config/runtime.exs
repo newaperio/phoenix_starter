@@ -61,9 +61,9 @@ if config_env() == :prod do
       ]
   end
 
-  # Configures Bamboo
+  # Configures Swoosh
   # Note: by default this reads from the IAM task or instance role
-  config :phoenix_starter, PhoenixStarter.Mailer, adapter: Bamboo.SesAdapter
+  config :phoenix_starter, PhoenixStarter.Mailer, adapter: Swoosh.Adapters.AmazonSES
 
   # Configures Sentry
   config :sentry,

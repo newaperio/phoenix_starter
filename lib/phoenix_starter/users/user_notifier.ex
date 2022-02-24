@@ -8,7 +8,7 @@ defmodule PhoenixStarter.Users.UserNotifier do
   alias PhoenixStarter.Workers.UserEmailWorker
 
   @type notifier_result ::
-          {:ok, Bamboo.Email}
+          {:ok, Swoosh.Email}
           | {:ok, Oban.Job.t()}
           | {:error, Oban.Job.changeset()}
           | {:error, term()}
@@ -26,10 +26,9 @@ defmodule PhoenixStarter.Users.UserNotifier do
   end
 
   def deliver_confirmation_instructions(user, url, false) do
-    {:ok,
-     user
-     |> UserEmail.confirmation_instructions(url)
-     |> Mailer.deliver_now()}
+    email = UserEmail.confirmation_instructions(user, url)
+    Mailer.deliver(email)
+    {:ok, email}
   end
 
   @doc """
@@ -45,10 +44,9 @@ defmodule PhoenixStarter.Users.UserNotifier do
   end
 
   def deliver_reset_password_instructions(user, url, false) do
-    {:ok,
-     user
-     |> UserEmail.reset_password_instructions(url)
-     |> Mailer.deliver_now()}
+    email = UserEmail.reset_password_instructions(user, url)
+    Mailer.deliver(email)
+    {:ok, email}
   end
 
   @doc """
@@ -64,9 +62,8 @@ defmodule PhoenixStarter.Users.UserNotifier do
   end
 
   def deliver_update_email_instructions(user, url, false) do
-    {:ok,
-     user
-     |> UserEmail.update_email_instructions(url)
-     |> Mailer.deliver_now()}
+    email = UserEmail.update_email_instructions(user, url)
+    Mailer.deliver(email)
+    {:ok, email}
   end
 end
