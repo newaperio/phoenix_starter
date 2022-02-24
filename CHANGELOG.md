@@ -7,29 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## v2.0 - 2022-02-24
+
 ### Added
 
-- Add LICENSE (#48)
-- Add CODE_OF_CONDUCT (#49)
-- Add configuration to allow app to run on AWS ECS Fargate (#74)
-- Add CHANGELOG and version scripts (#83)
-- Add LiveView uploads, refactor User Settings to LiveView (#186)
+- GitHub pull request template
+- Dialyzer for type-checking (via dialyxir)
 
 ### Changed
 
-- Bump dependencies (various PRs)
-- Update CSP for Alpinejs (#85)
-- Update configuration for deploy (#84)
-- Update GitHub Actions CI Config (#158)
-- Update NodeJS to 16.x (#185)
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+- Target Elixir v1.13.2
+- Target Erlang v24.2.1
+- Target Node.js v16.13.2
+- Update Phoenix to v1.6.6
+- Update Phoenix LiveView to v0.17.6
+- Update various dependencies to satisfy new Phoenix/LiveView version constraints
+  - credo
+  - phoenix_ecto
+  - phoenix_html
+  - phoenix_live_dashboard
+  - phoenix_live_reload
+  - telemetry_metrics
+  - telemetry_poller
+- Update EEx and LEEx templates to the new HEEx templating engine
+- Run tests with `--warnings-as-errors` in CI
+- Replace Bamboo with Swoosh for emails
+- Update Sobelow skips
+- Parallelize GitHub Actions CI workflow
 
 ## v1.1 - 2021-05-27
 
