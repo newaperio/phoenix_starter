@@ -30,6 +30,7 @@ The following technologies are included and configured with our defaults:
 - [TypeScript] for type-safe JS
 - [Alpine], a component JS framework that integrates with LiveView
 - [Sobelow] for Phoenix security static analysis
+- [Dialyzer] for Erlang/Elixir static analysis, including type-checking
 - A suite of linters: [Credo] for Elixir, [ESLint] for JS, [Stylelint] for CSS, and [Prettier] for JS formatting
 
 ## Usage
