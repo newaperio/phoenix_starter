@@ -8,6 +8,7 @@ defmodule PhoenixStarter.Users.User do
   alias PhoenixStarter.Users.UserRole
 
   @derive {Inspect, except: [:password]}
+  # @derive {Swoosh.Email.Recipient, name: nil, address: :email}
   schema "users" do
     field :email, :string
     field :password, :string, virtual: true
@@ -17,13 +18,6 @@ defmodule PhoenixStarter.Users.User do
     field :profile_image, {:array, :map}
 
     timestamps()
-  end
-
-  defimpl Bamboo.Formatter do
-    @spec format_email_address(PhoenixStarter.Users.User.t(), map) :: Bamboo.Email.address()
-    def format_email_address(user, _opts) do
-      {user.email, user.email}
-    end
   end
 
   @doc """
@@ -166,5 +160,12 @@ defmodule PhoenixStarter.Users.User do
   @spec profile_changeset(t, map) :: Changeset.t()
   def profile_changeset(user, attrs) do
     cast(user, attrs, [:profile_image])
+  end
+end
+
+defimpl Swoosh.Email.Recipient, for: PhoenixStarter.Users.User do
+  @spec format(PhoenixStarter.Users.User.t()) :: {String.t(), String.t()}
+  def format(%PhoenixStarter.Users.User{email: address}) do
+    {"", address}
   end
 end

@@ -3,18 +3,20 @@ defmodule PhoenixStarter.Email do
   Base Email module that includes helpers and other shared code.
   """
 
-  defmacro __using__(_) do
-    quote do
-      import unquote(__MODULE__)
-      import Bamboo.Email
-      import PhoenixStarterWeb.Gettext
-    end
-  end
+  @typedoc """
+  A Swoosh-compatible recipient, being either:
+
+  - A string representing an email address, like `foo.bar@example.com`
+  - Or a two-element tuple `{name, address}`, where `name` is `nil` or a string
+    and `address` is a string
+
+  """
+  @type recipient() :: String.t() | {String.t() | nil, String.t()}
 
   @doc """
-  Returns a `t:Bamboo.Email.address/0` tuple that is the default from address for the app.
+  Returns a `t:recipient/0` that is the default from address for the app.
   """
-  @spec default_from :: Bamboo.Email.address()
+  @spec default_from :: recipient
   def default_from do
     Application.get_env(:phoenix_starter, __MODULE__)[:default_from]
   end

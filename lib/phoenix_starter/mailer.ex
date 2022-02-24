@@ -1,6 +1,6 @@
 defmodule PhoenixStarter.Mailer do
   @moduledoc """
-  Mailer to send emails with `Bamboo.Mailer`.
+  Mailer to send emails with `Swoosh.Mailer`.
   """
-  use Bamboo.Mailer, otp_app: :phoenix_starter
+  use Swoosh.Mailer, otp_app: :phoenix_starter
 end
