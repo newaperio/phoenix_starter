@@ -32,6 +32,7 @@ defmodule PhoenixStarterWeb.LayoutView do
   end
 
   @spec lv_alert(flash_key(), String.t()) :: HTML.safe()
+  # sobelow_skip ["XSS.Raw"]
   defp lv_alert(flash_key, msg) do
     safe_msg =
       msg

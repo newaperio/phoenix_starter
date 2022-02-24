@@ -35,6 +35,7 @@ defmodule PhoenixStarter.ReleaseTasks do
   end
 
   @spec seeds :: [any]
+  # sobelow_skip ["RCE.CodeModule"]
   def seeds do
     load_app()
 
