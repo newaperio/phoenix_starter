@@ -1,5 +1,5 @@
 - [ ] Look over your code one last time.
-- [ ] Test all functionality you expect to be QA'd.
+- [ ] Test all functionality you expect to be QA'd. Don’t forget to QA user interface changes in the browser.
 - [ ] Describe what changes this PR includes.
 - [ ] Post screenshots for design review if applicable.
 - [ ] Fill in QA Notes listing clear, ordered steps for testers.
@@ -19,6 +19,8 @@ Closes [sc-xxx].
 PR Author Browser Info:
 
 ```
+**QA Tester Browser Info:**
+
 ## Environment Setup
 
 - [ ] [Add necessary environment setup, e.g. whether to update dependencies, OR specify none]
