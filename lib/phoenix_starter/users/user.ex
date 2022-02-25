@@ -8,7 +8,6 @@ defmodule PhoenixStarter.Users.User do
   alias PhoenixStarter.Users.UserRole
 
   @derive {Inspect, except: [:password]}
-  # @derive {Swoosh.Email.Recipient, name: nil, address: :email}
   schema "users" do
     field :email, :string
     field :password, :string, virtual: true
