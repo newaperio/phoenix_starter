@@ -18,7 +18,7 @@ jobs:
 
     strategy:
       matrix:
-        elixir: ["1.13.0"]
+        elixir: ["1.13.2"]
         otp: ["24.2.1"]
 
     steps:
@@ -55,7 +55,7 @@ jobs:
 
     strategy:
       matrix:
-        elixir: ["1.13.0"]
+        elixir: ["1.13.2"]
         otp: ["24.2.1"]
         node: ["14.13.1"]
 
@@ -100,7 +100,7 @@ jobs:
 
     strategy:
       matrix:
-        elixir: ["1.13.0"]
+        elixir: ["1.13.2"]
         otp: ["24.2.1"]
 
     steps:
@@ -135,7 +135,7 @@ jobs:
 
     strategy:
       matrix:
-        elixir: ["1.13.0"]
+        elixir: ["1.13.2"]
         otp: ["24.2.1"]
 
     steps:
@@ -184,7 +184,7 @@ jobs:
 
     strategy:
       matrix:
-        elixir: ["1.13.0"]
+        elixir: ["1.13.2"]
         otp: ["24.2.1"]
 
     services:
