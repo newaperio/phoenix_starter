@@ -10,12 +10,13 @@ defmodule PhoenixStarter.Users.UserRole do
   """
   defstruct [:name, :permissions]
 
-  @type t :: %__MODULE__{name: atom, permissions: list(String.t())}
+  @type role_name :: :admin | :ops_admin | :user
+  @type t :: %__MODULE__{name: role_name, permissions: list(String.t())}
 
   @doc """
   Returns a list of valid roles.
   """
-  @spec roles :: list(atom)
+  @spec roles :: [role_name, ...]
   def roles do
     [:admin, :ops_admin, :user]
   end
@@ -23,7 +24,7 @@ defmodule PhoenixStarter.Users.UserRole do
   @doc """
   Returns a `PhoenixStarter.Users.UserRole` struct for the given role name.
   """
-  @spec role(atom) :: t
+  @spec role(role_name) :: t
   def role(role)
 
   def role(:admin) do
