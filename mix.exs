@@ -68,7 +68,9 @@ defmodule PhoenixStarter.MixProject do
   defp dialyzer do
     [
       ignore_warnings: ".dialyzer_ignore.exs",
-      plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
+      plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
+      flags: [:error_handling, :race_conditions, :underspecs, :unknown],
+      list_unused_filters: true
     ]
   end
 
