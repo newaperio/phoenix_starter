@@ -8,15 +8,25 @@ defmodule PhoenixStarter.Workers.UserEmailWorker do
   alias PhoenixStarter.Users.UserEmail
   alias PhoenixStarter.Mailer
 
-  @emails :functions
-          |> UserEmail.__info__()
-          |> Keyword.keys()
-          |> Enum.reject(fn f -> f == :render end)
-          |> Enum.map(&Atom.to_string/1)
-
   @impl true
   @spec perform(Oban.Job.t()) :: Oban.Worker.result()
-  def perform(%Oban.Job{args: %{"email" => email} = args}) when email in @emails do
+  def perform(%Oban.Job{args: %{"email" => email} = args}) do
+    if email in emails() do
+      perform_email(args)
+    else
+      {:discard, :invalid_email}
+    end
+  end
+
+  defp emails do
+    :functions
+    |> UserEmail.__info__()
+    |> Keyword.keys()
+    |> Enum.reject(fn f -> f == :render end)
+    |> Enum.map(&Atom.to_string/1)
+  end
+
+  defp perform_email(args) do
     {email, args} = Map.pop(args, "email")
 
     %{"user_id" => user_id, "url" => url} = args
@@ -26,8 +36,6 @@ defmodule PhoenixStarter.Workers.UserEmailWorker do
     Mailer.deliver(email)
     {:ok, email}
   end
-
-  def perform(_job), do: {:discard, :invalid_email}
 
   defimpl PhoenixStarter.Workers.Reportable do
     @threshold 3
