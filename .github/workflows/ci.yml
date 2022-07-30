@@ -126,6 +126,7 @@ jobs:
 
       - run: mix deps.unlock --check-unused
       - run: mix format --check-formatted
+      - run: mix xref graph --label compile-connected --fail-above 0
       - run: mix credo
       - run: mix sobelow --config
 
