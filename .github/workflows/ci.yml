@@ -164,7 +164,7 @@ jobs:
         id: plt-cache
         with:
           path: priv/plts
-          key: ${{runner.os}}-plts-${{matrix.otp}}-${{matrix.elixir}}-${{hashFiles('**/mix.lock')}}
+          key: ${{runner.os}}-plts-${{matrix.otp}}-${{matrix.elixir}}
 
       - name: Create PLTs
         if: steps.plt-cache.outputs.cache-hit != 'true'
@@ -172,7 +172,7 @@ jobs:
           mkdir -p priv/plts
           mix dialyzer --plt
 
-      - run: mix dialyzer --no-check --format short
+      - run: mix dialyzer --no-check --format github
 
   test:
     name: Tests
