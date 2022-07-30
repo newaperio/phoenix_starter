@@ -97,6 +97,8 @@ jobs:
     name: Lint
     needs: deps
     runs-on: ubuntu-latest
+    env:
+      MIX_ENV: dev
 
     strategy:
       matrix:
@@ -134,6 +136,8 @@ jobs:
     name: Dialyzer
     needs: deps
     runs-on: ubuntu-latest
+    env:
+      MIX_ENV: dev
 
     strategy:
       matrix:
