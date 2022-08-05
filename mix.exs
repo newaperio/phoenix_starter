@@ -56,7 +56,7 @@ defmodule PhoenixStarter.MixProject do
       {:phoenix_swoosh, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, ">= 0.0.0"},
-      {:sentry, "8.0.4"},
+      {:sentry, "8.0.6"},
       {:sobelow, "~> 0.10", only: [:dev, :test]},
       {:swoosh, "~> 1.6"},
       {:telemetry_metrics, "~> 0.6"},
