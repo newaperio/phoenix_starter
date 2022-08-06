@@ -100,6 +100,7 @@ defmodule PhoenixStarterWeb do
       import PhoenixStarterWeb.ErrorHelpers
       import PhoenixStarterWeb.Gettext
       alias PhoenixStarterWeb.Router.Helpers, as: Routes
+      import PhoenixStarterWeb.TemplateHelpers
     end
   end
 
