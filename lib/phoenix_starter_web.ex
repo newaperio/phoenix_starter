@@ -61,6 +61,14 @@ defmodule PhoenixStarterWeb do
     end
   end
 
+  def component do
+    quote do
+      use Phoenix.Component
+
+      unquote(view_helpers())
+    end
+  end
+
   def router do
     quote do
       use Phoenix.Router
@@ -83,7 +91,7 @@ defmodule PhoenixStarterWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      # Import LiveView helpers (live_render, live_component, live_patch, etc)
+      # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
       import Phoenix.LiveView.Helpers
 
       # Import basic rendering functionality (render, render_layout, etc)
@@ -92,6 +100,7 @@ defmodule PhoenixStarterWeb do
       import PhoenixStarterWeb.ErrorHelpers
       import PhoenixStarterWeb.Gettext
       alias PhoenixStarterWeb.Router.Helpers, as: Routes
+      import PhoenixStarterWeb.TemplateHelpers
     end
   end
 

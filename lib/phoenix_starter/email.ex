@@ -13,6 +13,9 @@ defmodule PhoenixStarter.Email do
   """
   @type recipient() :: String.t() | {String.t() | nil, String.t()}
 
+  @typedoc "A result from a Notifier module's deliver function."
+  @type notifier_result :: {:ok, Swoosh.Email} | {:error, term()}
+
   @doc """
   Returns a `t:recipient/0` that is the default from address for the app.
   """

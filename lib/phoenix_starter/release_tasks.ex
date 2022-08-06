@@ -34,6 +34,12 @@ defmodule PhoenixStarter.ReleaseTasks do
     end
   end
 
+  @spec rollback(atom(), String.t()) :: {:ok, term, term}
+  def rollback(repo, version) do
+    load_app()
+    {:ok, _, _} = Ecto.Migrator.with_repo(repo, &Ecto.Migrator.run(&1, :down, to: version))
+  end
+
   @spec seeds :: [any]
   # sobelow_skip ["RCE.CodeModule"]
   def seeds do

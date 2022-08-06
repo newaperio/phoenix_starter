@@ -9,16 +9,28 @@ defmodule PhoenixStarterWeb.UserSettingsLive.EmailComponent do
     <div>
       <h2>Update email</h2>
 
-      <.form let={f} for={@changeset} id="form__update-email" phx-change="validate" phx-submit="save" phx-target={@myself}>
-        <%= label f, :email %>
-        <%= email_input f, :email, required: true, phx_debounce: "blur" %>
-        <%= error_tag f, :email %>
+      <.form
+        let={f}
+        for={@changeset}
+        id="form__update-email"
+        phx-change="validate"
+        phx-submit="save"
+        phx-target={@myself}
+      >
+        <%= label(f, :email) %>
+        <%= email_input(f, :email, required: true, phx_debounce: "blur") %>
+        <%= error_tag(f, :email) %>
 
-        <%= label f, :current_password %>
-        <%= password_input f, :current_password, name: "current_password", required: true, phx_debounce: "blur", value: @current_password %>
-        <%= error_tag f, :current_password %>
+        <%= label(f, :current_password) %>
+        <%= password_input(f, :current_password,
+          name: "current_password",
+          required: true,
+          phx_debounce: "blur",
+          value: @current_password
+        ) %>
+        <%= error_tag(f, :current_password) %>
 
-        <%= submit "Update e-mail", phx_disable_with: "Saving..." %>
+        <%= submit("Update e-mail", phx_disable_with: "Saving...") %>
       </.form>
     </div>
     """

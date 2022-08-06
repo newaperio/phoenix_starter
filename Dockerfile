@@ -23,9 +23,11 @@ ENV MIX_ENV=prod
 
 WORKDIR /opt/app
 
-COPY config config
-COPY mix.* ./
-RUN mix do deps.get --only=$MIX_ENV, deps.compile
+COPY mix.exs mix.lock ./
+RUN mix deps.get --only=$MIX_ENV
+
+COPY config/config.exs config/${MIX_ENV}.exs config/
+RUN mix deps.compile
 
 # Assets builder
 # ---------------
@@ -52,8 +54,15 @@ WORKDIR /opt/app
 COPY --from=assets-build /opt/app/priv/static priv/static
 RUN mix phx.digest
 
-COPY . .
-RUN mix do compile, deps.compile sentry --force, release --quiet
+COPY priv priv
+COPY lib lib
+
+RUN mix do compile, deps.compile sentry --force
+
+COPY config/runtime.exs config/
+COPY rel rel
+
+RUN mix release
 
 # App final
 # ---------
@@ -70,8 +79,7 @@ RUN apk --no-cache --update add \
 
 WORKDIR /opt/app
 
-COPY --from=release /opt/app/_build/prod/rel/phoenix_starter ./
-RUN chown -R nobody: /opt/app
+COPY --from=release --chown=nobody: /opt/app/_build/prod/rel/phoenix_starter ./
 USER nobody
 
 EXPOSE ${PORT}

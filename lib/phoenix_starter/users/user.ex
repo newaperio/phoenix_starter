@@ -7,11 +7,10 @@ defmodule PhoenixStarter.Users.User do
   alias Ecto.Changeset
   alias PhoenixStarter.Users.UserRole
 
-  @derive {Inspect, except: [:password]}
   schema "users" do
     field :email, :string
-    field :password, :string, virtual: true
-    field :hashed_password, :string
+    field :password, :string, virtual: true, redact: true
+    field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
     field :role, UserRole.Type, roles: UserRole.roles(), default: :user
     field :profile_image, {:array, :map}
@@ -58,7 +57,7 @@ defmodule PhoenixStarter.Users.User do
   defp validate_password(changeset, opts) do
     changeset
     |> validate_required([:password])
-    |> validate_length(:password, min: 12, max: 80)
+    |> validate_length(:password, min: 12, max: 72)
     # |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
     # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
     # |> validate_format(:password, ~r/[!?@#$%^&*_0-9]/, message: "at least one digit or punctuation character")
@@ -71,6 +70,7 @@ defmodule PhoenixStarter.Users.User do
 
     if hash_password? && password && changeset.valid? do
       changeset
+      |> validate_length(:password, max: 72, count: :bytes)
       |> put_change(:hashed_password, Bcrypt.hash_pwd_salt(password))
       |> delete_change(:password)
     else
@@ -139,6 +139,7 @@ defmodule PhoenixStarter.Users.User do
 
   def valid_password?(_, _) do
     Bcrypt.no_user_verify()
+    false
   end
 
   @doc """

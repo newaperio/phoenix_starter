@@ -46,7 +46,7 @@ defmodule PhoenixStarterWeb.UserResetPasswordControllerTest do
     setup %{user: user} do
       token =
         extract_user_token(fn url ->
-          Users.deliver_user_reset_password_instructions(user, url, false)
+          Users.deliver_user_reset_password_instructions(user, url)
         end)
 
       %{token: token}
@@ -68,7 +68,7 @@ defmodule PhoenixStarterWeb.UserResetPasswordControllerTest do
     setup %{user: user} do
       token =
         extract_user_token(fn url ->
-          Users.deliver_user_reset_password_instructions(user, url, false)
+          Users.deliver_user_reset_password_instructions(user, url)
         end)
 
       %{token: token}
