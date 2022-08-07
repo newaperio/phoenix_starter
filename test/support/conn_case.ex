@@ -23,6 +23,7 @@ defmodule PhoenixStarterWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import PhoenixStarterWeb.ConnCase
+      import PhoenixStarterWeb.TestHelpers
 
       alias PhoenixStarterWeb.Router.Helpers, as: Routes
 

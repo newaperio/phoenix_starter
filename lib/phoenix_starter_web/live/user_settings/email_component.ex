@@ -67,7 +67,8 @@ defmodule PhoenixStarterWeb.UserSettingsLive.EmailComponent do
 
     send(
       self(),
-      {:flash, :info, "A link to confirm your e-mail change has been sent to the new address."}
+      {:flash, :success,
+       gettext("A link to confirm your e-mail change has been sent to the new address.")}
     )
 
     {:noreply, socket}
@@ -90,8 +91,8 @@ defmodule PhoenixStarterWeb.UserSettingsLive.EmailComponent do
 
         send(
           self(),
-          {:flash, :info,
-           "A link to confirm your e-mail change has been sent to the new address."}
+          {:flash, :success,
+           gettext("A link to confirm your e-mail change has been sent to the new address.")}
         )
 
         {:noreply, assign(socket, :current_password, "")}

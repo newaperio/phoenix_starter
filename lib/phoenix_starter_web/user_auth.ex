@@ -2,8 +2,9 @@ defmodule PhoenixStarterWeb.UserAuth do
   @moduledoc """
   Session helpers to authentication.
   """
-  import Plug.Conn
   import Phoenix.Controller
+  import PhoenixStarterWeb.Gettext
+  import Plug.Conn
 
   alias Phoenix.LiveView
   alias PhoenixStarter.Users
@@ -159,7 +160,7 @@ defmodule PhoenixStarterWeb.UserAuth do
     else
       socket =
         socket
-        |> LiveView.put_flash(:error, "You must log in to access this page.")
+        |> LiveView.put_flash(:error, gettext("You must log in to access this page."))
         |> LiveView.redirect(to: Routes.user_session_path(PhoenixStarterWeb.Endpoint, :new))
 
       {:halt, socket}
@@ -214,7 +215,7 @@ defmodule PhoenixStarterWeb.UserAuth do
       conn
     else
       conn
-      |> put_flash(:error, "You must log in to access this page.")
+      |> put_flash(:error, gettext("You must log in to access this page."))
       |> maybe_store_return_to()
       |> redirect(to: Routes.user_session_path(conn, :new))
       |> halt()

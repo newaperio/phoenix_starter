@@ -95,7 +95,7 @@ defmodule PhoenixStarterWeb.UserSettingsLive.ProfileComponent do
       {:ok, user} ->
         send(
           self(),
-          {:flash, :info, "Profile updated succcessfully."}
+          {:flash, :success, gettext("Your profile was updated succcessfully.")}
         )
 
         {:noreply, assign(socket, :current_image, user.profile_image)}

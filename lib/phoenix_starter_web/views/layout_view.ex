@@ -1,64 +1,64 @@
 defmodule PhoenixStarterWeb.LayoutView do
   use PhoenixStarterWeb, :view
+  use Phoenix.Component
 
-  alias Phoenix.HTML
   alias PhoenixStarter.Users
 
-  @type flash_key() :: :info | :warning | :error
+  @type flash_key() :: :success | :notice | :error
 
   @doc """
-  Returns HTML for an alert banner based on a `%Plug.Conn{}` struct or a
-  LiveView flash assign.
+  Renders a flash message.
 
-  The outermost tag is assigned a set of CSS utility `class`es that style the
-  alert appropriately based on the given `flash_key`.
+  The rendered flash receives a `:type` that will be used to define
+  proper classes to the element, and a `:message` which will be the
+  inner HTML, if any exists.
+
+  ## Examples
+
+      <.flash flash={@flash} kind={:info} />
+
   """
-  @spec alert(Plug.Conn.t() | map(), flash_key()) :: HTML.safe()
-  def alert(%Plug.Conn{} = conn, flash_key) do
-    case get_flash(conn, flash_key) do
-      msg when is_binary(msg) ->
-        content_tag(:p, msg, role: "alert", class: alert_class(flash_key))
+  def flash(assigns) do
+    assigns = assign(assigns, :message, Map.get(assigns.flash, Atom.to_string(assigns.kind)))
 
-      _ ->
-        nil
-    end
+    ~H"""
+    <%= if @message do %>
+      <div class={alert_class(@kind)} role="alert" phx-click="lv:clear-flash" phx-value-key={@kind}>
+        <p class="flex-grow"><.alert_prefix kind={@kind} /> <%= @message %></p>
+        <span class="cursor-pointer">&times;</span>
+      </div>
+    <% end %>
+    """
   end
 
-  def alert(flash, flash_key) do
-    case live_flash(flash, flash_key) do
-      msg when is_binary(msg) -> lv_alert(flash_key, msg)
-      _ -> nil
-    end
-  end
-
-  @spec lv_alert(flash_key(), String.t()) :: HTML.safe()
-  # sobelow_skip ["XSS.Raw"]
-  defp lv_alert(flash_key, msg) do
-    safe_msg =
-      msg
-      |> HTML.html_escape()
-      |> safe_to_string()
-
-    HTML.raw("""
-    <p class="#{alert_class(flash_key)}"
-       role="alert"
-       phx-click="lv:clear-flash"
-       phx-value-key="#{flash_key}"
-    >
-      #{safe_msg}
-    </p>
-    """)
-  end
-
-  @alert_class "border border-transparent rounded mb-5 p-4"
+  @alert_class "flex border border-transparent rounded mb-5 p-4"
 
   @spec alert_class(flash_key()) :: String.t()
-  defp alert_class(:info), do: @alert_class <> " bg-blue-100 border-blue-200 text-blue-600"
+  defp alert_class(:success), do: @alert_class <> " bg-green-100 border-green-200 text-green-600"
 
-  defp alert_class(:warning),
+  defp alert_class(:notice),
     do: @alert_class <> " bg-yellow-100 border-yellow-200 text-yellow-700"
 
   defp alert_class(:error), do: @alert_class <> " bg-red-200 border-red-300 text-red-800"
+
+  @spec alert_prefix(%{kind: flash_key()}) :: String.t()
+  defp alert_prefix(%{kind: :success} = assigns) do
+    ~H"""
+    <span class="font-bold text-green-800">Success!</span>
+    """
+  end
+
+  defp alert_prefix(%{kind: :notice} = assigns) do
+    ~H"""
+    <span class="font-bold text-yellow-800">Notice:</span>
+    """
+  end
+
+  defp alert_prefix(%{kind: :error} = assigns) do
+    ~H"""
+    <span class="font-bold text-red-800">Error:</span>
+    """
+  end
 
   @spec permitted?(Users.User.t(), String.t()) :: boolean
   def permitted?(user, permission) do

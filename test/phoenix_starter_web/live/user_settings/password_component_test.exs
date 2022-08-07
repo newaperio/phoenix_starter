@@ -47,6 +47,6 @@ defmodule PhoenixStarterWeb.UserSettingsLive.PasswordComponentTest do
     conn = follow_trigger_action(form, conn)
 
     assert redirected_to(conn) =~ Routes.user_settings_path(conn, :password)
-    assert get_flash(conn, :info) =~ "Password updated successfully."
+    assert get_flash(conn, :success) =~ "Your password was updated successfully."
   end
 end

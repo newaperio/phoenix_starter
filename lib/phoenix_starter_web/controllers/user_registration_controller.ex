@@ -20,7 +20,7 @@ defmodule PhoenixStarterWeb.UserRegistrationController do
           )
 
         conn
-        |> put_flash(:info, "User created successfully.")
+        |> put_flash(:success, gettext("Your account was created successfully."))
         |> UserAuth.log_in_user(user)
 
       {:error, %Ecto.Changeset{} = changeset} ->

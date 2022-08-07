@@ -1,75 +1,41 @@
 defmodule PhoenixStarterWeb.LayoutViewTest do
   use PhoenixStarterWeb.ConnCase, async: true
 
-  import Phoenix.HTML
+  import Phoenix.LiveViewTest
   import PhoenixStarter.UsersFixtures
 
   alias PhoenixStarterWeb.LayoutView
 
-  @base_class "border border-transparent rounded mb-5 p-4"
-  @info_class "bg-blue-100 border-blue-200 text-blue-600"
-  @warning_class "bg-yellow-100 border-yellow-200 text-yellow-700"
-  @error_class "bg-red-200 border-red-300 text-red-800"
+  describe "flash/1" do
+    test "renders success" do
+      flash = %{"success" => "Test message."}
 
-  test "alert/2 returns the correct HTML for a conn struct" do
-    assert "info"
-           |> conn_with_flash("info message")
-           |> LayoutView.alert(:info)
-           |> safe_to_string() ==
-             ~s(<p class="#{@base_class} #{@info_class}" role="alert">info message</p>)
+      rendered = render_component(&LayoutView.flash/1, flash: flash, kind: :success)
 
-    assert "warning"
-           |> conn_with_flash("warning message")
-           |> LayoutView.alert(:warning)
-           |> safe_to_string() ==
-             ~s(<p class="#{@base_class} #{@warning_class}" role="alert">warning message</p>)
+      assert_text_in_html(rendered, "Success! Test message.")
+    end
 
-    assert "error"
-           |> conn_with_flash("error message")
-           |> LayoutView.alert(:error)
-           |> safe_to_string() ==
-             ~s(<p class="#{@base_class} #{@error_class}" role="alert">error message</p>)
-  end
+    test "renders notice" do
+      flash = %{"notice" => "Test message."}
 
-  test "alert/2 returns the correct HTML for a flash assign" do
-    assert %{"info" => "info message"}
-           |> LayoutView.alert(:info)
-           |> safe_to_string() ==
-             """
-             <p class="#{@base_class} #{@info_class}"
-                role="alert"
-                phx-click="lv:clear-flash"
-                phx-value-key="info"
-             >
-               info message
-             </p>
-             """
+      rendered = render_component(&LayoutView.flash/1, flash: flash, kind: :notice)
 
-    assert %{"warning" => "warning message"}
-           |> LayoutView.alert(:warning)
-           |> safe_to_string() ==
-             """
-             <p class="#{@base_class} #{@warning_class}"
-                role="alert"
-                phx-click="lv:clear-flash"
-                phx-value-key="warning"
-             >
-               warning message
-             </p>
-             """
+      assert_text_in_html(rendered, "Notice: Test message.")
+    end
 
-    assert %{"error" => "error message"}
-           |> LayoutView.alert(:error)
-           |> safe_to_string() ==
-             """
-             <p class="#{@base_class} #{@error_class}"
-                role="alert"
-                phx-click="lv:clear-flash"
-                phx-value-key="error"
-             >
-               error message
-             </p>
-             """
+    test "renders error" do
+      flash = %{"error" => "Test message."}
+
+      rendered = render_component(&LayoutView.flash/1, flash: flash, kind: :error)
+
+      assert_text_in_html(rendered, "Error: Test message.")
+    end
+
+    test "renders nothing if no flash" do
+      flash = %{"success" => "Test message."}
+
+      assert render_component(&LayoutView.flash/1, flash: flash, kind: :error) == ""
+    end
   end
 
   test "permitted?/2 returns a boolean" do
@@ -77,27 +43,5 @@ defmodule PhoenixStarterWeb.LayoutViewTest do
 
     assert LayoutView.permitted?(current_user, "me.update_profile")
     refute LayoutView.permitted?(current_user, "notareal.permission")
-  end
-
-  defp conn_with_flash(flash_key, msg) do
-    :get
-    |> build_conn("/")
-    |> with_session()
-    |> put_session("phoenix_flash", %{flash_key => msg})
-    |> fetch_flash()
-  end
-
-  @session Plug.Session.init(
-             store: :cookie,
-             key: "_app",
-             encryption_salt: "yadayada",
-             signing_salt: "yadayada"
-           )
-
-  defp with_session(conn) do
-    conn
-    |> Map.put(:secret_key_base, String.duplicate("abcdefgh", 8))
-    |> Plug.Session.call(@session)
-    |> Plug.Conn.fetch_session()
   end
 end
