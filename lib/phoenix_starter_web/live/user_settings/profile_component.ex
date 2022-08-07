@@ -37,25 +37,29 @@ defmodule PhoenixStarterWeb.UserSettingsLive.ProfileComponent do
     <div>
       <h2>Update profile</h2>
 
-      <.form for={@changeset} id="form__update-profile" phx-change="validate" phx-submit="save" phx-target={@myself}>
+      <.form
+        for={@changeset}
+        id="form__update-profile"
+        phx-change="validate"
+        phx-submit="save"
+        phx-target={@myself}
+      >
         <h2>Profile Photo</h2>
 
         <div>
-          Current Image:
-          <%= img_tag Uploads.upload_url(@current_image), width: 75 %>
+          Current Image: <%= img_tag(Uploads.upload_url(@current_image), width: 75) %>
         </div>
 
-        <%= live_file_input @uploads.profile_image %>
+        <%= live_file_input(@uploads.profile_image) %>
         <%= for entry <- @uploads.profile_image.entries do %>
-          Selected Image:
-          <%= live_img_preview entry, width: 75 %>
+          Selected Image: <%= live_img_preview(entry, width: 75) %>
           <%= entry.client_name %> - <%= entry.progress %>%
           <%= for err <- upload_errors(@uploads.profile_image, entry) do %>
             <p><%= upload_error(err) %></p>
           <% end %>
         <% end %>
 
-        <%= submit "Update profile", phx_disable_with: "Saving..." %>
+        <%= submit("Update profile", phx_disable_with: "Saving...") %>
       </.form>
     </div>
     """
@@ -91,7 +95,7 @@ defmodule PhoenixStarterWeb.UserSettingsLive.ProfileComponent do
       {:ok, user} ->
         send(
           self(),
-          {:flash, :info, "Profile updated succcessfully."}
+          {:flash, :success, gettext("Your profile was updated succcessfully.")}
         )
 
         {:noreply, assign(socket, :current_image, user.profile_image)}

@@ -4,6 +4,7 @@ import Config
 config :phoenix_starter, PhoenixStarter.Repo,
   database: "phoenix_starter_dev",
   hostname: "localhost",
+  stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -12,18 +13,14 @@ web_port = 4000
 # For development, we disable any cache and enable
 # debugging and code reloading.
 config :phoenix_starter, PhoenixStarterWeb.Endpoint,
-  http: [port: web_port],
+  http: [ip: {127, 0, 0, 1}, port: web_port],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
+  secret_key_base: "7nP1poUpni9iUuIk8xM3pAmbRgwYGZjBfUdh5NgjRX92w/20ndnn7s6x69rFzBxB",
   watchers: [
-    node: [
-      "node_modules/webpack/bin/webpack.js",
-      "--mode",
-      "development",
-      "--watch",
-      cd: Path.expand("../assets", __DIR__)
-    ]
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
 
 # Watch static and templates for browser reloading.
@@ -46,9 +43,6 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
-
-# Configures Swoosh
-config :phoenix_starter, PhoenixStarter.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configures Sentry
 config :sentry, environment_name: "dev"

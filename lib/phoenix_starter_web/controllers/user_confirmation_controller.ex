@@ -18,9 +18,10 @@ defmodule PhoenixStarterWeb.UserConfirmationController do
     # Regardless of the outcome, show an impartial success/error message.
     conn
     |> put_flash(
-      :info,
-      "If your email is in our system and it has not been confirmed yet, " <>
-        "you will receive an email with instructions shortly."
+      :success,
+      gettext(
+        "If your email is in our system and it has not been confirmed yet, you will receive an email with instructions shortly."
+      )
     )
     |> redirect(to: "/")
   end
@@ -31,7 +32,10 @@ defmodule PhoenixStarterWeb.UserConfirmationController do
     case Users.confirm_user(token) do
       {:ok, _} ->
         conn
-        |> put_flash(:info, "Account confirmed successfully.")
+        |> put_flash(
+          :success,
+          gettext("Your account was confirmed successfully. Please log in to continue.")
+        )
         |> redirect(to: "/")
 
       :error ->
@@ -46,7 +50,10 @@ defmodule PhoenixStarterWeb.UserConfirmationController do
 
           %{} ->
             conn
-            |> put_flash(:error, "Account confirmation link is invalid or it has expired.")
+            |> put_flash(
+              :error,
+              gettext("The account confirmation link is invalid or it has expired.")
+            )
             |> redirect(to: "/")
         end
     end

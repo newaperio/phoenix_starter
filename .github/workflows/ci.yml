@@ -18,8 +18,8 @@ jobs:
 
     strategy:
       matrix:
-        elixir: ["1.13.2"]
-        otp: ["24.2.1"]
+        elixir: ["1.13.4"]
+        otp: ["25.0.3"]
 
     steps:
       - uses: actions/checkout@v2
@@ -55,9 +55,9 @@ jobs:
 
     strategy:
       matrix:
-        elixir: ["1.13.2"]
-        otp: ["24.2.1"]
-        node: ["14.13.1"]
+        elixir: ["1.13.4"]
+        otp: ["25.0.3"]
+        node: ["18.7.0"]
 
     steps:
       - uses: actions/checkout@v2
@@ -88,10 +88,6 @@ jobs:
         working-directory: ./assets
       - run: npx eslint js --ext .js,.jsx,.ts,.tsx
         working-directory: ./assets
-      - run: npm run deploy
-        env:
-          NODE_ENV: production
-        working-directory: ./assets
 
   lint:
     name: Lint
@@ -102,8 +98,8 @@ jobs:
 
     strategy:
       matrix:
-        elixir: ["1.13.2"]
-        otp: ["24.2.1"]
+        elixir: ["1.13.4"]
+        otp: ["25.0.3"]
 
     steps:
       - uses: actions/checkout@v2
@@ -141,8 +137,8 @@ jobs:
 
     strategy:
       matrix:
-        elixir: ["1.13.2"]
-        otp: ["24.2.1"]
+        elixir: ["1.13.4"]
+        otp: ["25.0.3"]
 
     steps:
       - uses: actions/checkout@v2
@@ -174,9 +170,7 @@ jobs:
 
       - name: Create PLTs
         if: steps.plt-cache.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p priv/plts
-          mix dialyzer --plt
+        run: mix dialyzer --plt
 
       - run: mix dialyzer --no-check --format github
 
@@ -190,8 +184,8 @@ jobs:
 
     strategy:
       matrix:
-        elixir: ["1.13.2"]
-        otp: ["24.2.1"]
+        elixir: ["1.13.4"]
+        otp: ["25.0.3"]
 
     services:
       db:

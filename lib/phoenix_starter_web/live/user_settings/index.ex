@@ -1,10 +1,10 @@
 defmodule PhoenixStarterWeb.UserSettingsLive.Index do
   use PhoenixStarterWeb, :live_view
 
-  @impl true
-  def mount(params, session, socket) do
-    socket = assign_defaults(socket, params, session)
+  on_mount {PhoenixStarterWeb.UserAuth, :mount_current_user}
 
+  @impl true
+  def mount(_params, _session, socket) do
     {:ok, socket}
   end
 

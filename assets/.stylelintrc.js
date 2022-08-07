@@ -5,7 +5,7 @@ module.exports = {
     "at-rule-no-unknown": [
       true,
       {
-        ignoreAtRules: ["define-mixin", "mixin", "layer"],
+        ignoreAtRules: ["apply", "define-mixin", "mixin", "layer"],
       },
     ],
     "declaration-colon-newline-after": "always-multi-line",

@@ -1,5 +1,7 @@
 <main role="main">
-  <%= alert(@conn, :info) %>
-  <%= alert(@conn, :error) %>
+  <.flash flash={get_flash(@conn)} kind={:success} />
+  <.flash flash={get_flash(@conn)} kind={:notice} />
+  <.flash flash={get_flash(@conn)} kind={:error} />
+
   <%= @inner_content %>
 </main>

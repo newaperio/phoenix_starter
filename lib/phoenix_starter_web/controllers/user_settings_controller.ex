@@ -12,13 +12,13 @@ defmodule PhoenixStarterWeb.UserSettingsController do
     case Users.update_user_password(user, password, user_params) do
       {:ok, user} ->
         conn
-        |> put_flash(:info, "Password updated successfully.")
+        |> put_flash(:success, gettext("Your password was updated successfully."))
         |> put_session(:user_return_to, Routes.user_settings_path(conn, :password))
         |> UserAuth.log_in_user(user)
 
       _ ->
         conn
-        |> put_flash(:error, "We were unable to update your password. Please try again.")
+        |> put_flash(:error, gettext("We were unable to update your password. Please try again."))
         |> redirect(to: Routes.user_settings_path(conn, :password))
     end
   end
@@ -27,12 +27,15 @@ defmodule PhoenixStarterWeb.UserSettingsController do
     case Users.update_user_email(conn.assigns.current_user, token) do
       :ok ->
         conn
-        |> put_flash(:info, "Email changed successfully.")
+        |> put_flash(:success, gettext("Your email was updated successfully."))
         |> redirect(to: Routes.user_settings_path(conn, :email))
 
       :error ->
         conn
-        |> put_flash(:error, "Email change link is invalid or it has expired.")
+        |> put_flash(
+          :error,
+          gettext("The email change link is invalid or it has expired. Please try again.")
+        )
         |> redirect(to: Routes.user_settings_path(conn, :email))
     end
   end

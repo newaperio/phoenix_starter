@@ -9,28 +9,42 @@ defmodule PhoenixStarterWeb.UserSettingsLive.PasswordComponent do
     <div>
       <h2>Update password</h2>
 
-      <.form let={f}
-             for={@changeset}
-             id="form__update-password"
-             action={Routes.user_settings_path(@socket, :password)}
-             phx-change="validate"
-             phx-submit="update"
-             phx-trigger-action={@trigger_action}
-             phx-target={@myself}
+      <.form
+        let={f}
+        for={@changeset}
+        id="form__update-password"
+        action={Routes.user_settings_path(@socket, :password)}
+        phx-change="validate"
+        phx-submit="update"
+        phx-trigger-action={@trigger_action}
+        phx-target={@myself}
       >
-        <%= label f, :password, "New password" %>
-        <%= password_input f, :password, required: true, value: input_value(f, :password), phx_debounce: "blur" %>
-        <%= error_tag f, :password %>
+        <%= label(f, :password, "New password") %>
+        <%= password_input(f, :password,
+          required: true,
+          value: input_value(f, :password),
+          phx_debounce: "blur"
+        ) %>
+        <%= error_tag(f, :password) %>
 
-        <%= label f, :password_confirmation, "Confirm new password" %>
-        <%= password_input f, :password_confirmation, value: input_value(f, :password_confirmation), required: true, phx_debounce: "blur" %>
-        <%= error_tag f, :password_confirmation %>
+        <%= label(f, :password_confirmation, "Confirm new password") %>
+        <%= password_input(f, :password_confirmation,
+          value: input_value(f, :password_confirmation),
+          required: true,
+          phx_debounce: "blur"
+        ) %>
+        <%= error_tag(f, :password_confirmation) %>
 
-        <%= label f, :current_password %>
-        <%= password_input f, :current_password, name: "current_password", required: true, phx_debounce: "blur", value: @current_password %>
-        <%= error_tag f, :current_password %>
+        <%= label(f, :current_password) %>
+        <%= password_input(f, :current_password,
+          name: "current_password",
+          required: true,
+          phx_debounce: "blur",
+          value: @current_password
+        ) %>
+        <%= error_tag(f, :current_password) %>
 
-        <%= submit "Change password", phx_disable_with: "Saving..." %>
+        <%= submit("Change password", phx_disable_with: "Saving...") %>
       </.form>
     </div>
     """

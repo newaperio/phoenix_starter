@@ -10,64 +10,141 @@
 msgid ""
 msgstr ""
 
-#, elixir-format
-#: lib/phoenix_starter/users/user_email.ex:15
+#: lib/phoenix_starter/users/user_notifier.ex:20
+#, elixir-autogen, elixir-format
 msgid "Confirm your account"
 msgstr ""
 
-#, elixir-format
-#: lib/phoenix_starter_web/templates/user_email/confirmation_instructions.html.eex:7
+#: lib/phoenix_starter_web/templates/user_email/confirmation_instructions.html.heex:7
 #: lib/phoenix_starter_web/templates/user_email/confirmation_instructions.text.eex:7
+#, elixir-autogen, elixir-format
 msgid "If you didn't create an account with us, please ignore this."
 msgstr ""
 
-#, elixir-format
-#: lib/phoenix_starter_web/templates/user_email/confirmation_instructions.html.eex:3
+#: lib/phoenix_starter_web/templates/user_email/confirmation_instructions.html.heex:3
 #: lib/phoenix_starter_web/templates/user_email/confirmation_instructions.text.eex:3
+#, elixir-autogen, elixir-format
 msgid "You can confirm your account by visiting the URL below:"
 msgstr ""
 
-#, elixir-format
-#: lib/phoenix_starter_web/templates/user_email/confirmation_instructions.html.eex:1
+#: lib/phoenix_starter_web/templates/user_email/confirmation_instructions.html.heex:1
 #: lib/phoenix_starter_web/templates/user_email/confirmation_instructions.text.eex:1
-#: lib/phoenix_starter_web/templates/user_email/reset_password_instructions.html.eex:1
+#: lib/phoenix_starter_web/templates/user_email/reset_password_instructions.html.heex:1
 #: lib/phoenix_starter_web/templates/user_email/reset_password_instructions.text.eex:1
-#: lib/phoenix_starter_web/templates/user_email/update_email_instructions.html.eex:1
+#: lib/phoenix_starter_web/templates/user_email/update_email_instructions.html.heex:1
 #: lib/phoenix_starter_web/templates/user_email/update_email_instructions.text.eex:1
+#, elixir-autogen, elixir-format
 msgid "Hi %{user_email},"
 msgstr ""
 
-#, elixir-format
-#: lib/phoenix_starter/users/user_email.ex:35
+#: lib/phoenix_starter/users/user_notifier.ex:48
+#, elixir-autogen, elixir-format
 msgid "Confirm email change"
 msgstr ""
 
-#, elixir-format
-#: lib/phoenix_starter_web/templates/user_email/reset_password_instructions.html.eex:7
+#: lib/phoenix_starter_web/templates/user_email/reset_password_instructions.html.heex:7
 #: lib/phoenix_starter_web/templates/user_email/reset_password_instructions.text.eex:7
-#: lib/phoenix_starter_web/templates/user_email/update_email_instructions.html.eex:7
+#: lib/phoenix_starter_web/templates/user_email/update_email_instructions.html.heex:7
 #: lib/phoenix_starter_web/templates/user_email/update_email_instructions.text.eex:7
+#, elixir-autogen, elixir-format
 msgid "If you didn't request this change, please ignore this."
 msgstr ""
 
-#, elixir-format
-#: lib/phoenix_starter/users/user_email.ex:25
+#: lib/phoenix_starter/users/user_notifier.ex:34
+#, elixir-autogen, elixir-format
 msgid "Reset your password"
 msgstr ""
 
-#, elixir-format
-#: lib/phoenix_starter_web/templates/user_email/update_email_instructions.html.eex:3
+#: lib/phoenix_starter_web/templates/user_email/update_email_instructions.html.heex:3
 #: lib/phoenix_starter_web/templates/user_email/update_email_instructions.text.eex:3
+#, elixir-autogen, elixir-format
 msgid "You can change your email by visiting the URL below:"
 msgstr ""
 
-#, elixir-format
-#: lib/phoenix_starter_web/templates/user_email/reset_password_instructions.html.eex:3
+#: lib/phoenix_starter_web/templates/user_email/reset_password_instructions.html.heex:3
 #: lib/phoenix_starter_web/templates/user_email/reset_password_instructions.text.eex:3
+#, elixir-autogen, elixir-format
 msgid "You can reset your password by visiting the URL below:"
 msgstr ""
 
-#, elixir-format
 #: lib/phoenix_starter_web/plugs/require_user_permission.ex:37
+#, elixir-autogen, elixir-format
 msgid "You are not authorized to perform this action."
+msgstr ""
+
+#: lib/phoenix_starter_web/live/user_settings/email_component.ex:71
+#: lib/phoenix_starter_web/live/user_settings/email_component.ex:95
+#, elixir-autogen, elixir-format
+msgid "A link to confirm your e-mail change has been sent to the new address."
+msgstr ""
+
+#: lib/phoenix_starter_web/controllers/user_confirmation_controller.ex:22
+#, elixir-autogen, elixir-format
+msgid "If your email is in our system and it has not been confirmed yet, you will receive an email with instructions shortly."
+msgstr ""
+
+#: lib/phoenix_starter_web/controllers/user_reset_password_controller.ex:24
+#, elixir-autogen, elixir-format
+msgid "If your email is in our system, you will receive instructions to reset your password shortly."
+msgstr ""
+
+#: lib/phoenix_starter_web/controllers/user_session_controller.ex:23
+#, elixir-autogen, elixir-format
+msgid "Logged out successfully."
+msgstr ""
+
+#: lib/phoenix_starter_web/controllers/user_confirmation_controller.ex:55
+#, elixir-autogen, elixir-format
+msgid "The account confirmation link is invalid or it has expired."
+msgstr ""
+
+#: lib/phoenix_starter_web/controllers/user_settings_controller.ex:37
+#, elixir-autogen, elixir-format
+msgid "The email change link is invalid or it has expired. Please try again."
+msgstr ""
+
+#: lib/phoenix_starter_web/controllers/user_reset_password_controller.ex:58
+#, elixir-autogen, elixir-format
+msgid "The reset password link is invalid or it has expired. Please request a new one."
+msgstr ""
+
+#: lib/phoenix_starter_web/controllers/user_settings_controller.ex:21
+#, elixir-autogen, elixir-format
+msgid "We were unable to update your password. Please try again."
+msgstr ""
+
+#: lib/phoenix_starter_web/user_auth.ex:163
+#: lib/phoenix_starter_web/user_auth.ex:218
+#, elixir-autogen, elixir-format
+msgid "You must log in to access this page."
+msgstr ""
+
+#: lib/phoenix_starter_web/controllers/user_confirmation_controller.ex:37
+#, elixir-autogen, elixir-format
+msgid "Your account was confirmed successfully. Please log in to continue."
+msgstr ""
+
+#: lib/phoenix_starter_web/controllers/user_registration_controller.ex:23
+#, elixir-autogen, elixir-format
+msgid "Your account was created successfully."
+msgstr ""
+
+#: lib/phoenix_starter_web/controllers/user_settings_controller.ex:30
+#, elixir-autogen, elixir-format
+msgid "Your email was updated successfully."
+msgstr ""
+
+#: lib/phoenix_starter_web/controllers/user_reset_password_controller.ex:41
+#, elixir-autogen, elixir-format
+msgid "Your password has been reset. Please login to continue."
+msgstr ""
+
+#: lib/phoenix_starter_web/controllers/user_settings_controller.ex:15
+#, elixir-autogen, elixir-format
+msgid "Your password was updated successfully."
+msgstr ""
+
+#: lib/phoenix_starter_web/live/user_settings/profile_component.ex:98
+#, elixir-autogen, elixir-format
+msgid "Your profile was updated succcessfully."
 msgstr ""

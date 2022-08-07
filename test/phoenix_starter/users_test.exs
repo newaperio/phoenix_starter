@@ -72,7 +72,7 @@ defmodule PhoenixStarter.UsersTest do
       too_long = String.duplicate("db", 100)
       {:error, changeset} = Users.register_user(%{email: too_long, password: too_long})
       assert "should be at most 160 character(s)" in errors_on(changeset).email
-      assert "should be at most 80 character(s)" in errors_on(changeset).password
+      assert "should be at most 72 character(s)" in errors_on(changeset).password
     end
 
     test "validates email uniqueness" do
@@ -188,7 +188,7 @@ defmodule PhoenixStarter.UsersTest do
     test "sends token through notification", %{user: user} do
       token =
         extract_user_token(fn url ->
-          Users.deliver_update_email_instructions(user, "current@example.com", url, false)
+          Users.deliver_update_email_instructions(user, "current@example.com", url)
         end)
 
       {:ok, token} = Base.url_decode64(token, padding: false)
@@ -196,17 +196,6 @@ defmodule PhoenixStarter.UsersTest do
       assert user_token.user_id == user.id
       assert user_token.sent_to == user.email
       assert user_token.context == "change:current@example.com"
-    end
-
-    test "sends notification in the background", %{user: user} do
-      Users.deliver_update_email_instructions(
-        user,
-        "current@example.com",
-        fn _ -> "https://example.com" end,
-        true
-      )
-
-      assert_enqueued(worker: PhoenixStarter.Workers.UserEmailWorker)
     end
   end
 
@@ -217,7 +206,7 @@ defmodule PhoenixStarter.UsersTest do
 
       token =
         extract_user_token(fn url ->
-          Users.deliver_update_email_instructions(%{user | email: email}, user.email, url, false)
+          Users.deliver_update_email_instructions(%{user | email: email}, user.email, url)
         end)
 
       %{user: user, token: token, email: email}
@@ -291,7 +280,7 @@ defmodule PhoenixStarter.UsersTest do
       {:error, changeset} =
         Users.update_user_password(user, valid_user_password(), %{password: too_long})
 
-      assert "should be at most 80 character(s)" in errors_on(changeset).password
+      assert "should be at most 72 character(s)" in errors_on(changeset).password
     end
 
     test "validates current password", %{user: user} do
@@ -445,7 +434,7 @@ defmodule PhoenixStarter.UsersTest do
     test "sends token through notification", %{user: user} do
       token =
         extract_user_token(fn url ->
-          Users.deliver_user_confirmation_instructions(user, url, false)
+          Users.deliver_user_confirmation_instructions(user, url)
         end)
 
       {:ok, token} = Base.url_decode64(token, padding: false)
@@ -453,16 +442,6 @@ defmodule PhoenixStarter.UsersTest do
       assert user_token.user_id == user.id
       assert user_token.sent_to == user.email
       assert user_token.context == "confirm"
-    end
-
-    test "sends notification in the background", %{user: user} do
-      Users.deliver_user_confirmation_instructions(
-        user,
-        fn _ -> "https://example.com" end,
-        true
-      )
-
-      assert_enqueued(worker: PhoenixStarter.Workers.UserEmailWorker)
     end
   end
 
@@ -472,7 +451,7 @@ defmodule PhoenixStarter.UsersTest do
 
       token =
         extract_user_token(fn url ->
-          Users.deliver_user_confirmation_instructions(user, url, false)
+          Users.deliver_user_confirmation_instructions(user, url)
         end)
 
       %{user: user, token: token}
@@ -508,7 +487,7 @@ defmodule PhoenixStarter.UsersTest do
     test "sends token through notification", %{user: user} do
       token =
         extract_user_token(fn url ->
-          Users.deliver_user_reset_password_instructions(user, url, false)
+          Users.deliver_user_reset_password_instructions(user, url)
         end)
 
       {:ok, token} = Base.url_decode64(token, padding: false)
@@ -516,16 +495,6 @@ defmodule PhoenixStarter.UsersTest do
       assert user_token.user_id == user.id
       assert user_token.sent_to == user.email
       assert user_token.context == "reset_password"
-    end
-
-    test "sends notification in the background", %{user: user} do
-      Users.deliver_user_reset_password_instructions(
-        user,
-        fn _ -> "https://example.com" end,
-        true
-      )
-
-      assert_enqueued(worker: PhoenixStarter.Workers.UserEmailWorker)
     end
   end
 
@@ -535,7 +504,7 @@ defmodule PhoenixStarter.UsersTest do
 
       token =
         extract_user_token(fn url ->
-          Users.deliver_user_reset_password_instructions(user, url, false)
+          Users.deliver_user_reset_password_instructions(user, url)
         end)
 
       %{user: user, token: token}
@@ -579,7 +548,7 @@ defmodule PhoenixStarter.UsersTest do
     test "validates maximum values for password for security", %{user: user} do
       too_long = String.duplicate("db", 100)
       {:error, changeset} = Users.reset_user_password(user, %{password: too_long})
-      assert "should be at most 80 character(s)" in errors_on(changeset).password
+      assert "should be at most 72 character(s)" in errors_on(changeset).password
     end
 
     test "updates the password", %{user: user} do

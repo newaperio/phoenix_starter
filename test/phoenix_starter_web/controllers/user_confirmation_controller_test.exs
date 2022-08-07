@@ -26,7 +26,7 @@ defmodule PhoenixStarterWeb.UserConfirmationControllerTest do
         })
 
       assert redirected_to(conn) == "/"
-      assert get_flash(conn, :info) =~ "If your email is in our system"
+      assert get_flash(conn, :success) =~ "If your email is in our system"
       assert Repo.get_by!(Users.UserToken, user_id: user.id).context == "confirm"
     end
 
@@ -39,7 +39,7 @@ defmodule PhoenixStarterWeb.UserConfirmationControllerTest do
         })
 
       assert redirected_to(conn) == "/"
-      assert get_flash(conn, :info) =~ "If your email is in our system"
+      assert get_flash(conn, :success) =~ "If your email is in our system"
       refute Repo.get_by(Users.UserToken, user_id: user.id)
     end
 
@@ -50,7 +50,7 @@ defmodule PhoenixStarterWeb.UserConfirmationControllerTest do
         })
 
       assert redirected_to(conn) == "/"
-      assert get_flash(conn, :info) =~ "If your email is in our system"
+      assert get_flash(conn, :success) =~ "If your email is in our system"
       assert Repo.all(Users.UserToken) == []
     end
   end
@@ -59,12 +59,15 @@ defmodule PhoenixStarterWeb.UserConfirmationControllerTest do
     test "confirms the given token once", %{conn: conn, user: user} do
       token =
         extract_user_token(fn url ->
-          Users.deliver_user_confirmation_instructions(user, url, false)
+          Users.deliver_user_confirmation_instructions(user, url)
         end)
 
       conn = get(conn, Routes.user_confirmation_path(conn, :confirm, token))
       assert redirected_to(conn) == "/"
-      assert get_flash(conn, :info) =~ "Account confirmed successfully"
+
+      assert get_flash(conn, :success) ==
+               "Your account was confirmed successfully. Please log in to continue."
+
       assert Users.get_user!(user.id).confirmed_at
       refute get_session(conn, :user_token)
       assert Repo.all(Users.UserToken) == []
@@ -72,7 +75,9 @@ defmodule PhoenixStarterWeb.UserConfirmationControllerTest do
       # When not logged in
       conn = get(conn, Routes.user_confirmation_path(conn, :confirm, token))
       assert redirected_to(conn) == "/"
-      assert get_flash(conn, :error) =~ "Account confirmation link is invalid or it has expired"
+
+      assert get_flash(conn, :error) =~
+               "The account confirmation link is invalid or it has expired."
 
       # When logged in
       conn =
@@ -87,7 +92,10 @@ defmodule PhoenixStarterWeb.UserConfirmationControllerTest do
     test "does not confirm email with invalid token", %{conn: conn, user: user} do
       conn = get(conn, Routes.user_confirmation_path(conn, :confirm, "oops"))
       assert redirected_to(conn) == "/"
-      assert get_flash(conn, :error) =~ "Account confirmation link is invalid or it has expired"
+
+      assert get_flash(conn, :error) ==
+               "The account confirmation link is invalid or it has expired."
+
       refute Users.get_user!(user.id).confirmed_at
     end
   end
