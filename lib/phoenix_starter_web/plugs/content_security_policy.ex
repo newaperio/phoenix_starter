@@ -33,7 +33,7 @@ defmodule PhoenixStarterWeb.ContentSecurityPolicy do
   defp font_src_directive, do: "'self' data:"
 
   defp connect_src_directive do
-    "'self' #{app_host("ws://*.")} #{app_host("wss://*.")} #{upload_host()}"
+    "'self' #{app_host("ws://")} #{app_host("wss://")} #{upload_host()}"
   end
 
   defp style_src_directive, do: "'self' 'unsafe-inline'"
