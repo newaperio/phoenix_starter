@@ -82,7 +82,7 @@ jobs:
 
       - name: Install Node dependencies
         run: npm --prefix assets ci
-      - run: npm run ci
+      - run: npm --prefix assets run ci
 
   lint:
     name: Lint
