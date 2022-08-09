@@ -2,7 +2,14 @@
   "repository": {},
   "description": " ",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "ci": "npm run lint && npm run format:check && npm run type-check",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "type-check": "tsc --noEmit"
+  },
   "dependencies": {
     "alpinejs": "^3.10.3",
     "nprogress": "^0.2.0",
