@@ -1,13 +1,21 @@
 {
   "compilerOptions": {
-    "downlevelIteration": true,
-    "esModuleInterop": true,
+    /* Language and Environment */
+    "target": "ES6",
+    "lib": ["DOM", "ES2017"],
     "jsx": "react",
+
+    /* Modules */
     "module": "es6",
     "moduleResolution": "node",
-    "noImplicitAny": true,
-    "skipLibCheck": true,
+
+    /* Interop Constraints */
+    "esModuleInterop": true,
+
+    /* Type Checking */
     "strict": true,
-    "target": "es5"
+
+    /* Completeness */
+    "skipLibCheck": true
   }
 }

@@ -23,6 +23,7 @@ interface Alpine {
 
 interface AlpineHTMLElement {
   __x?: unknown
+  _x_dataStack?: unknown
 }
 
 // Initialize Alpine
@@ -34,9 +35,10 @@ const csrfToken = csrfTokenTag ? csrfTokenTag.getAttribute("content") : ""
 const liveSocket = new LiveSocket("/live", Socket, {
   dom: {
     onBeforeElUpdated(from, to) {
-      if (from._x_dataStack) {
+      if ((from as AlpineHTMLElement)._x_dataStack) {
         window.Alpine.clone(from, to)
       }
+      return true
     },
   },
   params: { _csrf_token: csrfToken },
