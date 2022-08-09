@@ -82,12 +82,7 @@ jobs:
 
       - name: Install Node dependencies
         run: npm --prefix assets ci
-      - run: npx prettier --check .
-        working-directory: ./assets
-      - run: npx stylelint "css/*"
-        working-directory: ./assets
-      - run: npx eslint js --ext .js,.jsx,.ts,.tsx
-        working-directory: ./assets
+      - run: npm run ci
 
   lint:
     name: Lint

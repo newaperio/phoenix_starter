@@ -4,10 +4,14 @@
   "license": "MIT",
   "scripts": {
     "ci": "npm run lint && npm run format:check && npm run type-check",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "format:check": "prettier --check .",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "npm run lint:css && npm run lint:js",
+    "lint:css": "stylelint css/**/*.css",
+    "lint:css:fix": "stylelint css/**/*.css --fix",
+    "lint:fix": "npm run lint:css:fix && npm run lint:js:fix",
+    "lint:js": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:js:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
