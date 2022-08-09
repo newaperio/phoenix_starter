@@ -1,16 +1,14 @@
 module.exports = {
-  purge: [
-    "../**/*.html.eex",
-    "../**/*.html.leex",
+  content: [
+    "../**/*.html.{eex,heex}",
+    "../**/components/**/*.{ex,heex}",
+    "../**/live/**/*.{ex,heex}",
     "../**/views/**/*.ex",
-    "../**/live/**/*.ex",
-    "./js/**/*.js",
-    "./js/**/*.ts",
-    "./js/**/*.tsx",
+    "../**/style_guide/**/*.ex",
+    "./js/**/*.{js,ts,tsx}",
   ],
-  theme: {
-    extend: {},
-  },
+  mode: "jit",
+  theme: {},
   variants: {},
   plugins: [],
 }

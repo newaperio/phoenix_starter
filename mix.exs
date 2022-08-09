@@ -7,7 +7,7 @@ defmodule PhoenixStarter.MixProject do
       version: "0.1.0",
       elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
@@ -33,18 +33,19 @@ defmodule PhoenixStarter.MixProject do
   defp deps do
     [
       {:assert_identity, "~> 0.1.0", only: :test},
-      {:bcrypt_elixir, "~> 2.0"},
+      {:bcrypt_elixir, "~> 3.0"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
       {:ecto_psql_extras, "~> 0.2"},
-      {:ecto_sql, "~> 3.4"},
+      {:ecto_sql, "~> 3.8"},
+      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
       {:ex_aws_s3, "~> 2.1"},
       {:ex_doc, "~> 0.22", only: :dev, runtime: false},
-      {:floki, ">= 0.27.0", only: :test},
-      {:gen_smtp, "~> 1.0"},
-      {:gettext, "~> 0.11"},
+      {:floki, ">= 0.30.1", only: :test},
+      {:gen_smtp, "~> 1.1"},
+      {:gettext, "~> 0.19"},
       {:hackney, "~> 1.8"},
-      {:jason, "~> 1.0"},
+      {:jason, "~> 1.2"},
       {:libcluster, "~> 3.2"},
       {:oban, "~> 2.1"},
       {:phoenix, "~> 1.6"},
@@ -52,13 +53,14 @@ defmodule PhoenixStarter.MixProject do
       {:phoenix_html, "~> 3.0"},
       {:phoenix_live_dashboard, "~> 0.6"},
       {:phoenix_live_reload, "~> 1.3", only: :dev},
-      {:phoenix_live_view, "~> 0.17"},
+      {:phoenix_live_view, "~> 0.17.5"},
       {:phoenix_swoosh, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"},
-      {:postgrex, ">= 0.0.0"},
-      {:sentry, "8.0.4"},
-      {:sobelow, "~> 0.10", only: [:dev, :test]},
+      {:plug_cowboy, "~> 2.5"},
+      {:postgrex, ">= 0.1.0"},
+      {:sentry, "~> 8.0"},
+      {:sobelow, "~> 0.11", only: [:dev, :test]},
       {:swoosh, "~> 1.6"},
+      {:tailwind, "~> 0.1.6", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:timex, "~> 3.6"}
@@ -69,17 +71,24 @@ defmodule PhoenixStarter.MixProject do
     [
       ignore_warnings: ".dialyzer_ignore.exs",
       plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
-      flags: [:error_handling, :race_conditions, :underspecs, :unknown],
+      flags: [:error_handling, :underspecs, :unknown],
       list_unused_filters: true
     ]
   end
 
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
+      setup: [
+        "deps.get",
+        "ecto.setup",
+        "esbuild.install",
+        "tailwind.install",
+        "cmd npm install --prefix assets"
+      ],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
       lint: [
         "deps.unlock --check-unused",
         "format --check-formatted",

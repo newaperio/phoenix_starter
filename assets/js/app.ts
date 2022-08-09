@@ -1,19 +1,10 @@
-// We need to import the CSS so that webpack will load it.
-// The MiniCssExtractPlugin is used to separate it out into
-// its own CSS file.
-import "../css/app.css"
-
-// webpack automatically bundles all modules in your
-// entry points. Those entry points can be configured
-// in "webpack.config.js".
-//
 // Import deps with the dep name or local files with a relative path, for example:
 //
 //     import {Socket} from "phoenix"
 //     import socket from "./socket"
 //
 import "phoenix_html"
-import "alpinejs"
+import Alpine from "alpinejs"
 import { Socket } from "phoenix"
 import NProgress from "nprogress"
 import { LiveSocket } from "phoenix_live_view"
@@ -32,19 +23,22 @@ interface Alpine {
 
 interface AlpineHTMLElement {
   __x?: unknown
+  _x_dataStack?: unknown
 }
+
+// Initialize Alpine
+window.Alpine = Alpine
+Alpine.start()
 
 const csrfTokenTag = document.querySelector("meta[name='csrf-token']")
 const csrfToken = csrfTokenTag ? csrfTokenTag.getAttribute("content") : ""
 const liveSocket = new LiveSocket("/live", Socket, {
   dom: {
     onBeforeElUpdated(from, to) {
-      if ((from as AlpineHTMLElement).__x) {
-        window.Alpine.clone((from as AlpineHTMLElement).__x, to)
-        return false
+      if ((from as AlpineHTMLElement)._x_dataStack) {
+        window.Alpine.clone(from, to)
       }
-
-      return false
+      return true
     },
   },
   params: { _csrf_token: csrfToken },
